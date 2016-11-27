@@ -1,0 +1,9 @@
+.board__checker {
+	width: 45px;
+	height: 40px;
+	background-color: maroon;
+	position: absolute;
+	margin-left: 15px;
+	margin-top: 5px;
+	border-radius: 30px;
+}
