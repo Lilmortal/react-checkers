@@ -20,6 +20,7 @@ const Board = () => {
 		}
 
 		for (let j = 0; j < 11; j++) {
+			// eslint-disable-next-line
 			if (j % 2 == even) {
 					tiles.push(<Tile allowCheckers='false' key={'' + i + j} />)
 			} else {

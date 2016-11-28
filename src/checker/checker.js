@@ -11,7 +11,7 @@ const player2 = {
 
 const Checker = (props) => {
 	return (
-		<div className="board__checker" style={props.player == 1 ? player1 : player2}></div>
+		<div className="checker" style={props.player === 1 ? player1 : player2}></div>
 	)
 }
 

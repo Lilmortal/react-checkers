@@ -11,9 +11,9 @@ const oddTileStyle = {
 }
 
 const Tile = (props) => {
-	const checker = props.hasChecker == true ? <Checker player={props.player} /> : null
+	const checker = props.hasChecker === true ? <Checker player={props.player} /> : null
 	return (
-		<div className="board__tile" style={(props.allowCheckers === 'false') ? evenTileStyle : oddTileStyle}>
+		<div className="tile" style={(props.allowCheckers === 'false') ? evenTileStyle : oddTileStyle}>
 			{checker}
 		</div>
 	)
