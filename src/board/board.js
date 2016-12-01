@@ -24,7 +24,7 @@ const Board = () => {
 			if (j % 2 == even) {
 					tiles.push(<Tile allowCheckers='false' key={'' + i + j} />)
 			} else {
-					tiles.push(<Tile allowCheckers='true' key={'' + i + j} hasChecker={hasChecker} player={player} />)
+					tiles.push(<Tile allowCheckers='true' key={'' + i + j} hasChecker={hasChecker} player={player} x={j} y={i} />)
 			}
 		}
 	}
