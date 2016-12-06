@@ -1,0 +1,1 @@
+export const LIFT_CHECKER_PIECE = 'LIFT_CHECKER_PIECE'

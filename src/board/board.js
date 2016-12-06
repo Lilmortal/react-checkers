@@ -4,14 +4,14 @@ import './board.css'
 
 const Board = () => {
 	const tiles = []
-	let even = false, hasChecker, player
+	let even = false, hasChecker, player, id = 0
 
-	for (let i = 0; i < 11; i++) {
+	for (let y = 0; y < 11; y++) {
 		even = !even
-		if (i < 3) {
+		if (y < 3) {
 			hasChecker = true
 			player = 1
-		} else if (i > 7) {
+		} else if (y > 7) {
 			hasChecker = true
 			player = 2
 		} else {
@@ -19,12 +19,12 @@ const Board = () => {
 			player = 0
 		}
 
-		for (let j = 0; j < 11; j++) {
+		for (let x = 0; x < 11; x++) {
 			// eslint-disable-next-line
-			if (j % 2 == even) {
-					tiles.push(<Tile allowCheckers='false' key={'' + i + j} />)
+			if (x % 2 == even) {
+					tiles.push(<Tile allowCheckers='false' key={id++} id={id} />)
 			} else {
-					tiles.push(<Tile allowCheckers='true' key={'' + i + j} hasChecker={hasChecker} player={player} x={j} y={i} />)
+					tiles.push(<Tile allowCheckers='true' key={id++} hasChecker={hasChecker} player={player} x={x} y={y} id={id} />)
 			}
 		}
 	}
