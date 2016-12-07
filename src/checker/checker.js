@@ -11,15 +11,15 @@ const player2 = {
 	backgroundColor: 'maroon'
 }
 
-const lift = {
+const liftStyle = {
 	margin: '0 0 20px 20px',
 	boxShadow: '-10px 5px grey'
 }
 
 const Checker = (props) => {
 	let styles = props.player === 1 ? player1 : player2
-	if (props.updatedId === props.id) {
-		styles = Object.assign({}, styles, props.lift === true ? lift : null)
+	if (props.updatedId === props.id && props.lift) {
+		styles = Object.assign({}, styles, liftStyle)
 	}
 	
 	return (

@@ -13,17 +13,21 @@ const oddTileStyle = {
 }
 
 const Tile = (props) => {
-	const checker = props.hasChecker === true ? <Checker player={props.player} x={props.x} y={props.y} lift='false' id={props.id} /> : null
+	console.log(props)
+	const checker = (props.updatedTileId === props.id || props.hasChecker === true) ? <Checker player={props.player} x={props.x} y={props.y} lift={false} id={props.id} /> : null
 
-		console.log(props)
 	return (
-		<div className="tile" style={(props.allowCheckers === 'false') ? evenTileStyle : oddTileStyle} onClick={() => props.moveCheckerPiece()}>
+		<div className="tile" style={(props.allowCheckers === false) ? evenTileStyle : oddTileStyle} 
+		 onClick={() => props.moveCheckerPiece(props.lift, props.allowCheckers, props.hasChecker, props.id)}>
 			{checker}
 		</div>
 	)
 }
 
 const mapStateToProps = (state) => ({
+	lift: state.checkerReducer.lift,
+	
+	updatedTileId: state.tileReducer.updatedTileId,
 })
 
 export default connect(mapStateToProps, { moveCheckerPiece })(Tile)
