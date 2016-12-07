@@ -1,7 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import Checker from '../checker/checker'
-import { moveCheckerPiece } from './tileActions'
+import { Draught } from '../draught/draught'
 import './tile.css'
 
 const evenTileStyle = {
@@ -12,22 +10,20 @@ const oddTileStyle = {
 	backgroundColor: 'black'
 }
 
-const Tile = (props) => {
-	console.log(props)
-	const checker = (props.updatedTileId === props.id || props.hasChecker === true) ? <Checker player={props.player} x={props.x} y={props.y} lift={false} id={props.id} /> : null
+export const Tile = (props) => {
+	const draught = props.hasDraught === true ? 
+	<Draught player={props.player} 
+	selected={props.selected} 
+	x={props.x} 
+	y={props.y}
+	selectDraught={props.selectDraught} /> : null
 
 	return (
-		<div className="tile" style={(props.allowCheckers === false) ? evenTileStyle : oddTileStyle} 
-		 onClick={() => props.moveCheckerPiece(props.lift, props.allowCheckers, props.hasChecker, props.id)}>
-			{checker}
+		<div className="tile" style={(props.allowDraughts === false) ? evenTileStyle : oddTileStyle} onClick={() => props.moveDraught()}>
+			{draught}
 		</div>
 	)
 }
 
-const mapStateToProps = (state) => ({
-	lift: state.checkerReducer.lift,
-	
-	updatedTileId: state.tileReducer.updatedTileId,
-})
 
-export default connect(mapStateToProps, { moveCheckerPiece })(Tile)
+

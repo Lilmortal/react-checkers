@@ -1,33 +1,56 @@
 import React from 'react'
-import Tile from '../tile/tile'
+import { Tile } from '../tile/tile'
+import { connect } from 'react-redux'
+import { selectDraught, moveDraught } from './boardActions'
 import './board.css'
 
-const Board = () => {
-	const tiles = []
-	let even = false, hasChecker, player, id = 0
-
-	for (let y = 0; y < 11; y++) {
-		even = !even
-		if (y < 3) {
-			hasChecker = true
-			player = 1
-		} else if (y > 7) {
-			hasChecker = true
-			player = 2
-		} else {
-			hasChecker = false
-			player = 0
-		}
-
-		for (let x = 0; x < 11; x++) {
-			// eslint-disable-next-line
-			if (x % 2 == even) {
-					tiles.push(<Tile allowCheckers={false} key={id++} id={id} />)
+const Board = (props) => {
+	const tilesProperties = []
+	let evenTile = false, id = 0, hasDraught, player
+	
+	const populateTiles = () => {
+		for (let y = 0; y < 11; y++) {
+			evenTile = !evenTile
+			if (y < 3) {
+				hasDraught = true
+				player = 1
+			} else if (y > 7) {
+				hasDraught = true
+				player = 2
 			} else {
-					tiles.push(<Tile allowCheckers={true} key={id++} hasChecker={hasChecker} player={player} x={x} y={y} id={id} />)
+				hasDraught = false
+				player = 0
+			}
+
+			for (let x = 0; x < 11; x++) {
+				let tileProperty = {}
+				if (x % 2 == evenTile) {
+					Object.assign(tileProperty, {allowDraughts: false, hasDraught: false, player: undefined, selected: false, x: x, y: y})
+				} else {
+					Object.assign(tileProperty, {allowDraughts: true, hasDraught: hasDraught, player: player, selected: props.selected, x: x, y: y})
+				}
+				tilesProperties.push(tileProperty)
 			}
 		}
+
+		const tiles = []
+		tilesProperties.map((tileProperty, id) => {
+			tiles.push(
+				<Tile key={id} 
+				allowDraughts={tileProperty.allowDraughts}
+				hasDraught={tileProperty.hasDraught}
+				player={tileProperty.player}
+				selected={tileProperty.selected}
+				x={tileProperty.x} 
+				y={tileProperty.y}
+				selectDraught={props.selectDraught}
+				moveDraught={props.moveDraught} />
+			)
+		})
+		return tiles
 	}
+	
+	const tiles = populateTiles()
 
 	return (
 		<div className='board'>
@@ -36,4 +59,8 @@ const Board = () => {
 	)
 }
 
-export default Board
+const mapStateToProps = (state) => ({
+	selected: state.selectDraughtReducer.selected,
+})
+
+export default connect(mapStateToProps, { selectDraught, moveDraught })(Board)

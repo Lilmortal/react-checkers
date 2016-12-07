@@ -1,0 +1,3 @@
+export const SELECT_DRAUGHT = 'SELECT_DRAUGHT'
+
+export const MOVE_DRAUGHT = 'MOVE_DRAUGHT'

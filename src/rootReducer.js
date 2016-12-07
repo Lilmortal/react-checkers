@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux'
-import checkerReducer from './checker/checkerReducer'
-import tileReducer from './tile/tileReducer'
+import { selectDraughtReducer, moveDraughtReducer } from './board/boardReducers'
 
 export default combineReducers({
-	checkerReducer,
-	tileReducer
+	selectDraughtReducer,
+	moveDraughtReducer
 })
