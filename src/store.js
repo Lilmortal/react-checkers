@@ -7,7 +7,7 @@ import { persistState } from 'redux-devtools'
 
 const initialState = {}
 const loggerMiddleware = createLogger()
-const middleware = applyMiddleware(thunkMiddleware, loggerMiddleware)
+const middleware = applyMiddleware(thunkMiddleware/*, loggerMiddleware*/)
 const enhancer = compose(middleware, DevTools.instrument(), persistState(getDebugSessionKey()))
 
 export const store = createStore(rootReducer, initialState, enhancer)

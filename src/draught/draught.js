@@ -15,14 +15,11 @@ const selectedDraughtStyle = {
 }
 
 export const Draught = (props) => {
-	console.log(props.selected)
 	let styles = props.player === 1 ? player1Style : player2Style
 	if (props.selected) {
 		styles = Object.assign({}, styles, selectedDraughtStyle)
 	}
-	
 	return (
-		<div className="draught" onClick={() => props.selectDraught(props.selected)} style={styles}>
-		</div>
+		<div className="draught" onClick={() => props.selectDraught(props.tiles, props.selected, props.player, props.id)} style={styles}></div>
 	)
 }
