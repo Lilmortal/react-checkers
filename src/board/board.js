@@ -11,15 +11,18 @@ const Board = (props) => {
 				hasDraught={tile.hasDraught}
 				player={tile.player}
 				selected={tile.selected}
+				highlighted={tile.highlighted}
+				isEnemyHighlighted={tile.isEnemyHighlighted}
 				id={id}
 				tiles={props.tiles}
 				selectedId={props.selectedId}
-				selectedPlayer={props.selectedPlayer}
+				playerTurn={props.playerTurn}
 				selectDraught={props.selectDraught}
 				moveDraught={props.moveDraught} />))
 
 	return (
 		<div className='board'>
+			<h1>Player {props.playerTurn} turn</h1>
 			{tiles}
 		</div>
 	)
@@ -28,7 +31,7 @@ const Board = (props) => {
 const mapStateToProps = (state) => ({
 	tiles: state.draughtReducer.tiles,
 	selectedId: state.draughtReducer.selectedId,
-	selectedPlayer: state.draughtReducer.selectedPlayer
+	playerTurn: state.draughtReducer.playerTurn
 })
 
 export default connect(mapStateToProps, { selectDraught, moveDraught })(Board)

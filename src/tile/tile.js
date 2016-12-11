@@ -10,9 +10,12 @@ const oddTileStyle = {
 	backgroundColor: 'black'
 }
 
-const canMoveDraught = (props) => {
-	if (props.selectedId !== 0 && props.selectedId !== props.id && !props.hasDraught) 
-		return props.moveDraught(props.tiles, props.hasDraught, props.allowDraughts, props.selectedId, props.selectedPlayer, props.id)
+const isEnemyHighlightedTileStyle = {
+	backgroundColor: 'blue'
+}
+
+const highlightedTileStyle = {
+	backgroundColor: 'orange'
 }
 
 export const Tile = (props) => {
@@ -21,11 +24,19 @@ export const Tile = (props) => {
 	selected={props.selected} 
 	id={props.id}
 	tiles={props.tiles}
+	selectedId={props.selectedId}
+	playerTurn={props.playerTurn}
 	selectDraught={props.selectDraught} /> : undefined
 
+	const style = () => {
+		if (props.isEnemyHighlighted) return isEnemyHighlightedTileStyle
+		if (props.highlighted) return highlightedTileStyle
+		if (props.allowDraughts) return oddTileStyle
+		return evenTileStyle
+	}
 	return (
-		<div className="tile" style={(props.allowDraughts === false) ? evenTileStyle : oddTileStyle}
-		onClick={() => canMoveDraught(props)}>
+		<div className="tile" style={style()}
+		onClick={() => {if (props.highlighted === true) props.moveDraught(props.tiles, props.id, props.selectedId, props.playerTurn)}}>
 			{draught}
 		</div>
 	)

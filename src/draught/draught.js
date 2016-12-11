@@ -20,6 +20,8 @@ export const Draught = (props) => {
 		styles = Object.assign({}, styles, selectedDraughtStyle)
 	}
 	return (
-		<div className="draught" onClick={() => props.selectDraught(props.tiles, props.selected, props.player, props.id)} style={styles}></div>
+		<div className="draught" 
+		onClick={() => {if (props.player === props.playerTurn) props.selectDraught(props.tiles, props.id, props.selectedId, props.playerTurn)}} style={styles}>
+		</div>
 	)
 }

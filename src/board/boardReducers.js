@@ -21,9 +21,11 @@ const populateTiles = () => {
 			let tile = {}
 			// eslint-disable-next-line
 			if (x % 2 == evenTile) {
-				Object.assign(tile, {allowDraughts: false, hasDraught: false, player: undefined, selected: false, id: id++})
+				Object.assign(tile, {allowDraughts: false, hasDraught: false, player: undefined, selected: false, 
+					highlighted: false, isEnemyHighlighted: false, id: id++})
 			} else {
-				Object.assign(tile, {allowDraughts: true, hasDraught: hasDraught, player: player, selected: false, id: id++})
+				Object.assign(tile, {allowDraughts: true, hasDraught: hasDraught, player: player, selected: false, 
+					highlighted: false, isEnemyHighlighted: false, id: id++})
 			}
 			tiles.push(tile)
 		}
@@ -33,9 +35,9 @@ const populateTiles = () => {
 
 const initialState = {
 	tiles: populateTiles(),
-	globalSelected: false,
+	highlighted: false,
 	selectedId: 0,
-	selectedPlayer: 0
+	playerTurn: 2
 }
 
 export const draughtReducer = (state = initialState, payLoad) => {
@@ -44,8 +46,7 @@ export const draughtReducer = (state = initialState, payLoad) => {
 			return {
 				...state,
 				tiles: payLoad.tiles,
-				selectedId: payLoad.selectedId,
-				selectedPlayer: payLoad.selectedPlayer
+				selectedId: payLoad.selectedId
 			}
 		}
 		case actionTypes.MOVE_DRAUGHT: {
@@ -53,7 +54,7 @@ export const draughtReducer = (state = initialState, payLoad) => {
 				...state,
 				tiles: payLoad.tiles,
 				selectedId: payLoad.selectedId,
-				selectedPlayer: payLoad.selectedPlayer
+				playerTurn: payLoad.playerTurn
 			}
 		}
 		default:
