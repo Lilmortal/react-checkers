@@ -14,11 +14,15 @@ const selectedDraughtStyle = {
 	boxShadow: '-10px 5px grey'
 }
 
+const queenStyle = {
+	backgroundColor: 'green'
+}
+
 export const Draught = (props) => {
 	let styles = props.player === 1 ? player1Style : player2Style
-	if (props.selected) {
-		styles = Object.assign({}, styles, selectedDraughtStyle)
-	}
+	if (props.selected) styles = {...styles, selectedDraughtStyle}
+	if (props.isQueen) styles = {...styles, queenStyle}
+		
 	return (
 		<div className="draught" 
 		onClick={() => {if (props.player === props.playerTurn) props.selectDraught(props.tiles, props.id, props.selectedId, props.playerTurn)}} style={styles}>

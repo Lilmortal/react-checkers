@@ -13,6 +13,7 @@ const Board = (props) => {
 				selected={tile.selected}
 				highlighted={tile.highlighted}
 				isEnemyHighlighted={tile.isEnemyHighlighted}
+				isQueen={tile.isQueen}
 				id={id}
 				tiles={props.tiles}
 				selectedId={props.selectedId}

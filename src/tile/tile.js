@@ -26,6 +26,7 @@ export const Tile = (props) => {
 	tiles={props.tiles}
 	selectedId={props.selectedId}
 	playerTurn={props.playerTurn}
+	isQueen={props.isQueen}
 	selectDraught={props.selectDraught} /> : undefined
 
 	const style = () => {
