@@ -12,13 +12,13 @@ const Board = (props) => {
 				player={tile.player}
 				selected={tile.selected}
 				highlighted={tile.highlighted}
-				isEnemyHighlighted={tile.isEnemyHighlighted}
+				isEnemy={tile.isEnemy}
 				isQueen={tile.isQueen}
 				x={tile.x}
 				y={tile.y}
 				id={id}
 				tiles={props.tiles}
-				selectedId={props.selectedId}
+				selectedDraughtId={props.selectedDraughtId}
 				playerTurn={props.playerTurn}
 				selectDraught={props.selectDraught}
 				moveDraught={props.moveDraught} />))
@@ -33,7 +33,7 @@ const Board = (props) => {
 
 Board.propTypes = {
 	tiles: React.PropTypes.array.isRequired,
-	selectedId: React.PropTypes.number.isRequired,
+	selectedDraughtId: React.PropTypes.number.isRequired,
 	playerTurn: React.PropTypes.number.isRequired,
 	selectDraught: React.PropTypes.func.isRequired,
 	moveDraught: React.PropTypes.func.isRequired
@@ -41,7 +41,7 @@ Board.propTypes = {
 
 const mapStateToProps = (state) => ({
 	tiles: state.draughtReducer.tiles,
-	selectedId: state.draughtReducer.selectedId,
+	selectedDraughtId: state.draughtReducer.selectedDraughtId,
 	playerTurn: state.draughtReducer.playerTurn,
 })
 

@@ -10,8 +10,8 @@ const oddTileStyle = {
 	backgroundColor: 'black'
 }
 
-const isEnemyHighlightedTileStyle = {
-	backgroundColor: 'blue'
+const isEnemyTileStyle = {
+	backgroundColor: 'brown'
 }
 
 const highlightedTileStyle = {
@@ -24,7 +24,7 @@ export const Tile = (props) => {
 	selected={props.selected} 
 	id={props.id}
 	tiles={props.tiles}
-	selectedId={props.selectedId}
+	selectedDraughtId={props.selectedDraughtId}
 	playerTurn={props.playerTurn}
 	isQueen={props.isQueen}
 	x={props.x}
@@ -32,14 +32,14 @@ export const Tile = (props) => {
 	selectDraught={props.selectDraught} /> : undefined
 
 	const style = () => {
-		if (props.isEnemyHighlighted) return isEnemyHighlightedTileStyle
+		if (props.isEnemy) return isEnemyTileStyle
 		if (props.highlighted) return highlightedTileStyle
 		if (props.allowDraughts) return oddTileStyle
 		return evenTileStyle
 	}
 	return (
 		<div className='tile' style={style()}
-		onClick={() => {if (props.highlighted === true) props.moveDraught(props.tiles, props.id, props.selectedId, props.playerTurn)}}>
+		onClick={() => {if (props.highlighted === true) props.moveDraught(props.tiles, props.id, props.selectedDraughtId, props.playerTurn)}}>
 			{draught}
 		</div>
 	)
@@ -51,4 +51,6 @@ Tile.proptypes = {
 	selected: React.PropTypes.bool.isRequired,
 	id: React.PropTypes.number.isRequired,
 	isQueen: React.PropTypes.bool.isRequired,
+	x: React.PropTypes.number.isRequired,
+	y: React.PropTypes.number.isRequired
 }

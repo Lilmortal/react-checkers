@@ -9,7 +9,7 @@ export const Draught = (props) => {
 
 	return (
 		<div className={'draught' + className}
-		onClick={() => {if (props.player === props.playerTurn) props.selectDraught(props.tiles, props.id, props.selectedId, props.playerTurn)}}>
+		onClick={() => {if (props.player === props.playerTurn) props.selectDraught(props.tiles, props.id, props.selectedDraughtId, props.playerTurn)}}>
 			<div className='draughtQueen'>{queen}</div>
 		</div>
 	)
