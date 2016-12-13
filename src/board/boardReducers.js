@@ -22,14 +22,15 @@ const populateTiles = () => {
 			// eslint-disable-next-line
 			if (x % 2 == evenTile) {
 				Object.assign(tile, {allowDraughts: false, hasDraught: false, player: undefined, selected: false, 
-					highlighted: false, isEnemyHighlighted: false, isQueen: false, id: id++})
+					highlighted: false, isEnemyHighlighted: false, isQueen: false, x: x, y: y, id: id++})
 			} else {
 				Object.assign(tile, {allowDraughts: true, hasDraught: hasDraught, player: player, selected: false, 
-					highlighted: false, isEnemyHighlighted: false, isQueen: false, id: id++})
+					highlighted: false, isEnemyHighlighted: false, isQueen: false, x: x, y: y, id: id++})
 			}
 			tiles.push(tile)
 		}
 	}
+
 	return tiles
 }
 

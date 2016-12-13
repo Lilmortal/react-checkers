@@ -27,6 +27,8 @@ export const Tile = (props) => {
 	selectedId={props.selectedId}
 	playerTurn={props.playerTurn}
 	isQueen={props.isQueen}
+	x={props.x}
+	y={props.y}
 	selectDraught={props.selectDraught} /> : undefined
 
 	const style = () => {
@@ -36,9 +38,17 @@ export const Tile = (props) => {
 		return evenTileStyle
 	}
 	return (
-		<div className="tile" style={style()}
+		<div className='tile' style={style()}
 		onClick={() => {if (props.highlighted === true) props.moveDraught(props.tiles, props.id, props.selectedId, props.playerTurn)}}>
 			{draught}
 		</div>
 	)
+}
+
+Tile.proptypes = {
+	hasDraught: React.PropTypes.bool.isRequired,
+	player: React.PropTypes.number.isRequired,
+	selected: React.PropTypes.bool.isRequired,
+	id: React.PropTypes.number.isRequired,
+	isQueen: React.PropTypes.bool.isRequired,
 }

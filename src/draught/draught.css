@@ -7,4 +7,27 @@
 	margin-top: 5px;
 	border-radius: 30px;
 	cursor: pointer;
+	display: flex;
+}
+
+.draughtQueen {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	font-size: 1.5em;
+	width: 100%;
+}
+
+.draughtSelected {
+	margin: 0 0 20px 20px;
+	box-shadow: -10px 5px grey;
+}
+
+.player1 {
+	background-color: white;
+}
+
+.player2 {
+	background-color: maroon;
 }

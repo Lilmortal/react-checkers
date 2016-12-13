@@ -14,6 +14,8 @@ const Board = (props) => {
 				highlighted={tile.highlighted}
 				isEnemyHighlighted={tile.isEnemyHighlighted}
 				isQueen={tile.isQueen}
+				x={tile.x}
+				y={tile.y}
 				id={id}
 				tiles={props.tiles}
 				selectedId={props.selectedId}
@@ -29,10 +31,18 @@ const Board = (props) => {
 	)
 }
 
+Board.propTypes = {
+	tiles: React.PropTypes.array.isRequired,
+	selectedId: React.PropTypes.number.isRequired,
+	playerTurn: React.PropTypes.number.isRequired,
+	selectDraught: React.PropTypes.func.isRequired,
+	moveDraught: React.PropTypes.func.isRequired
+}
+
 const mapStateToProps = (state) => ({
 	tiles: state.draughtReducer.tiles,
 	selectedId: state.draughtReducer.selectedId,
-	playerTurn: state.draughtReducer.playerTurn
+	playerTurn: state.draughtReducer.playerTurn,
 })
 
 export default connect(mapStateToProps, { selectDraught, moveDraught })(Board)
