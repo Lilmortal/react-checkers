@@ -17,7 +17,7 @@ const BOTTOM_RIGHT_TILE_OVER_ENEMY = 24
  * @param  {[number]} enemyPlayer [enemy player]
  * @return {[object]}            [updated tiles with the the selected draught top left tile highlight toggled]
  */
-const toggleTopLeftTile = (tiles, selectedTileId, highlighted, enemyPlayer) => {
+const toggleTopLeftTileHighlight = (tiles, selectedTileId, highlighted, enemyPlayer) => {
 	// check if the selected draught is not at the edge of the board
 	if (tiles[selectedTileId].x !== 0 && tiles[selectedTileId + TOP_LEFT_TILE] != undefined) {
 		// check if the selected tile is an enemy draught and there is a free tile above it
@@ -52,7 +52,7 @@ const toggleTopLeftTile = (tiles, selectedTileId, highlighted, enemyPlayer) => {
  * @param  {[number]} enemyPlayer [enemy player]
  * @return {[object]}            [updated tiles with the the selected draught top right tile highlight toggled]
  */
-const toggleTopRightTile = (tiles, selectedTileId, highlighted, enemyPlayer) => {
+const toggleTopRightTileHighlight = (tiles, selectedTileId, highlighted, enemyPlayer) => {
 	// check if the selected tile is not at the edge of the board
 	if (tiles[selectedTileId].x !== 10 && tiles[selectedTileId + TOP_RIGHT_TILE] != undefined) {
 		// check if the selected tile is an enemy draught and there is a free tile above it
@@ -87,7 +87,7 @@ const toggleTopRightTile = (tiles, selectedTileId, highlighted, enemyPlayer) => 
  * @param  {[number]} enemyPlayer [enemy player]
  * @return {[object]}            [updated tiles with the the selected draught bottom left tile highlight toggled]
  */
-const toggleBottomLeftTile = (tiles, selectedTileId, highlighted, enemyPlayer) => {
+const toggleBottomLeftTileHighlight = (tiles, selectedTileId, highlighted, enemyPlayer) => {
 	// check if the selected tile is not at the edge of the board
 	if (tiles[selectedTileId].x !== 0 && tiles[selectedTileId + BOTTOM_LEFT_TILE] != undefined) {
 		// check if the selected tile is an enemy draught and there is a free tile above it
@@ -122,7 +122,7 @@ const toggleBottomLeftTile = (tiles, selectedTileId, highlighted, enemyPlayer) =
  * @param  {[number]} enemyPlayer [enemy player]
  * @return {[object]}            [updated tiles with the the selected draught bottom right tile highlight toggled]
  */
-const toggleBottomRightTile = (tiles, selectedTileId, highlighted, enemyPlayer) => {
+const toggleBottomRightTileHighlight = (tiles, selectedTileId, highlighted, enemyPlayer) => {
 	// check if the selected tile is not at the edge of the board
 	if (tiles[selectedTileId].x !== 10 && tiles[selectedTileId + BOTTOM_RIGHT_TILE] != undefined) {
 		// check if the selected tile is an enemy draught and there is a free tile above it
@@ -161,13 +161,13 @@ const toggleTileHighlights = (tiles, selectedTileId, highlighted, playerTurn) =>
 	const enemyPlayer = playerTurn === 1 ? 2 : 1
 
 	if (playerTurn === 1 || tiles[selectedTileId].isQueen) {
-		toggleBottomLeftTile(tiles, selectedTileId, highlighted, enemyPlayer)
-		toggleBottomRightTile(tiles, selectedTileId, highlighted, enemyPlayer)
+		toggleBottomLeftTileHighlight(tiles, selectedTileId, highlighted, enemyPlayer)
+		toggleBottomRightTileHighlight(tiles, selectedTileId, highlighted, enemyPlayer)
 	}
 
 	if (playerTurn === 2 || tiles[selectedTileId].isQueen) {
-		toggleTopLeftTile(tiles, selectedTileId, highlighted, enemyPlayer)
-		toggleTopRightTile(tiles, selectedTileId, highlighted, enemyPlayer)
+		toggleTopLeftTileHighlight(tiles, selectedTileId, highlighted, enemyPlayer)
+		toggleTopRightTileHighlight(tiles, selectedTileId, highlighted, enemyPlayer)
 	}
 
 	return tiles
