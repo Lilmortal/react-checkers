@@ -5,17 +5,17 @@ import { selectDraught, moveDraught } from './boardActions'
 import './board.css'
 
 const Board = (props) => {
-	const tiles = props.tiles.map((tile, id) => (
-				<Tile key={id} 
-				allowDraughts={tile.allowDraughts}
-				hasDraught={tile.hasDraught}
-				player={tile.player}
-				selected={tile.selected}
-				highlighted={tile.highlighted}
-				isEnemy={tile.isEnemy}
-				isQueen={tile.isQueen}
-				x={tile.x}
-				y={tile.y}
+	const tiles = props.tiles.valueSeq().map((tile, id) => (
+				<Tile key={id}
+				allowDraughts={tile.get('allowDraughts')}
+				hasDraught={tile.get('hasDraught')}
+				player={tile.get('player')}
+				selected={tile.get('selected')}
+				highlighted={tile.get('highlighted')}
+				isEnemy={tile.get('isEnemy')}
+				isQueen={tile.get('isQueen')}
+				x={tile.get('x')}
+				y={tile.get('y')}
 				id={id}
 				tiles={props.tiles}
 				selectedDraughtId={props.selectedDraughtId}
@@ -32,7 +32,7 @@ const Board = (props) => {
 }
 
 Board.propTypes = {
-	tiles: React.PropTypes.array.isRequired,
+	tiles: React.PropTypes.object.isRequired,
 	selectedDraughtId: React.PropTypes.number.isRequired,
 	playerTurn: React.PropTypes.number.isRequired,
 	selectDraught: React.PropTypes.func.isRequired,

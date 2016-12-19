@@ -1,7 +1,8 @@
 import * as actionTypes from './boardActionTypes'
+import { OrderedMap, fromJS } from 'immutable'
 
 const populateTiles = () => {
-	let tiles = []
+	let tiles = OrderedMap()
 	let evenTile = false, id = 0, hasDraught, player
 
 	for (let y = 0; y < 11; y++) {
@@ -18,16 +19,16 @@ const populateTiles = () => {
 		}
 
 		for (let x = 0; x < 11; x++) {
-			let tile = {}
+			let tile
 			// eslint-disable-next-line
 			if (x % 2 == evenTile) {
-				Object.assign(tile, {allowDraughts: false, hasDraught: false, player: undefined, selected: false, 
-					highlighted: false, isEnemy: false, isQueen: false, x: x, y: y, id: id++})
+				tile = fromJS({allowDraughts: false, hasDraught: false, player: undefined, selected: false,
+					highlighted: false, isEnemy: false, isQueen: false, x: x, y: y})
 			} else {
-				Object.assign(tile, {allowDraughts: true, hasDraught: hasDraught, player: player, selected: false, 
-					highlighted: false, isEnemy: false, isQueen: false, x: x, y: y, id: id++})
+				tile = fromJS({allowDraughts: true, hasDraught: hasDraught, player: player, selected: false,
+					highlighted: false, isEnemy: false, isQueen: false, x: x, y: y})
 			}
-			tiles.push(tile)
+			tiles = tiles.set(id++, tile)
 		}
 	}
 
@@ -36,7 +37,6 @@ const populateTiles = () => {
 
 const initialState = {
 	tiles: populateTiles(),
-	highlighted: false,
 	selectedDraughtId: 0,
 	playerTurn: 2
 }

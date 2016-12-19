@@ -19,9 +19,9 @@ const highlightedTileStyle = {
 }
 
 export const Tile = (props) => {
-	const draught = props.hasDraught === true ? 
-	<Draught player={props.player} 
-	selected={props.selected} 
+	const draught = props.hasDraught === true ?
+	<Draught player={props.player}
+	selected={props.selected}
 	id={props.id}
 	tiles={props.tiles}
 	selectedDraughtId={props.selectedDraughtId}
