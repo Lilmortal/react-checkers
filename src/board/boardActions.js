@@ -1,14 +1,5 @@
 import * as actionTypes from './boardActionTypes'
 
-const TOP_LEFT_TILE = -12
-const TOP_LEFT_TILE_OVER_ENEMY = -24
-const TOP_RIGHT_TILE = -10
-const TOP_RIGHT_TILE_OVER_ENEMY = -20
-const BOTTOM_LEFT_TILE = 10
-const BOTTOM_LEFT_TILE_OVER_ENEMY = 20
-const BOTTOM_RIGHT_TILE = 12
-const BOTTOM_RIGHT_TILE_OVER_ENEMY = 24
-
 /**
  * Toggle the selected draught top left tile
  * @param  {[array]} tiles      [list of tiles on the board]
@@ -83,7 +74,7 @@ const toggleTopRightTileHighlight = (tile, enemyPlayer, highlighted) => {
  * @param  {[number]} enemyPlayer [enemy player]
  * @return {[object]}            [updated tiles with the the selected draught bottom left tile highlight toggled]
  */
-const toggleBottomLeftTileHighlight = (tile, highlighted, enemyPlayer) => {
+const toggleBottomLeftTileHighlight = (tile, enemyPlayer, highlighted) => {
 	// check if the selected tile is not at the edge of the board
 	if (tile.get('bottomLeftTile')) {
 		// check if the selected tile is an enemy draught and there is a free tile above it
@@ -205,15 +196,30 @@ export const selectDraught = (tile, selectedDraught, playerTurn) => {
  * @return {[object]}            [updated tiles with the selected draught moved to the selected tile]
  */
 export const moveDraught = (tile, selectedDraught, playerTurn) => {
-	console.log(tile.get('id'), selectedDraught.get('id'))
 	let canChangePlayerTurn = false
 	// remove previous draught and add a new draught in the selected tile, as well as remove draught that has been eaten if allowed
 	tile = tile.withMutations((mutatedTile) =>
-	mutatedTile.set('hasDraught', true).set('player', selectedDraught.get('player')).set('highlighted', false).set('isQueen', selectedDraught.get('isQueen')))
+	mutatedTile.set('hasDraught', true).set('selected', false).set('player', selectedDraught.get('player')).set('highlighted', false).set('isQueen', selectedDraught.get('isQueen')))
 
 	selectedDraught = selectedDraught.withMutations((mutatedTile) => mutatedTile.set('hasDraught', false).set('player', 0).set('highlighted', false).set('isQueen', false))
 
-	/*if (selectedDraught.get('topLeft') && tile.get('isEnemy')) {
+	if (selectedDraught.getIn(['topLeftTile', 'isEnemy']) && selectedDraught.getIn(['topLeftTile', 'topLeftTile', 'id']) === tile.get('id')) {
+		selectedDraught = selectedDraught.withMutations((mutatedTile) => mutatedTile.setIn(['topLeftTile', 'isEnemy'], false).setIn(['topLeftTile', 'hasDraught'], false))
+	}
+
+	if (selectedDraught.getIn(['topRightTile', 'isEnemy']) && selectedDraught.getIn(['topRightTile', 'topRightTile', 'id']) === tile.get('id')) {
+		selectedDraught = selectedDraught.withMutations((mutatedTile) => mutatedTile.setIn(['topRightTile', 'isEnemy'], false).setIn(['topRightTile', 'hasDraught'], false))
+	}
+
+	if (selectedDraught.getIn(['bottomLeftTile', 'isEnemy']) && selectedDraught.getIn(['bottomLeftTile', 'bottomLeftTile', 'id']) === tile.get('id')) {
+		selectedDraught = selectedDraught.withMutations((mutatedTile) => mutatedTile.setIn(['bottomLeftTile', 'isEnemy'], false).setIn(['bottomLeftTile', 'hasDraught'], false))
+	}
+
+	if (selectedDraught.getIn(['bottomRightTile', 'isEnemy']) && selectedDraught.getIn(['bottomRightTile', 'bottomRightTile', 'id']) === tile.get('id')) {
+		selectedDraught = selectedDraught.withMutations((mutatedTile) => mutatedTile.setIn(['bottomRightTile', 'isEnemy'], false).setIn(['bottomRightTile', 'hasDraught'], false))
+	}
+
+	/*if (selectedDraught.get('topLeftTile') && tile.get('isEnemy')) {
 		canChangePlayerTurn = true
 		tile = tile.withMutations((mutatedTile) => mutatedTile.set('hasDraught', false).set('player', 0).set('isEnemy', false))
 	}*/
@@ -237,7 +243,7 @@ export const moveDraught = (tile, selectedDraught, playerTurn) => {
 		tile = toggleTileHighlights(tile, playerTurn, false)
 		playerTurn = playerTurn === 1 ? 2 : 1
 	}
-	selectedDraught = toggleTileHighlights(selectedDraught, playerTurn, false)
+	//selectedDraught = toggleTileHighlights(selectedDraught, playerTurn, false)
 
 	// make this draught into a queen if it reaches the end of the board
 	if (tile.get('y') === 10 || tile.get('y') === 0) {
