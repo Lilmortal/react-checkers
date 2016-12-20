@@ -19,27 +19,22 @@ const highlightedTileStyle = {
 }
 
 export const Tile = (props) => {
-	const draught = props.hasDraught === true ?
-	<Draught player={props.player}
-	selected={props.selected}
-	id={props.id}
-	tiles={props.tiles}
-	selectedDraughtId={props.selectedDraughtId}
+	const draught = props.tile.get('hasDraught') === true ?
+	<Draught
+	tile={props.tile}
+	selectedDraught={props.selectedDraught}
 	playerTurn={props.playerTurn}
-	isQueen={props.isQueen}
-	x={props.x}
-	y={props.y}
 	selectDraught={props.selectDraught} /> : undefined
 
 	const style = () => {
-		if (props.isEnemy) return isEnemyTileStyle
-		if (props.highlighted) return highlightedTileStyle
-		if (props.allowDraughts) return oddTileStyle
+		if (props.tile.get('isEnemy')) return isEnemyTileStyle
+		if (props.tile.get('highlighted')) return highlightedTileStyle
+		if (props.tile.get('allowDraughts')) return oddTileStyle
 		return evenTileStyle
 	}
 	return (
 		<div className='tile' style={style()}
-		onClick={() => {if (props.highlighted === true) props.moveDraught(props.tiles, props.id, props.selectedDraughtId, props.playerTurn)}}>
+		onClick={() => {if (props.tile.get('highlighted') === true) props.moveDraught(props.tile, props.selectedDraught, props.playerTurn)}}>
 			{draught}
 		</div>
 	)

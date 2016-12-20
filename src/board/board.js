@@ -7,18 +7,8 @@ import './board.css'
 const Board = (props) => {
 	const tiles = props.tiles.valueSeq().map((tile, id) => (
 				<Tile key={id}
-				allowDraughts={tile.get('allowDraughts')}
-				hasDraught={tile.get('hasDraught')}
-				player={tile.get('player')}
-				selected={tile.get('selected')}
-				highlighted={tile.get('highlighted')}
-				isEnemy={tile.get('isEnemy')}
-				isQueen={tile.get('isQueen')}
-				x={tile.get('x')}
-				y={tile.get('y')}
-				id={id}
-				tiles={props.tiles}
-				selectedDraughtId={props.selectedDraughtId}
+				tile={tile}
+				selectedDraught={props.selectedDraught}
 				playerTurn={props.playerTurn}
 				selectDraught={props.selectDraught}
 				moveDraught={props.moveDraught} />))
@@ -33,7 +23,7 @@ const Board = (props) => {
 
 Board.propTypes = {
 	tiles: React.PropTypes.object.isRequired,
-	selectedDraughtId: React.PropTypes.number.isRequired,
+	selectedDraught: React.PropTypes.object,
 	playerTurn: React.PropTypes.number.isRequired,
 	selectDraught: React.PropTypes.func.isRequired,
 	moveDraught: React.PropTypes.func.isRequired
@@ -41,7 +31,7 @@ Board.propTypes = {
 
 const mapStateToProps = (state) => ({
 	tiles: state.draughtReducer.tiles,
-	selectedDraughtId: state.draughtReducer.selectedDraughtId,
+	selectedDraught: state.draughtReducer.selectedDraught,
 	playerTurn: state.draughtReducer.playerTurn,
 })
 
