@@ -120,6 +120,9 @@ const toggleBottomLeftTileHighlight = (tiles, selectedTileId, highlighted, enemy
 	return tiles
 }
 
+const getTopLeftTile = (tiles, selectedTileId) => {
+	return tiles.find((tile) => tile.get('x') === tiles.get(selectedTileId).get('x') - 1 && tile.get('y') === tiles.get(selectedTileId).get('y') - 1)
+}
 /**
  * Toggle the selected draught bottom right tile
  * @param  {[array]} tiles      [list of tiles on the board]
@@ -129,6 +132,8 @@ const toggleBottomLeftTileHighlight = (tiles, selectedTileId, highlighted, enemy
  * @return {[object]}            [updated tiles with the the selected draught bottom right tile highlight toggled]
  */
 const toggleBottomRightTileHighlight = (tiles, selectedTileId, highlighted, enemyPlayer) => {
+	const topLeftTile = getTopLeftTile(tiles, selectedTileId)
+	console.log(topLeftTile.get('x'), topLeftTile.get('y'), topLeftTile)
 	// check if the selected tile is not at the edge of the board
 	if (tiles.get(selectedTileId).get('x') !== 10 && tiles.has(selectedTileId + BOTTOM_RIGHT_TILE)) {
 		// check if the selected tile is an enemy draught and there is a free tile above it
@@ -225,20 +230,21 @@ export const moveDraught = (tiles, selectedTileId, selectedDraughtId, playerTurn
 		if (id === selectedDraughtId)
 			tile = tile.withMutations((mutatedTile) => mutatedTile.set('hasDraught', false).set('player', 0).set('highlighted', false).set('isQueen', false))
 		if (id === selectedTileId)
-			tile = tile.withMutations((mutatedTile) => mutatedTile.set('hasDraught', true).set('player', tiles.get(selectedDraughtId).get('player')).set('highlighted', false)
-			.set('isQueen', tiles.get(selectedDraughtId).get('isQueen')))
-		if (tile.get('isEnemy')) {
+			tile = tile.withMutations((mutatedTile) =>
+			 mutatedTile.set('hasDraught', true).set('player', tiles.get(selectedDraughtId).get('player')).set('highlighted', false).set('isQueen', tiles.get(selectedDraughtId).get('isQueen')))
+		if (id === selectedDraughtId + (selectedTileId - selectedDraughtId) / 2 && tile.get('isEnemy')) {
 			canChangePlayerTurn = true
 			tile = tile.withMutations((mutatedTile) => mutatedTile.set('hasDraught', false).set('player', 0).set('isEnemy', false))
 		}
 		return tile
 	})
 
-	tiles = toggleTileHighlights(tiles, selectedTileId, false, playerTurn)
+	tiles = toggleTileHighlights(tiles, selectedDraughtId, false, playerTurn)
 	// check if you still can eat more if you eat a draught as the draught rules dictate that you can eat multiple times if allowed
 	if (canChangePlayerTurn) {
 		// check all possible draught moves for this selected tile, return true if it still can eat one or more draught
 		tiles = toggleTileHighlights(tiles, selectedTileId, true, playerTurn)
+		// DONT NEED TO CHECK ENTIRE TILE
 		canChangePlayerTurn = tiles.reduce((initialTileEnemyHighlighted, tile) => {
 			return initialTileEnemyHighlighted || tile.get('isEnemy')
 		}, false)
@@ -246,11 +252,10 @@ export const moveDraught = (tiles, selectedTileId, selectedDraughtId, playerTurn
 
 	// if it can't eat anymore; turn off all the toggles and change player turn
 	if (!canChangePlayerTurn) {
-		tiles = toggleTileHighlights(tiles, selectedDraughtId, false, playerTurn)
 		tiles = toggleTileHighlights(tiles, selectedTileId, false, playerTurn)
 		playerTurn = playerTurn === 1 ? 2 : 1
 	}
-
+	tiles = toggleTileHighlights(tiles, selectedDraughtId, false, playerTurn)
 	// the selected draught is now the current draught
 	selectedDraughtId = selectedTileId
 

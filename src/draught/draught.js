@@ -2,7 +2,7 @@ import React from 'react'
 import './draught.css'
 
 export const Draught = (props) => {
-	const queen = props.isQueen ? 'Q' : ''
+	const queen = props.isQueen ? '♛' : ''
 
 	let className = props.player === 1 ? ' player1' : ' player2'
 	if (props.selected) className += ' draughtSelected'
