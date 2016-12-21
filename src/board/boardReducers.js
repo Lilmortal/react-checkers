@@ -3,11 +3,12 @@ import { OrderedMap, fromJS } from 'immutable'
 
 const updateAdjacentTiles = (tiles) => {
 	tiles = tiles.map((tile) => {
-			const topLeftTile = tiles.find((adjacentTile) => adjacentTile.get('x') === tile.get('x') - 1 && adjacentTile.get('y') === tile.get('y') - 1)
-			const topRightTile = tiles.find((adjacentTile) => adjacentTile.get('x') === tile.get('x') + 1 && adjacentTile.get('y') === tile.get('y') - 1)
-			const bottomLeftTile = tiles.find((adjacentTile) => adjacentTile.get('x') === tile.get('x') - 1 && adjacentTile.get('y') === tile.get('y') + 1)
-			const bottomRightTile = tiles.find((adjacentTile) => adjacentTile.get('x') === tile.get('x') + 1 && adjacentTile.get('y') === tile.get('y') + 1)
+			const topLeftTile = tiles.find((adjacentTile) => adjacentTile != undefined && tile != undefined && adjacentTile.get('x') === tile.get('x') - 1 && adjacentTile.get('y') === tile.get('y') - 1)
+			const topRightTile = tiles.find((adjacentTile) => adjacentTile != undefined && tile != undefined && adjacentTile.get('x') === tile.get('x') + 1 && adjacentTile.get('y') === tile.get('y') - 1)
+			const bottomLeftTile = tiles.find((adjacentTile) => adjacentTile != undefined && tile != undefined && adjacentTile.get('x') === tile.get('x') - 1 && adjacentTile.get('y') === tile.get('y') + 1)
+			const bottomRightTile = tiles.find((adjacentTile) => adjacentTile != undefined && tile != undefined && adjacentTile.get('x') === tile.get('x') + 1 && adjacentTile.get('y') === tile.get('y') + 1)
 
+			if (tile != undefined)
 			tile = tile.withMutations((mutatedTile) => mutatedTile.set('topLeftTile', topLeftTile).set('topRightTile', topRightTile)
 			.set('bottomLeftTile', bottomLeftTile).set('bottomRightTile', bottomRightTile))
 
@@ -50,8 +51,6 @@ const populateTiles = () => {
 
 	// we cant do recursion since it goes against the immutability principle; need to figure out other methods than this shit
 	tiles = updateAdjacentTiles(tiles)
-	tiles = updateAdjacentTiles(tiles)
-	tiles = updateAdjacentTiles(tiles)
 
 	return tiles
 }
@@ -65,28 +64,45 @@ const initialState = {
 export const draughtReducer = (state = initialState, payLoad) => {
 	switch (payLoad.type) {
 		case actionTypes.SELECT_DRAUGHT: {
-			if (payLoad.formerSelectedDraught !== undefined) {
+			/*if (payLoad.formerSelectedDraught !== undefined) {
 				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.get('id'), payLoad.formerSelectedDraught)
-				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['topLeftTile', 'id']), payLoad.formerSelectedDraught.get('topLeftTile'))
+				if (payLoad.formerSelectedDraught.get('topLeftTile') != undefined)
+					state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['topLeftTile', 'id']), payLoad.formerSelectedDraught.get('topLeftTile'))
+				if (payLoad.formerSelectedDraught.getIn(['topLeftTile', 'topLeftTile']) != undefined)
 				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['topLeftTile', 'topLeftTile', 'id']), payLoad.formerSelectedDraught.getIn(['topLeftTile', 'topLeftTile']))
+				if (payLoad.formerSelectedDraught.get('topRightTile') != undefined)
 				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['topRightTile', 'id']), payLoad.formerSelectedDraught.get('topRightTile'))
+				if (payLoad.formerSelectedDraught.getIn(['topRightTile', 'topRightTile']) != undefined)
 				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['topRightTile', 'topRightTile', 'id']), payLoad.formerSelectedDraught.getIn(['topRightTile', 'topRightTile']))
+				if (payLoad.formerSelectedDraught.get('bottomLeftTile') != undefined)
 				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['bottomLeftTile', 'id']), payLoad.formerSelectedDraught.get('bottomLeftTile'))
+				if (payLoad.formerSelectedDraught.getIn(['bottomLeftTile', 'bottomLeftTile']) != undefined)
 				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['bottomLeftTile', 'bottomLeftTile', 'id']), payLoad.formerSelectedDraught.getIn(['bottomLeftTile', 'bottomLeftTile']))
+				if (payLoad.formerSelectedDraught.get('bottomRightTile') != undefined)
 				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['bottomRightTile', 'id']), payLoad.formerSelectedDraught.get('bottomRightTile'))
+				if (payLoad.formerSelectedDraught.getIn(['bottomRightTile', 'bottomRightTile']) != undefined)
 				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['bottomRightTile', 'bottomRightTile', 'id']), payLoad.formerSelectedDraught.getIn(['bottomRightTile', 'bottomRightTile']))
-			}
+			}*/
 
 			state.tiles = state.tiles.set(payLoad.tile.get('id'), payLoad.tile)
+			if (payLoad.tile.get('topLeftTile') != undefined)
 			state.tiles = state.tiles.set(payLoad.tile.getIn(['topLeftTile', 'id']), payLoad.tile.get('topLeftTile'))
+			if (payLoad.tile.getIn(['topLeftTile', 'topLeftTile']) != undefined)
 			state.tiles = state.tiles.set(payLoad.tile.getIn(['topLeftTile', 'topLeftTile', 'id']), payLoad.tile.getIn(['topLeftTile', 'topLeftTile']))
+			if (payLoad.tile.get('topRightTile') != undefined)
 			state.tiles = state.tiles.set(payLoad.tile.getIn(['topRightTile', 'id']), payLoad.tile.get('topRightTile'))
+			if (payLoad.tile.getIn(['topRightTile', 'topRightTile']) != undefined)
 			state.tiles = state.tiles.set(payLoad.tile.getIn(['topRightTile', 'topRightTile', 'id']), payLoad.tile.getIn(['topRightTile', 'topRightTile']))
+			if (payLoad.tile.get('bottomLeftTile') != undefined)
 			state.tiles = state.tiles.set(payLoad.tile.getIn(['bottomLeftTile', 'id']), payLoad.tile.get('bottomLeftTile'))
+			if (payLoad.tile.getIn(['bottomLeftTile', 'bottomLeftTile']) != undefined)
 			state.tiles = state.tiles.set(payLoad.tile.getIn(['bottomLeftTile', 'bottomLeftTile', 'id']), payLoad.tile.getIn(['bottomLeftTile', 'bottomLeftTile']))
+			if (payLoad.tile.get('bottomRightTile') != undefined)
 			state.tiles = state.tiles.set(payLoad.tile.getIn(['bottomRightTile', 'id']), payLoad.tile.get('bottomRightTile'))
+			if (payLoad.tile.getIn(['bottomRightTile', 'bottomRightTile']) != undefined)
 			state.tiles = state.tiles.set(payLoad.tile.getIn(['bottomRightTile', 'bottomRightTile', 'id']), payLoad.tile.getIn(['bottomRightTile', 'bottomRightTile']))
 
+			state.tiles = updateAdjacentTiles(state.tiles)
 
 			return {
 				...state,
@@ -95,26 +111,71 @@ export const draughtReducer = (state = initialState, payLoad) => {
 			}
 		}
 		case actionTypes.MOVE_DRAUGHT: {
-			state.tiles = state.tiles.set(payLoad.selectedDraught.get('id'), payLoad.selectedDraught)
-			state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['topLeftTile', 'id']), payLoad.selectedDraught.get('topLeftTile'))
-			state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['topLeftTile', 'topLeftTile', 'id']), payLoad.selectedDraught.getIn(['topLeftTile', 'topLeftTile']))
-			state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['topRightTile', 'id']), payLoad.selectedDraught.get('topRightTile'))
-			state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['topRightTile', 'topRightTile', 'id']), payLoad.selectedDraught.getIn(['topRightTile', 'topRightTile']))
-			state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['bottomLeftTile', 'id']), payLoad.selectedDraught.get('bottomLeftTile'))
-			state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['bottomLeftTile', 'bottomLeftTile', 'id']), payLoad.selectedDraught.getIn(['bottomLeftTile', 'bottomLeftTile']))
-			state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['bottomRightTile', 'id']), payLoad.selectedDraught.get('bottomRightTile'))
-			state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['bottomRightTile', 'bottomRightTile', 'id']), payLoad.selectedDraught.getIn(['bottomRightTile', 'bottomRightTile']))
+			if (payLoad.selectedDraught != undefined) {
+				state.tiles = state.tiles.set(payLoad.selectedDraught.get('id'), payLoad.selectedDraught)
+				if (payLoad.selectedDraught.get('topLeftTile') != undefined)
+				state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['topLeftTile', 'id']), payLoad.selectedDraught.get('topLeftTile'))
+				if (payLoad.selectedDraught.getIn(['topLeftTile', 'topLeftTile']) != undefined)
+				state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['topLeftTile', 'topLeftTile', 'id']), payLoad.selectedDraught.getIn(['topLeftTile', 'topLeftTile']))
+				if (payLoad.selectedDraught.get('topRightTile') != undefined)
+				state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['topRightTile', 'id']), payLoad.selectedDraught.get('topRightTile'))
+				if (payLoad.selectedDraught.getIn(['topRightTile', 'topRightTile']) != undefined)
+				state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['topRightTile', 'topRightTile', 'id']), payLoad.selectedDraught.getIn(['topRightTile', 'topRightTile']))
+				if (payLoad.selectedDraught.get('bottomLeftTile') != undefined)
+				state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['bottomLeftTile', 'id']), payLoad.selectedDraught.get('bottomLeftTile'))
+				if (payLoad.selectedDraught.getIn(['bottomLeftTile', 'bottomLeftTile']) != undefined)
+				state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['bottomLeftTile', 'bottomLeftTile', 'id']), payLoad.selectedDraught.getIn(['bottomLeftTile', 'bottomLeftTile']))
+				if (payLoad.selectedDraught.get('bottomRightTile') != undefined)
+				state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['bottomRightTile', 'id']), payLoad.selectedDraught.get('bottomRightTile'))
+				if (payLoad.selectedDraught.getIn(['bottomRightTile', 'bottomRightTile']) != undefined)
+				state.tiles = state.tiles.set(payLoad.selectedDraught.getIn(['bottomRightTile', 'bottomRightTile', 'id']), payLoad.selectedDraught.getIn(['bottomRightTile', 'bottomRightTile']))
+			}
+
+			if (payLoad.formerSelectedDraught !== undefined) {
+				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.get('id'), payLoad.formerSelectedDraught)
+				if (payLoad.formerSelectedDraught.get('topLeftTile') != undefined)
+					state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['topLeftTile', 'id']), payLoad.formerSelectedDraught.get('topLeftTile'))
+				if (payLoad.formerSelectedDraught.getIn(['topLeftTile', 'topLeftTile']) != undefined)
+				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['topLeftTile', 'topLeftTile', 'id']), payLoad.formerSelectedDraught.getIn(['topLeftTile', 'topLeftTile']))
+				if (payLoad.formerSelectedDraught.get('topRightTile') != undefined)
+				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['topRightTile', 'id']), payLoad.formerSelectedDraught.get('topRightTile'))
+				if (payLoad.formerSelectedDraught.getIn(['topRightTile', 'topRightTile']) != undefined)
+				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['topRightTile', 'topRightTile', 'id']), payLoad.formerSelectedDraught.getIn(['topRightTile', 'topRightTile']))
+				if (payLoad.formerSelectedDraught.get('bottomLeftTile') != undefined)
+				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['bottomLeftTile', 'id']), payLoad.formerSelectedDraught.get('bottomLeftTile'))
+				if (payLoad.formerSelectedDraught.getIn(['bottomLeftTile', 'bottomLeftTile']) != undefined)
+				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['bottomLeftTile', 'bottomLeftTile', 'id']), payLoad.formerSelectedDraught.getIn(['bottomLeftTile', 'bottomLeftTile']))
+				if (payLoad.formerSelectedDraught.get('bottomRightTile') != undefined)
+				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['bottomRightTile', 'id']), payLoad.formerSelectedDraught.get('bottomRightTile'))
+				if (payLoad.formerSelectedDraught.getIn(['bottomRightTile', 'bottomRightTile']) != undefined)
+				state.tiles = state.tiles.set(payLoad.formerSelectedDraught.getIn(['bottomRightTile', 'bottomRightTile', 'id']), payLoad.formerSelectedDraught.getIn(['bottomRightTile', 'bottomRightTile']))
+			}
 
 			state.tiles = state.tiles.set(payLoad.tile.get('id'), payLoad.tile)
 
-			state.tiles = updateAdjacentTiles(state.tiles)
-			state.tiles = updateAdjacentTiles(state.tiles)
+			/*if (payLoad.tile.get('topLeftTile') != undefined)
+			state.tiles = state.tiles.set(payLoad.tile.getIn(['topLeftTile', 'id']), payLoad.tile.get('topLeftTile'))
+			if (payLoad.tile.getIn(['topLeftTile', 'topLeftTile']) != undefined)
+			state.tiles = state.tiles.set(payLoad.tile.getIn(['topLeftTile', 'topLeftTile', 'id']), payLoad.tile.getIn(['topLeftTile', 'topLeftTile']))
+			if (payLoad.tile.get('topRightTile') != undefined)
+			state.tiles = state.tiles.set(payLoad.tile.getIn(['topRightTile', 'id']), payLoad.tile.get('topRightTile'))
+			if (payLoad.tile.getIn(['topRightTile', 'topRightTile']) != undefined)
+			state.tiles = state.tiles.set(payLoad.tile.getIn(['topRightTile', 'topRightTile', 'id']), payLoad.tile.getIn(['topRightTile', 'topRightTile']))
+			if (payLoad.tile.get('bottomLeftTile') != undefined)
+			state.tiles = state.tiles.set(payLoad.tile.getIn(['bottomLeftTile', 'id']), payLoad.tile.get('bottomLeftTile'))
+			if (payLoad.tile.getIn(['bottomLeftTile', 'bottomLeftTile']) != undefined)
+			state.tiles = state.tiles.set(payLoad.tile.getIn(['bottomLeftTile', 'bottomLeftTile', 'id']), payLoad.tile.getIn(['bottomLeftTile', 'bottomLeftTile']))
+			if (payLoad.tile.get('bottomRightTile') != undefined)
+			state.tiles = state.tiles.set(payLoad.tile.getIn(['bottomRightTile', 'id']), payLoad.tile.get('bottomRightTile'))
+			if (payLoad.tile.getIn(['bottomRightTile', 'bottomRightTile']) != undefined)
+			state.tiles = state.tiles.set(payLoad.tile.getIn(['bottomRightTile', 'bottomRightTile', 'id']), payLoad.tile.getIn(['bottomRightTile', 'bottomRightTile']))*/
+
 			state.tiles = updateAdjacentTiles(state.tiles)
 
 			return {
 				...state,
 				tiles: state.tiles,
-				selectedDraught: undefined,
+				selectedDraught: payLoad.selectedDraught,
 				playerTurn: payLoad.playerTurn
 			}
 		}
