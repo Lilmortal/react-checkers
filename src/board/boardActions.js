@@ -8,7 +8,7 @@ import * as actionTypes from './boardActionTypes'
  * @param  {[number]} enemyPlayer [enemy player]
  * @return {[object]}            [updated tiles with the the selected draught top left tile highlight toggled]
  */
-const toggleTopLeftTileHighlight = (tile, enemyPlayer, highlighted) => {
+const toggleTopLeftTileHighlight = (tile, enemyPlayer, highlighted, selected) => {
 	// check if the selected draught is not at the edge of the board
 	if (tile.get('topLeftTile')) {
 		// check if the selected tile is an enemy draught and there is a free tile above it
@@ -26,7 +26,7 @@ const toggleTopLeftTileHighlight = (tile, enemyPlayer, highlighted) => {
 		// if it does not find any enemy draught, highlight this selected tile
 		} else if (!tile.getIn(['topLeftTile', 'hasDraught']) && !tile.getIn(['topRightTile', 'isEnemy']) &&
 		!tile.getIn(['bottomLeftTile', 'isEnemy']) && !tile.getIn(['bottomRightTile', 'isEnemy'])) {
-			tile = tile.setIn(['topLeftTile', 'highlighted'], highlighted)
+			tile = tile.withMutations((mutatedTile) => mutatedTile.setIn(['topLeftTile', 'highlighted'], highlighted).set('selected', selected))
 		}
 	}
 
@@ -41,7 +41,7 @@ const toggleTopLeftTileHighlight = (tile, enemyPlayer, highlighted) => {
  * @param  {[number]} enemyPlayer [enemy player]
  * @return {[object]}            [updated tiles with the the selected draught top right tile highlight toggled]
  */
-const toggleTopRightTileHighlight = (tile, enemyPlayer, highlighted) => {
+const toggleTopRightTileHighlight = (tile, enemyPlayer, highlighted, selected) => {
 	// check if the selected tile is not at the edge of the board
 	if (tile.get('topRightTile')) {
 		// check if the selected tile is an enemy draught and there is a free tile above it
@@ -59,7 +59,7 @@ const toggleTopRightTileHighlight = (tile, enemyPlayer, highlighted) => {
 		// if it does not find any enemy draught, highlight this selected tile
 	} else if (!tile.getIn(['topRightTile', 'hasDraught']) && !tile.getIn(['topLeftTile', 'isEnemy']) &&
 		!tile.getIn(['bottomLeftTile', 'isEnemy']) && !tile.getIn(['bottomRightTile', 'isEnemy'])) {
-			tile = tile.setIn(['topRightTile', 'highlighted'], highlighted)
+			tile = tile.withMutations((mutatedTile) => mutatedTile.setIn(['topRightTile', 'highlighted'], highlighted).set('selected', selected))
 		}
 	}
 
@@ -74,7 +74,7 @@ const toggleTopRightTileHighlight = (tile, enemyPlayer, highlighted) => {
  * @param  {[number]} enemyPlayer [enemy player]
  * @return {[object]}            [updated tiles with the the selected draught bottom left tile highlight toggled]
  */
-const toggleBottomLeftTileHighlight = (tile, enemyPlayer, highlighted) => {
+const toggleBottomLeftTileHighlight = (tile, enemyPlayer, highlighted, selected) => {
 	// check if the selected tile is not at the edge of the board
 	if (tile.get('bottomLeftTile')) {
 		// check if the selected tile is an enemy draught and there is a free tile above it
@@ -92,7 +92,7 @@ const toggleBottomLeftTileHighlight = (tile, enemyPlayer, highlighted) => {
 		// if it does not find any enemy draught, highlight this selected tile
 	} else if (!tile.getIn(['bottomRightTile', 'hasDraught']) && !tile.getIn(['topLeftTile', 'isEnemy']) &&
 		!tile.getIn(['topLeftTile', 'isEnemy']) && !tile.getIn(['topRightTile', 'isEnemy'])) {
-			tile = tile.setIn(['bottomLeftTile', 'highlighted'], highlighted)
+			tile = tile.withMutations((mutatedTile) => mutatedTile.setIn(['bottomLeftTile', 'highlighted'], highlighted).set('selected', selected))
 		}
 	}
 
@@ -107,7 +107,7 @@ const toggleBottomLeftTileHighlight = (tile, enemyPlayer, highlighted) => {
  * @param  {[number]} enemyPlayer [enemy player]
  * @return {[object]}            [updated tiles with the the selected draught bottom right tile highlight toggled]
  */
-const toggleBottomRightTileHighlight = (tile, enemyPlayer, highlighted) => {
+const toggleBottomRightTileHighlight = (tile, enemyPlayer, highlighted, selected) => {
 	// check if the selected tile is not at the edge of the board
 	if (tile.get('bottomRightTile')) {
 		// check if the selected tile is an enemy draught and there is a free tile above it
@@ -125,7 +125,7 @@ const toggleBottomRightTileHighlight = (tile, enemyPlayer, highlighted) => {
 		// if it does not find any enemy draught, highlight this selected tile
 	} else if (!tile.getIn(['bottomLeftTile', 'hasDraught']) && !tile.getIn(['topLeftTile', 'isEnemy']) &&
 		!tile.getIn(['topLeftTile', 'isEnemy']) && !tile.getIn(['topRightTile', 'isEnemy'])) {
-			tile = tile.setIn(['bottomRightTile', 'highlighted'], highlighted)
+			tile = tile.withMutations((mutatedTile) => mutatedTile.setIn(['bottomRightTile', 'highlighted'], highlighted).set('selected', selected))
 		}
 	}
 
@@ -140,18 +140,20 @@ const toggleBottomRightTileHighlight = (tile, enemyPlayer, highlighted) => {
  * @param  {[number]} playerTurn [player turn]
  * @return {[object]}            [updated tiles with the the selected draught neighbours highlights toggled]
  */
-const toggleTileHighlights = (tile, playerTurn, highlighted) => {
+const toggleTileHighlights = (tile, playerTurn, highlighted, selected) => {
 	const enemyPlayer = playerTurn === 1 ? 2 : 1
 	//can just pass tiles[selectedTileId], then up there go tile.get('x') + 4 (NVM U CANT)
 	if (playerTurn === 1 || tile.get('isQueen')) {
-		tile = toggleBottomLeftTileHighlight(tile, enemyPlayer, highlighted)
-		tile = toggleBottomRightTileHighlight(tile, enemyPlayer, highlighted)
+		tile = toggleBottomLeftTileHighlight(tile, enemyPlayer, highlighted, selected)
+		tile = toggleBottomRightTileHighlight(tile, enemyPlayer, highlighted, selected)
 	}
 
 	if (playerTurn === 2 || tile.get('isQueen')) {
-		tile = toggleTopLeftTileHighlight(tile, enemyPlayer, highlighted)
-		tile = toggleTopRightTileHighlight(tile, enemyPlayer, highlighted)
+		tile = toggleTopLeftTileHighlight(tile, enemyPlayer, highlighted, selected)
+		tile = toggleTopRightTileHighlight(tile, enemyPlayer, highlighted, selected)
 	}
+
+
 
 	return tile
 }
@@ -164,31 +166,45 @@ const toggleTileHighlights = (tile, playerTurn, highlighted) => {
  * @param  {[number]} playerTurn [player turn]
  * @return {[object]}            [updated tiles with the the draught selected/unselected]
  */
-export const selectDraught = (tile, selectedDraught, playerTurn) => {
+export const select = (tile, playerTurn, highlighted, selected, selectedDraught) => {
 	// remove previous selected draught highlighted tiles
-	if (selectedDraught !== undefined) {
-		selectedDraught = toggleTileHighlights(selectedDraught, playerTurn, false)
-		selectedDraught = selectedDraught.set('selected', false)
-	}
+	/*if (selectedDraught !== undefined) {
+		selectedDraught = toggleTileHighlights(selectedDraught, playerTurn, false, false)
+
+		//tile.mergeDeep(selectedDraught)
+	}*/
 	// toggle tile highlights that the draught is allow to move to
-	tile = toggleTileHighlights(tile, playerTurn, tile.get('selected') ? false : true)
-	tile = tile.set('selected', !tile.get('selected'))
+	tile = toggleTileHighlights(tile, playerTurn, highlighted, selected)
 	/*tiles = tiles.map((tile, id) =>
 		id === selectedTileId ? tile.set('selected', !tile.get('selected')) : tile.set('selected', false)
 	)
 	tile = tile.set('highlighted', !tile.get('highlighted'))*/
 
+	// HAVE TO LEARN MERGE, SELECTEDDRAUGHT NEED TO MERGE WITH tile
+	//const newSelectedDraught = tile.get('selected') ? tile : undefined
+
+	//const newTile = tile.mergeDeep(selectedDraught)
 	return {
 		type: actionTypes.SELECT_DRAUGHT,
 		// toggle whether the draught is being selected or not
 		tile: tile,
-		formerSelectedDraught: selectedDraught,
-		selectedDraught: tile.get('selected') ? tile : undefined
+		//formerSelectedDraught: selectedDraught,
+		selectedDraught: selectedDraught
+	}
+}
+
+export const selectDraught = (tile, selectedDraught, playerTurn) => {
+	return (dispatch, getState) => {
+		let test
+		if (selectedDraught !== undefined)
+			test = dispatch(select(selectedDraught, playerTurn, false, false, tile.get('selected') ? tile : undefined))
+		console.log(getState(), !tile.get('selected'), test)
+		dispatch(select(tile, playerTurn, tile.get('selected') ? false : true, !tile.get('selected'), !tile.get('selected') ? tile : undefined))
 	}
 }
 
 const hasEnemy = (tile, canChangePlayerTurn, playerTurn) => {
-	tile = toggleTileHighlights(tile, playerTurn, true)
+	tile = toggleTileHighlights(tile, playerTurn, true, false)
 	if (canChangePlayerTurn === 'topLeftTile')
 		canChangePlayerTurn = 'bottomRightTile'
 	else if (canChangePlayerTurn === 'topRightTile')
@@ -262,23 +278,21 @@ export const moveDraught = (tile, selectedDraught, playerTurn) => {
 		tile = tile.withMutations((mutatedTile) => mutatedTile.set('hasDraught', false).set('player', 0).set('isEnemy', false))
 	}*/
 
-	selectedDraught = toggleTileHighlights(selectedDraught, playerTurn, false)
+	selectedDraught = toggleTileHighlights(selectedDraught, playerTurn, false, false)
 
 
 
 	// check if you still can eat more if you eat a draught as the draught rules dictate that you can eat multiple times if allowed
 	if (canChangePlayerTurn && hasEnemy(tile, canChangePlayerTurn, playerTurn)) {
 		// check all possible draught moves for this selected tile, return true if it still can eat one or more draught
-		tile = toggleTileHighlights(tile, playerTurn, true)
-		tile = tile.set('selected', true)
+		tile = toggleTileHighlights(tile, playerTurn, true, true)
 		//selectedDraught = tile
 		// TODO: NEED TO UPDATE TILES
 		//canChangePlayerTurn = tile.getIn(['topLeftTile', 'isEnemy']) || tile.getIn(['topRightTile', 'isEnemy']) || tile.getIn(['bottomLeftTile', 'isEnemy']) || tile.getIn(['bottomRightTile', 'isEnemy'])
 		// the selected draught is now the current draught
 		//selectedDraught = tile
 	} else {
-		tile = toggleTileHighlights(tile, playerTurn, false)
-		tile = tile.set('selected', false)
+		tile = toggleTileHighlights(tile, playerTurn, false, false)
 
 		playerTurn = playerTurn === 1 ? 2 : 1
 	}
