@@ -12,6 +12,7 @@ const Board = (props) => {
 				selectedDraught={props.selectedDraught}
 				playerTurn={props.playerTurn}
 				compulsoryToEat={props.compulsoryToEat}
+				previousDraughtMove={props.previousDraughtMove}
 				selectDraught={props.selectDraught}
 				moveDraught={props.moveDraught} />))
 
@@ -27,7 +28,8 @@ const mapStateToProps = (state) => ({
 	tiles: state.draughtReducer.tiles,
 	selectedDraught: state.draughtReducer.selectedDraught,
 	playerTurn: state.draughtReducer.playerTurn,
-	compulsoryToEat: state.draughtReducer.compulsoryToEat
+	compulsoryToEat: state.draughtReducer.compulsoryToEat,
+	previousDraughtMove: state.draughtReducer.previousDraughtMove
 })
 
 Board.propTypes = {

@@ -9,6 +9,7 @@ import { persistState } from 'redux-devtools'
 import rootSaga from './board/boardSagas'
 
 const initialState = {}
+// eslint-disable-next-line
 const loggerMiddleware = createLogger()
 const sagaMiddleware = createSagaMiddleware()
 const middleware = applyMiddleware(thunkMiddleware, sagaMiddleware/*, loggerMiddleware*/)
