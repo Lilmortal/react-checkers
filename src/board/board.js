@@ -11,6 +11,7 @@ const Board = (props) => {
 				id={id}
 				selectedDraught={props.selectedDraught}
 				playerTurn={props.playerTurn}
+				compulsoryToEat={props.compulsoryToEat}
 				selectDraught={props.selectDraught}
 				moveDraught={props.moveDraught} />))
 
@@ -26,6 +27,7 @@ const mapStateToProps = (state) => ({
 	tiles: state.draughtReducer.tiles,
 	selectedDraught: state.draughtReducer.selectedDraught,
 	playerTurn: state.draughtReducer.playerTurn,
+	compulsoryToEat: state.draughtReducer.compulsoryToEat
 })
 
 Board.propTypes = {

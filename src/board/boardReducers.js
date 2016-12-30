@@ -77,10 +77,10 @@ const populateTiles = () => {
 			// eslint-disable-next-line
 			if (x % 2 == evenTile) {
 				tile = fromJS({allowDraughts: false, hasDraught: false, player: undefined, selected: false,
-					highlighted: false, isEnemy: false, isQueen: false, topLeftTile: undefined, topRightTile: undefined, bottomLeftTile: undefined, bottomRightTile: undefined, x: x, y: y, id: id})
+					highlighted: false, isEnemy: false, isQueen: false, needToEat: false, topLeftTile: undefined, topRightTile: undefined, bottomLeftTile: undefined, bottomRightTile: undefined, x: x, y: y, id: id})
 			} else {
 				tile = fromJS({allowDraughts: true, hasDraught: hasDraught, player: player, selected: false,
-					highlighted: false, isEnemy: false, isQueen: false, topLeftTile: undefined, topRightTile: undefined, bottomLeftTile: undefined, bottomRightTile: undefined, x: x, y: y, id: id})
+					highlighted: false, isEnemy: false, isQueen: false, needToEat: false, topLeftTile: undefined, topRightTile: undefined, bottomLeftTile: undefined, bottomRightTile: undefined, x: x, y: y, id: id})
 			}
 			tiles = tiles.set(id++, tile)
 		}
@@ -95,7 +95,9 @@ const populateTiles = () => {
 const initialState = {
 	tiles: populateTiles(),
 	selectedDraught: undefined,
-	playerTurn: 2
+	playerTurn: 2,
+	compulsoryToEat: false,
+	previousDraughtMove: undefined
 }
 
 export const draughtReducer = (state = initialState, payLoad) => {
@@ -107,7 +109,7 @@ export const draughtReducer = (state = initialState, payLoad) => {
 			return {
 				...state,
 				tiles: state.tiles,
-				selectedDraught: payLoad.selectedDraught
+				selectedDraught: payLoad.selectedDraught,
 			}
 		}
 		case actionTypes.MOVE_DRAUGHT: {
@@ -118,7 +120,9 @@ export const draughtReducer = (state = initialState, payLoad) => {
 				...state,
 				tiles: state.tiles,
 				selectedDraught: payLoad.selectedDraught,
-				playerTurn: payLoad.playerTurn
+				playerTurn: payLoad.playerTurn,
+				compulsoryToEat: payLoad.compulsoryToEat,
+				previousDraughtMove: payLoad.previousDraughtMove
 			}
 		}
 		default:

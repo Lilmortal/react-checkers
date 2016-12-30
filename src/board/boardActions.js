@@ -1,6 +1,6 @@
 import * as actionTypes from './boardActionTypes'
 
-const NEIGHBOUR_TILES = {
+export const NEIGHBOUR_TILES = {
 	TOP_LEFT_TILE: 'topLeftTile',
 	TOP_RIGHT_TILE: 'topRightTile',
 	BOTTOM_LEFT_TILE: 'bottomLeftTile',

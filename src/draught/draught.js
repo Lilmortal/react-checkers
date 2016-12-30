@@ -9,7 +9,9 @@ export const Draught = (props) => {
 
 	return (
 		<div className={'draught' + className}
-		onClick={() => {if (props.tile.get('player') === props.playerTurn) props.selectDraught(props.tile, props.selectedDraught, props.playerTurn)}}>
+		onClick={() => {
+			if ((!props.compulsoryToEat && props.tile.get('player') === props.playerTurn) || (props.compulsoryToEat && props.tile.get('needToEat')))
+				props.selectDraught(props.tile, props.selectedDraught, props.playerTurn)}}>
 			<div className='draughtQueen'>{queen}</div>
 		</div>
 	)

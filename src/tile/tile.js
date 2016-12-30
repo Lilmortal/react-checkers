@@ -18,11 +18,16 @@ const highlightedTileStyle = {
 	backgroundColor: 'orange'
 }
 
+const needToEatTileStyle = {
+	backgroundColor: 'blue'
+}
+
 export const Tile = (props) => {
 	//console.log(props.tile, props.id)
 	const draught = props.tile != undefined && props.tile.get('hasDraught') === true ?
 	<Draught
 	tile={props.tile}
+	compulsoryToEat={props.compulsoryToEat}
 	selectedDraught={props.selectedDraught}
 	playerTurn={props.playerTurn}
 	selectDraught={props.selectDraught} /> : undefined
@@ -30,6 +35,7 @@ export const Tile = (props) => {
 	const style = () => {
 		if (props.tile != undefined && props.tile.get('isEnemy')) return isEnemyTileStyle
 		if (props.tile != undefined && props.tile.get('highlighted')) return highlightedTileStyle
+		if (props.tile != undefined && props.tile.get('needToEat')) return needToEatTileStyle
 		if (props.tile != undefined && props.tile.get('allowDraughts')) return oddTileStyle
 		return evenTileStyle
 	}
