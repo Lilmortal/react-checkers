@@ -1,18 +1,25 @@
 import * as actionTypes from './boardActionTypes'
 
-export const selectDraught = (tile, selectedDraught, playerTurn) => {
+export const startSelectDraught = (tile, selectedDraught, playerTurn) => {
 	return {
-		type: actionTypes.SELECT_DRAUGHT_SYNC,
+		type: actionTypes.START_SELECT_DRAUGHT,
 		tile,
 		selectedDraught,
 		playerTurn
 	}
 }
 
+export const selectDraught = (selectedDraught, tile) => {
+	return {
+		type: actionTypes.SELECT_DRAUGHT,
+		selectedDraught,
+		tile
+	}
+}
 
 export const highlightTile = (tile) => {
 	return {
-		type: actionTypes.HIGHLIGHT_DRAUGHT,
+		type: actionTypes.HIGHLIGHT_TILE,
 		tile
 	}
 }
@@ -24,12 +31,22 @@ export const removeDraught = (tile) => {
 	}
 }
 
-export const moveDraught = (tile, selectedDraught, previousDraughtMove, playerTurn) => {
+export const startMoveDraught = (tile, selectedDraught, previousDraughtMove, playerTurn) => {
 	return {
-		type: actionTypes.MOVE_DRAUGHT_SYNC,
+		type: actionTypes.START_MOVE_DRAUGHT,
 		tile,
 		selectedDraught,
 		previousDraughtMove,
 		playerTurn
+	}
+}
+
+export const moveDraught = (tile, playerTurn, previousDraughtMove, compulsoryToEat) => {
+	return {
+		type: actionTypes.MOVE_DRAUGHT,
+		tile,
+		playerTurn,
+		previousDraughtMove,
+		compulsoryToEat
 	}
 }

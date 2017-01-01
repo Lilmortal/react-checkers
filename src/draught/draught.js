@@ -11,7 +11,7 @@ export const Draught = (props) => {
 		<div className={'draught' + className}
 		onClick={() => {
 			if ((!props.compulsoryToEat && props.tile.get('player') === props.playerTurn) || (props.compulsoryToEat && props.tile.get('needToEat')))
-				props.selectDraught(props.tile, props.selectedDraught, props.playerTurn)}}>
+				props.startSelectDraught(props.tile, props.selectedDraught, props.playerTurn)}}>
 			<div className='draughtQueen'>{queen}</div>
 		</div>
 	)

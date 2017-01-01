@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tile } from '../tile/tile'
 import { connect } from 'react-redux'
-import { selectDraught, moveDraught } from './boardActions'
+import { startSelectDraught, startMoveDraught } from './boardActions'
 import './board.css'
 
 const Board = (props) => {
@@ -13,8 +13,8 @@ const Board = (props) => {
 				playerTurn={props.playerTurn}
 				compulsoryToEat={props.compulsoryToEat}
 				previousDraughtMove={props.previousDraughtMove}
-				selectDraught={props.selectDraught}
-				moveDraught={props.moveDraught} />))
+				startSelectDraught={props.startSelectDraught}
+				startMoveDraught={props.startMoveDraught} />))
 
 	return (
 		<div className='board'>
@@ -36,8 +36,10 @@ Board.propTypes = {
 	tiles: React.PropTypes.object.isRequired,
 	selectedDraught: React.PropTypes.object,
 	playerTurn: React.PropTypes.number.isRequired,
-	selectDraught: React.PropTypes.func.isRequired,
-	moveDraught: React.PropTypes.func.isRequired
+	compulsoryToEat: React.PropTypes.bool.isRequired,
+	previousDraughtMove: React.PropTypes.object,
+	startSelectDraught: React.PropTypes.func.isRequired,
+	startMoveDraught: React.PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps, { selectDraught, moveDraught })(Board)
+export default connect(mapStateToProps, { startSelectDraught, startMoveDraught })(Board)
