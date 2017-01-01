@@ -11,15 +11,17 @@ const oddTileStyle = {
 }
 
 const isEnemyTileStyle = {
-	backgroundColor: 'brown'
+	backgroundColor: 'brown',
 }
 
 const highlightedTileStyle = {
-	backgroundColor: 'orange'
+	backgroundColor: 'orange',
+	cursor: 'pointer'
 }
 
 const needToEatTileStyle = {
-	backgroundColor: 'blue'
+	backgroundColor: 'blue',
+	cursor: 'pointer'
 }
 
 export const Tile = (props) => {

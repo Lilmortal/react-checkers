@@ -1,15 +1,31 @@
 import { takeLatest } from 'redux-saga'
-import { put, call, select } from 'redux-saga/effects'
+import { put, select } from 'redux-saga/effects'
 import * as actions from './boardActions'
 import { START_SELECT_DRAUGHT, START_MOVE_DRAUGHT } from './boardActionTypes'
 
 export const getTiles = state => state.draughtReducer.tiles
 
 export const NEIGHBOUR_TILES = {
-	topLeftTile: 'topLeftTile',
-	topRightTile: 'topRightTile',
-	bottomLeftTile: 'bottomLeftTile',
-	bottomRightTile: 'bottomRightTile'
+	topLeftTile: {
+		tile: 'topLeftTile',
+		oppositeTile: 'bottomRightTile',
+		player: 2
+	},
+	topRightTile: {
+		tile: 'topRightTile',
+		oppositeTile: 'bottomLeftTile',
+		player: 2
+	},
+	bottomLeftTile: {
+		tile: 'bottomLeftTile',
+		oppositeTile: 'topRightTile',
+		player: 1
+	},
+	bottomRightTile: {
+		tile: 'bottomRightTile',
+		oppositeTile: 'topLeftTile',
+		player: 1
+	}
 }
 
 const toggleNeighbourTileHighlight = (tile, highlightedTile, enemyPlayer, highlighted) => {
@@ -21,6 +37,9 @@ const toggleNeighbourTileHighlight = (tile, highlightedTile, enemyPlayer, highli
 			tile = tile.setIn([highlightedTile, 'highlighted'], highlighted)
 			if (tile.getIn([highlightedTile, highlightedTile]))
 				tile = tile.setIn([highlightedTile, highlightedTile, 'highlighted'], false)
+		} else if (tile.getIn([highlightedTile, 'hasDraught'])) {
+			if (tile.getIn([highlightedTile, highlightedTile]))
+				tile = tile.setIn([highlightedTile, highlightedTile, 'highlighted'], false)
 		}
 	}
 	return tile
@@ -30,13 +49,13 @@ export const toggleTileHighlights = (tile, playerTurn, highlighted) => {
 	const enemyPlayer = playerTurn === 1 ? 2 : 1
 
 	if (playerTurn === 1 || tile.get('isQueen')) {
-		tile = toggleNeighbourTileHighlight(tile, NEIGHBOUR_TILES.bottomLeftTile, enemyPlayer, highlighted)
-		tile = toggleNeighbourTileHighlight(tile, NEIGHBOUR_TILES.bottomRightTile, enemyPlayer, highlighted)
+		tile = toggleNeighbourTileHighlight(tile, NEIGHBOUR_TILES.bottomLeftTile.tile, enemyPlayer, highlighted)
+		tile = toggleNeighbourTileHighlight(tile, NEIGHBOUR_TILES.bottomRightTile.tile, enemyPlayer, highlighted)
 	}
 
 	if (playerTurn === 2 || tile.get('isQueen')) {
-		tile = toggleNeighbourTileHighlight(tile, NEIGHBOUR_TILES.topLeftTile, enemyPlayer, highlighted)
-		tile = toggleNeighbourTileHighlight(tile, NEIGHBOUR_TILES.topRightTile, enemyPlayer, highlighted)
+		tile = toggleNeighbourTileHighlight(tile, NEIGHBOUR_TILES.topLeftTile.tile, enemyPlayer, highlighted)
+		tile = toggleNeighbourTileHighlight(tile, NEIGHBOUR_TILES.topRightTile.tile, enemyPlayer, highlighted)
 	}
 
 	const hasNeighbourEnemies = Object.keys(NEIGHBOUR_TILES).some((neighbour) => {
@@ -135,18 +154,8 @@ function* highlightTileNeighboursNeedToEat(tile, playerTurn) {
 
   Object.keys(NEIGHBOUR_TILES).map((neighbour) => {
     if (tile.get(neighbour) && tile.getIn([neighbour, 'player']) === enemyPlayer) {
-      let oppositeNeighbour = undefined
-      if ((enemyPlayer === 1 || tile.getIn([neighbour, 'isQueen'])) && neighbour === 'topLeftTile') {
-        oppositeNeighbour = 'bottomRightTile'
-      } else if ((enemyPlayer === 1 || tile.getIn([neighbour, 'isQueen'])) && neighbour === 'topRightTile') {
-        oppositeNeighbour = 'bottomLeftTile'
-      } else if ((enemyPlayer === 2 || tile.getIn([neighbour, 'isQueen'])) && neighbour === 'bottomLeftTile') {
-        oppositeNeighbour = 'topRightTile'
-      } else if ((enemyPlayer === 2 || tile.getIn([neighbour, 'isQueen'])) && neighbour === 'bottomRightTile') {
-        oppositeNeighbour = 'topLeftTile'
-      }
-
-      if (oppositeNeighbour !== undefined && tile.get(oppositeNeighbour) && !tile.getIn([oppositeNeighbour, 'hasDraught'])) {
+      if ((NEIGHBOUR_TILES[neighbour].player === playerTurn || tile.getIn([neighbour, 'isQueen'])) && tile.get(NEIGHBOUR_TILES[neighbour].oppositeTile)
+			&& !tile.getIn([NEIGHBOUR_TILES[neighbour].oppositeTile, 'hasDraught'])) {
         tile = tile.setIn([neighbour, 'needToEat'], true)
         compulsoryToEat = true
       }
@@ -180,24 +189,18 @@ function* highlightPreviousDraughtMove(previousDraughtMove, playerTurn, tile) {
   return { previousDraughtMove, compulsoryToEat }
 }
 
-function* toggleSelectedDraught(dispatch) {
-  if (dispatch.selectedDraught !== undefined) {
-	  let selectedDraught = toggleTileHighlights(dispatch.selectedDraught, dispatch.playerTurn, false)
-	  selectedDraught = selectedDraught.set('selected', false)
-		yield put(actions.selectDraught(undefined, selectedDraught))
-	  return true
-  }
-  return false
-}
-
 export function* selectDraught(dispatch) {
-  const isSelectedDraughtUpdated = yield call(toggleSelectedDraught, dispatch)
+	if (dispatch.selectedDraught !== undefined) {
+		let selectedDraught = toggleTileHighlights(dispatch.selectedDraught, dispatch.playerTurn, false)
+		selectedDraught = selectedDraught.set('selected', false)
+		yield put(actions.selectDraught(undefined, selectedDraught))
+	}
 
   const tiles = yield select(getTiles)
   let tile = tiles.get(dispatch.tile.get('id'))
 
-  tile = toggleTileHighlights(tile, dispatch.playerTurn, !isSelectedDraughtUpdated && dispatch.selectedDraught !== undefined ? false : !dispatch.tile.get('selected'))
-  tile = tile.set('selected', !isSelectedDraughtUpdated && dispatch.selectedDraught !== undefined ? false : !dispatch.tile.get('selected'))
+  tile = toggleTileHighlights(tile, dispatch.playerTurn, !dispatch.tile.get('selected'))
+  tile = tile.set('selected', !dispatch.tile.get('selected'))
 	yield put(actions.selectDraught(tile, tile))
 }
 

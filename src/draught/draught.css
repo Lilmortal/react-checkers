@@ -6,7 +6,6 @@
 	margin-left: 15px;
 	margin-top: 5px;
 	border-radius: 30px;
-	cursor: pointer;
 	display: flex;
 }
 
@@ -17,6 +16,7 @@
 	font-weight: bold;
 	font-size: 1.5em;
 	width: 100%;
+	user-select: none;
 }
 
 .draughtSelected {

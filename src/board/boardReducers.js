@@ -1,54 +1,32 @@
 import * as actionTypes from './boardActionTypes'
 import { OrderedMap, fromJS } from 'immutable'
+import { NEIGHBOUR_TILES } from './boardSagas'
 
 // put this in boardActions
 export const updateTiles = (tiles, tile) => {
 	if (tile !== undefined) {
 		tiles = tiles.set(tile.get('id'), tile)
-		if (tile.get('topLeftTile') !== undefined) {
-			tile = tile.setIn(['topLeftTile', 'bottomRightTile'], tile)
-			tiles = tiles.set(tile.getIn(['topLeftTile', 'id']), tile.get('topLeftTile'))
-		}
-		if (tile.getIn(['topLeftTile', 'topLeftTile']) !== undefined) {
-			tile = tile.setIn(['topLeftTile', 'topLeftTile', 'bottomRightTile'], tile.get('topLeftTile'))
-			tiles = tiles.set(tile.getIn(['topLeftTile', 'topLeftTile', 'id']), tile.getIn(['topLeftTile', 'topLeftTile']))
-		}
-		if (tile.get('topRightTile') !== undefined) {
-			tile = tile.setIn(['topRightTile', 'bottomLeftTile'], tile)
-			tiles = tiles.set(tile.getIn(['topRightTile', 'id']), tile.get('topRightTile'))
-		}
-		if (tile.getIn(['topRightTile', 'topRightTile']) !== undefined) {
-			tile = tile.setIn(['topRightTile', 'topRightTile', 'bottomLeftTile'], tile.get('topRightTile'))
-			tiles = tiles.set(tile.getIn(['topRightTile', 'topRightTile', 'id']), tile.getIn(['topRightTile', 'topRightTile']))
-		}
-		if (tile.get('bottomLeftTile') !== undefined) {
-			tile = tile.setIn(['bottomLeftTile', 'topRightTile'], tile)
-			tiles = tiles.set(tile.getIn(['bottomLeftTile', 'id']), tile.get('bottomLeftTile'))
-		}
-		if (tile.getIn(['bottomLeftTile', 'bottomLeftTile']) !== undefined) {
-			tile = tile.setIn(['bottomLeftTile', 'bottomLeftTile', 'topRightTile'], tile.get('bottomLeftTile'))
-			tiles = tiles.set(tile.getIn(['bottomLeftTile', 'bottomLeftTile', 'id']), tile.getIn(['bottomLeftTile', 'bottomLeftTile']))
-		}
-		if (tile.get('bottomRightTile') !== undefined) {
-			tile = tile.setIn(['bottomRightTile', 'topLeftTile'], tile)
-			tiles = tiles.set(tile.getIn(['bottomRightTile', 'id']), tile.get('bottomRightTile'))
-		}
-		if (tile.getIn(['bottomRightTile', 'bottomRightTile']) !== undefined) {
-			tile = tile.setIn(['bottomRightTile', 'bottomRightTile', 'topLeftTile'], tile.get('bottomRightTile'))
-			tiles = tiles.set(tile.getIn(['bottomRightTile', 'bottomRightTile', 'id']), tile.getIn(['bottomRightTile', 'bottomRightTile']))
-		}
+		Object.keys(NEIGHBOUR_TILES).map((neighbour) => {
+			if (tile.get(neighbour) !== undefined) {
+				tile = tile.setIn([neighbour, NEIGHBOUR_TILES[neighbour].oppositeTile], tile)
+				tiles = tiles.set(tile.getIn([neighbour, 'id']), tile.get(neighbour))
+			}
+			if (tile.getIn([neighbour, neighbour]) !== undefined) {
+				tile = tile.setIn([neighbour, neighbour, NEIGHBOUR_TILES[neighbour].oppositeTile], tile.get(neighbour))
+				tiles = tiles.set(tile.getIn([neighbour, neighbour, 'id']), tile.getIn([neighbour, neighbour]))
+			}
+			return neighbour
+		})
 	}
 
 	tiles = tiles.map((tile) => {
-			if (tile !== undefined) {
-				const topLeftTile = tiles.find((adjacentTile) => adjacentTile !== undefined && adjacentTile.get('x') === tile.get('x') - 1 && adjacentTile.get('y') === tile.get('y') - 1)
-				const topRightTile = tiles.find((adjacentTile) => adjacentTile !== undefined && adjacentTile.get('x') === tile.get('x') + 1 && adjacentTile.get('y') === tile.get('y') - 1)
-				const bottomLeftTile = tiles.find((adjacentTile) => adjacentTile !== undefined && adjacentTile.get('x') === tile.get('x') - 1 && adjacentTile.get('y') === tile.get('y') + 1)
-				const bottomRightTile = tiles.find((adjacentTile) => adjacentTile !== undefined && adjacentTile.get('x') === tile.get('x') + 1 && adjacentTile.get('y') === tile.get('y') + 1)
-				tile = tile.withMutations((mutatedTile) => mutatedTile.set('topLeftTile', topLeftTile).set('topRightTile', topRightTile)
-				.set('bottomLeftTile', bottomLeftTile).set('bottomRightTile', bottomRightTile))
-			}
-			return tile
+		const topLeftTile = tiles.find((adjacentTile) => adjacentTile.get('x') === tile.get('x') - 1 && adjacentTile.get('y') === tile.get('y') - 1)
+		const topRightTile = tiles.find((adjacentTile) => adjacentTile.get('x') === tile.get('x') + 1 && adjacentTile.get('y') === tile.get('y') - 1)
+		const bottomLeftTile = tiles.find((adjacentTile) => adjacentTile.get('x') === tile.get('x') - 1 && adjacentTile.get('y') === tile.get('y') + 1)
+		const bottomRightTile = tiles.find((adjacentTile) => adjacentTile.get('x') === tile.get('x') + 1 && adjacentTile.get('y') === tile.get('y') + 1)
+		tile = tile.withMutations((mutatedTile) => mutatedTile.set('topLeftTile', topLeftTile).set('topRightTile', topRightTile)
+		.set('bottomLeftTile', bottomLeftTile).set('bottomRightTile', bottomRightTile))
+		return tile
 	})
 
 	return tiles
