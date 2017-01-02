@@ -31,22 +31,22 @@ export const removeDraught = (tile) => {
 	}
 }
 
-export const startMoveDraught = (tile, selectedDraught, previousDraughtMove, playerTurn) => {
+export const startMoveDraught = (tile, selectedDraught, previousMove, playerTurn) => {
 	return {
 		type: actionTypes.START_MOVE_DRAUGHT,
 		tile,
 		selectedDraught,
-		previousDraughtMove,
+		previousMove,
 		playerTurn
 	}
 }
 
-export const moveDraught = (tile, playerTurn, previousDraughtMove, compulsoryToEat) => {
+export const moveDraught = (tile, playerTurn, previousMove, isAbleToEatAvailable) => {
 	return {
 		type: actionTypes.MOVE_DRAUGHT,
 		tile,
 		playerTurn,
-		previousDraughtMove,
-		compulsoryToEat
+		previousMove,
+		isAbleToEatAvailable
 	}
 }

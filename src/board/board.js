@@ -11,8 +11,8 @@ const Board = (props) => {
 				id={id}
 				selectedDraught={props.selectedDraught}
 				playerTurn={props.playerTurn}
-				compulsoryToEat={props.compulsoryToEat}
-				previousDraughtMove={props.previousDraughtMove}
+				isAbleToEatAvailable={props.isAbleToEatAvailable}
+				previousMove={props.previousMove}
 				startSelectDraught={props.startSelectDraught}
 				startMoveDraught={props.startMoveDraught} />))
 
@@ -28,16 +28,16 @@ const mapStateToProps = (state) => ({
 	tiles: state.draughtReducer.tiles,
 	selectedDraught: state.draughtReducer.selectedDraught,
 	playerTurn: state.draughtReducer.playerTurn,
-	compulsoryToEat: state.draughtReducer.compulsoryToEat,
-	previousDraughtMove: state.draughtReducer.previousDraughtMove
+	isAbleToEatAvailable: state.draughtReducer.isAbleToEatAvailable,
+	previousMove: state.draughtReducer.previousMove
 })
 
 Board.propTypes = {
 	tiles: React.PropTypes.object.isRequired,
 	selectedDraught: React.PropTypes.object,
 	playerTurn: React.PropTypes.number.isRequired,
-	compulsoryToEat: React.PropTypes.bool.isRequired,
-	previousDraughtMove: React.PropTypes.object,
+	isAbleToEatAvailable: React.PropTypes.bool.isRequired,
+	previousMove: React.PropTypes.object,
 	startSelectDraught: React.PropTypes.func.isRequired,
 	startMoveDraught: React.PropTypes.func.isRequired
 }

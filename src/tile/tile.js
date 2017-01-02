@@ -28,22 +28,22 @@ export const Tile = (props) => {
 	const draught = props.tile !== undefined && props.tile.get('hasDraught') === true ?
 	<Draught
 	tile={props.tile}
-	compulsoryToEat={props.compulsoryToEat}
+	isAbleToEatAvailable={props.isAbleToEatAvailable}
 	selectedDraught={props.selectedDraught}
 	playerTurn={props.playerTurn}
 	startSelectDraught={props.startSelectDraught} /> : undefined
 
 	const style = () => {
 		if (props.tile !== undefined && props.tile.get('isEnemy')) return isEnemyTileStyle
-		if (props.tile !== undefined && props.tile.get('highlighted')) return highlightedTileStyle
-		if (props.tile !== undefined && props.tile.get('needToEat')) return needToEatTileStyle
+		if (props.tile !== undefined && props.tile.get('isHighlighted')) return highlightedTileStyle
+		if (props.tile !== undefined && props.tile.get('isAbleToEat')) return needToEatTileStyle
 		if (props.tile !== undefined && props.tile.get('allowDraughts')) return oddTileStyle
 		return evenTileStyle
 	}
 	return (
 		<div className='tile' style={style()} onClick={() => {
-			if (props.tile !== undefined && props.tile.get('highlighted') === true) {
-				props.startMoveDraught(props.tile, props.selectedDraught, props.previousDraughtMove, props.playerTurn)
+			if (props.tile !== undefined && props.tile.get('isHighlighted') === true) {
+				props.startMoveDraught(props.tile, props.selectedDraught, props.previousMove, props.playerTurn)
 			}
 		}}>
 			{draught}
@@ -55,8 +55,8 @@ Tile.proptypes = {
 	allowDraughts: React.PropTypes.bool.isRequired,
 	hasDraught: React.PropTypes.bool.isRequired,
 	player: React.PropTypes.number.isRequired,
-	selected: React.PropTypes.bool.isRequired,
-	highlighted: React.PropTypes.bool.isRequired,
+	isSelected: React.PropTypes.bool.isRequired,
+	isHighlighted: React.PropTypes.bool.isRequired,
 	isEnemy: React.PropTypes.bool.isRequired,
 	isQueen: React.PropTypes.bool.isRequired,
 	needToEat: React.PropTypes.bool.isRequired,

@@ -20,10 +20,10 @@ export const updateTiles = (tiles, tile) => {
 	}
 
 	tiles = tiles.map((tile) => {
-		const topLeftTile = tiles.find((adjacentTile) => adjacentTile.get('x') === tile.get('x') - 1 && adjacentTile.get('y') === tile.get('y') - 1)
-		const topRightTile = tiles.find((adjacentTile) => adjacentTile.get('x') === tile.get('x') + 1 && adjacentTile.get('y') === tile.get('y') - 1)
-		const bottomLeftTile = tiles.find((adjacentTile) => adjacentTile.get('x') === tile.get('x') - 1 && adjacentTile.get('y') === tile.get('y') + 1)
-		const bottomRightTile = tiles.find((adjacentTile) => adjacentTile.get('x') === tile.get('x') + 1 && adjacentTile.get('y') === tile.get('y') + 1)
+		const topLeftTile = tiles.find((neighbour) => neighbour.get('x') === tile.get('x') - 1 && neighbour.get('y') === tile.get('y') - 1)
+		const topRightTile = tiles.find((neighbour) => neighbour.get('x') === tile.get('x') + 1 && neighbour.get('y') === tile.get('y') - 1)
+		const bottomLeftTile = tiles.find((neighbour) => neighbour.get('x') === tile.get('x') - 1 && neighbour.get('y') === tile.get('y') + 1)
+		const bottomRightTile = tiles.find((neighbour) => neighbour.get('x') === tile.get('x') + 1 && neighbour.get('y') === tile.get('y') + 1)
 		tile = tile.withMutations((mutatedTile) => mutatedTile.set('topLeftTile', topLeftTile).set('topRightTile', topRightTile)
 		.set('bottomLeftTile', bottomLeftTile).set('bottomRightTile', bottomRightTile))
 		return tile
@@ -42,11 +42,11 @@ const populateTiles = () => {
 			let tile
 			// eslint-disable-next-line
 			if (x % 2 == evenTile) {
-				tile = fromJS({allowDraughts: false, hasDraught: false, player: undefined, selected: false,
-					highlighted: false, isEnemy: false, isQueen: false, needToEat: false, topLeftTile: undefined, topRightTile: undefined, bottomLeftTile: undefined, bottomRightTile: undefined, x: x, y: y, id: id})
+				tile = fromJS({allowDraughts: false, hasDraught: false, player: undefined, isSelected: false,
+					isHighlighted: false, isEnemy: false, isQueen: false, isAbleToEat: false, topLeftTile: undefined, topRightTile: undefined, bottomLeftTile: undefined, bottomRightTile: undefined, x: x, y: y, id: id})
 			} else {
-				tile = fromJS({allowDraughts: true, hasDraught: (y < 3 || y > 7) ? true : false, player: (y < 3) ? 1 : (y > 7) ? 2 : 0, selected: false,
-					highlighted: false, isEnemy: false, isQueen: false, needToEat: false, topLeftTile: undefined, topRightTile: undefined, bottomLeftTile: undefined, bottomRightTile: undefined, x: x, y: y, id: id})
+				tile = fromJS({allowDraughts: true, hasDraught: (y < 3 || y > 7) ? true : false, player: (y < 3) ? 1 : (y > 7) ? 2 : 0, isSelected: false,
+					isHighlighted: false, isEnemy: false, isQueen: false, isAbleToEat: false, topLeftTile: undefined, topRightTile: undefined, bottomLeftTile: undefined, bottomRightTile: undefined, x: x, y: y, id: id})
 			}
 			tiles = tiles.set(id++, tile)
 		}
@@ -60,8 +60,8 @@ const initialState = {
 	tiles: populateTiles(),
 	selectedDraught: undefined,
 	playerTurn: 2,
-	compulsoryToEat: false,
-	previousDraughtMove: undefined
+	isAbleToEatAvailable: false,
+	previousMove: undefined
 }
 
 export const draughtReducer = (state = initialState, payLoad) => {
@@ -99,8 +99,8 @@ export const draughtReducer = (state = initialState, payLoad) => {
 				tiles: state.tiles,
 				selectedDraught: undefined,
 				playerTurn: payLoad.playerTurn,
-				compulsoryToEat: payLoad.compulsoryToEat,
-				previousDraughtMove: payLoad.previousDraughtMove
+				isAbleToEatAvailable: payLoad.isAbleToEatAvailable,
+				previousMove: payLoad.previousMove
 			}
 		}
 		default:
