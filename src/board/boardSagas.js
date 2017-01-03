@@ -76,23 +76,13 @@ export const toggleTileHighlights = (tile, playerTurn, isHighlighted) => {
 	return tile
 }
 
-//TODO: MAKE THIS SHIT BETTER
 function* setIsAbleToEatFalse(selectedDraught, neighbourTile) {
-  let neighboursThatNeedsToEat = []
+	let selectedDraughtNeighbour = selectedDraught.get(neighbourTile)
   Object.keys(NEIGHBOUR_TILES).map((neighbour) => {
-    if (selectedDraught.getIn([neighbourTile, neighbour, 'isAbleToEat'])) {
-      neighboursThatNeedsToEat.push(neighbour)
-    }
+		selectedDraughtNeighbour = selectedDraughtNeighbour.setIn([neighbour, 'isAbleToEat'], false)
     return neighbour
   })
-  let selectedDraughtNeighbour = selectedDraught.get(neighbourTile)
-  for (let neighbourThatNeedsToEat of neighboursThatNeedsToEat) {
-    selectedDraughtNeighbour = selectedDraughtNeighbour.setIn([neighbourThatNeedsToEat, 'isAbleToEat'], false)
-  }
-
-  if (neighboursThatNeedsToEat.length > 0) {
-    yield put(actions.highlightTile(selectedDraughtNeighbour))
-  }
+  yield put(actions.highlightTile(selectedDraughtNeighbour))
 }
 
 function* removeEnemy(selectedDraught, tile) {
@@ -126,11 +116,11 @@ const checkIfTileHasEnemy = (tile, isQueen, playerTurn) => {
   return hasEnemy
 }
 
-function* moveSelectedDraughtToTile(tile, selectedDraught, playerTurn, previousMove, isAbleToEat, isAbleToEatAvailable) {
+function* moveSelectedDraughtToTile(tile, selectedDraught, playerTurn, previousSelectedDraught, previousMove, isAbleToEat, isAbleToEatAvailable) {
   tile = tile.withMutations((mutatedTile) => mutatedTile.set('hasDraught', true).set('player', selectedDraught.get('player'))
   .set('isQueen', tile.get('y') === 0 || tile.get('y') === 10 || selectedDraught.get('isQueen')).set('isAbleToEat', isAbleToEat))
 
-	yield put(actions.moveDraught(tile, playerTurn, previousMove, isAbleToEatAvailable))
+	yield put(actions.moveDraught(tile, playerTurn, previousSelectedDraught, previousMove, isAbleToEatAvailable))
   return tile
 }
 
@@ -169,7 +159,7 @@ function* checkIfTileNeighboursAreAbleToEat(tile, playerTurn) {
   return { tile, isAbleToEatAvailable }
 }
 
-function* checkIfPreviousDraughtNeighboursAreAbleToEat(previousMove, playerTurn, tile) {
+function* checkIfPreviousMoveNeighboursAreAbleToEat(previousMove, playerTurn, tile) {
   const enemyPlayer = playerTurn === 1 ? 2 : 1
   let isAbleToEatAvailable = false
 
@@ -220,7 +210,7 @@ export function* moveDraught(dispatch) {
 	// check if the player has eaten a piece and can eat more
   let canEatMore = isEnemyRemoved && checkIfTileHasEnemy(tile, dispatch.selectedDraught.get('isQueen'), dispatch.playerTurn)
   if (canEatMore) {
-    tile = yield moveSelectedDraughtToTile(tile, dispatch.selectedDraught, dispatch.playerTurn, dispatch.previousMove, true, true)
+    tile = yield moveSelectedDraughtToTile(tile, dispatch.selectedDraught, dispatch.playerTurn, dispatch.previousSelectedDraught, true, true)
     tile = tile.set('isSelected', true)
     tile = toggleTileHighlights(tile, dispatch.playerTurn, true)
 		yield put(actions.selectDraught(tile, tile))
@@ -231,12 +221,25 @@ export function* moveDraught(dispatch) {
     let updatedTile = yield checkIfTileNeighboursAreAbleToEat(tile, dispatch.playerTurn)
 		isAbleToEatAvailable = isAbleToEatAvailable || updatedTile.isAbleToEatAvailable
 
+		Object.keys(NEIGHBOUR_TILES).map((neighbour) => {
+			if (updatedTile.tile.getIn([neighbour, 'player']) === enemyPlayer && updatedTile.tile.getIn([neighbour, neighbour, 'player']) === dispatch.playerTurn) {
+				updatedTile.tile = updatedTile.tile.setIn([neighbour, neighbour, 'isAbleToEat'], false)
+			}
+			return neighbour
+		})
+		yield put(actions.highlightTile(updatedTile.tile))
+
+		tiles = yield select(getTiles)
+		let previousSelectedDraught = dispatch.previousSelectedDraught !== undefined ? tiles.get(dispatch.previousSelectedDraught.get('id')) : undefined
+		let updatedpreviousSelectedDraught = yield checkIfPreviousMoveNeighboursAreAbleToEat(previousSelectedDraught, dispatch.playerTurn, selectedDraught)
+		isAbleToEatAvailable = isAbleToEatAvailable || updatedpreviousSelectedDraught.previousMove
+
     tiles = yield select(getTiles)
     let previousMove = dispatch.previousMove !== undefined ? tiles.get(dispatch.previousMove.get('id')) : undefined
-    let updatedPreviousMove = yield checkIfPreviousDraughtNeighboursAreAbleToEat(previousMove, dispatch.playerTurn, updatedTile.tile)
+    let updatedPreviousMove = yield checkIfPreviousMoveNeighboursAreAbleToEat(previousMove, dispatch.playerTurn, updatedTile.tile)
 		isAbleToEatAvailable = isAbleToEatAvailable || updatedPreviousMove.isAbleToEatAvailable
 
-		tile = yield moveSelectedDraughtToTile(updatedTile.tile, dispatch.selectedDraught, enemyPlayer,
+		tile = yield moveSelectedDraughtToTile(updatedTile.tile, dispatch.selectedDraught, enemyPlayer, updatedpreviousSelectedDraught.previousMove !== undefined ? updatedpreviousSelectedDraught.previousMove : selectedDraught,
 			updatedPreviousMove.previousMove !== undefined ? updatedPreviousMove.previousMove : updatedTile.tile, false, isAbleToEatAvailable)
   }
 }

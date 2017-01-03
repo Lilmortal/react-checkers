@@ -25,7 +25,7 @@ const needToEatTileStyle = {
 }
 
 export const Tile = (props) => {
-	const draught = props.tile !== undefined && props.tile.get('hasDraught') === true ?
+	const draught = props.tile.get('hasDraught') ?
 	<Draught
 	tile={props.tile}
 	isAbleToEatAvailable={props.isAbleToEatAvailable}
@@ -34,16 +34,16 @@ export const Tile = (props) => {
 	startSelectDraught={props.startSelectDraught} /> : undefined
 
 	const style = () => {
-		if (props.tile !== undefined && props.tile.get('isEnemy')) return isEnemyTileStyle
-		if (props.tile !== undefined && props.tile.get('isHighlighted')) return highlightedTileStyle
-		if (props.tile !== undefined && props.tile.get('isAbleToEat')) return needToEatTileStyle
-		if (props.tile !== undefined && props.tile.get('allowDraughts')) return oddTileStyle
+		if (props.tile.get('isEnemy')) return isEnemyTileStyle
+		if (props.tile.get('isHighlighted')) return highlightedTileStyle
+		if (props.tile.get('isAbleToEat')) return needToEatTileStyle
+		if (props.tile.get('allowDraughts')) return oddTileStyle
 		return evenTileStyle
 	}
 	return (
 		<div className='tile' style={style()} onClick={() => {
-			if (props.tile !== undefined && props.tile.get('isHighlighted') === true) {
-				props.startMoveDraught(props.tile, props.selectedDraught, props.previousMove, props.playerTurn)
+			if (props.tile.get('isHighlighted')) {
+				props.startMoveDraught(props.tile, props.selectedDraught, props.previousSelectedDraught, props.previousMove, props.playerTurn)
 			}
 		}}>
 			{draught}

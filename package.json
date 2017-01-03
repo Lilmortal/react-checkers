@@ -49,6 +49,8 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
+    "chai": "^3.5.0",
+    "create-react-app": "^1.0.2",
     "enzyme": "^2.6.0",
     "immutable": "^3.8.1",
     "react": "^15.4.1",

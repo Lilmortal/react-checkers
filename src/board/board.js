@@ -12,6 +12,7 @@ const Board = (props) => {
 				selectedDraught={props.selectedDraught}
 				playerTurn={props.playerTurn}
 				isAbleToEatAvailable={props.isAbleToEatAvailable}
+				previousSelectedDraught={props.previousSelectedDraught}
 				previousMove={props.previousMove}
 				startSelectDraught={props.startSelectDraught}
 				startMoveDraught={props.startMoveDraught} />))
@@ -29,6 +30,7 @@ const mapStateToProps = (state) => ({
 	selectedDraught: state.draughtReducer.selectedDraught,
 	playerTurn: state.draughtReducer.playerTurn,
 	isAbleToEatAvailable: state.draughtReducer.isAbleToEatAvailable,
+	previousSelectedDraught: state.draughtReducer.previousSelectedDraught,
 	previousMove: state.draughtReducer.previousMove
 })
 
@@ -37,6 +39,7 @@ Board.propTypes = {
 	selectedDraught: React.PropTypes.object,
 	playerTurn: React.PropTypes.number.isRequired,
 	isAbleToEatAvailable: React.PropTypes.bool.isRequired,
+	previousSelectedDraught: React.PropTypes.object,
 	previousMove: React.PropTypes.object,
 	startSelectDraught: React.PropTypes.func.isRequired,
 	startMoveDraught: React.PropTypes.func.isRequired
