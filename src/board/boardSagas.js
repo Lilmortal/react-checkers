@@ -183,6 +183,7 @@ function* setPreviousMoveNeighboursToBeAbleToEatIfItCan(previousMove, playerTurn
 }
 
 export function* selectDraught(dispatch) {
+	console.log('test')
 	if (dispatch.selectedDraught !== undefined) {
 		let selectedDraught = toggleTileHighlights(dispatch.selectedDraught, dispatch.playerTurn, false)
 		selectedDraught = selectedDraught.set('isSelected', false)
