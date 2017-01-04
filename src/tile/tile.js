@@ -37,7 +37,7 @@ export const Tile = (props) => {
 		if (props.tile.get('isEnemy')) return isEnemyTileStyle
 		if (props.tile.get('isHighlighted')) return highlightedTileStyle
 		if (props.tile.get('isAbleToEat')) return needToEatTileStyle
-		if (props.tile.get('allowDraughts')) return oddTileStyle
+		if (props.tile.get('allowDraught')) return oddTileStyle
 		return evenTileStyle
 	}
 	return (
@@ -52,7 +52,7 @@ export const Tile = (props) => {
 }
 
 Tile.proptypes = {
-	allowDraughts: React.PropTypes.bool.isRequired,
+	allowDraught: React.PropTypes.bool.isRequired,
 	hasDraught: React.PropTypes.bool.isRequired,
 	player: React.PropTypes.number.isRequired,
 	isSelected: React.PropTypes.bool.isRequired,

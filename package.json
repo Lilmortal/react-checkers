@@ -63,7 +63,8 @@
     "redux-devtools-log-monitor": "^1.1.1",
     "redux-logger": "^2.7.4",
     "redux-saga": "^0.13.0",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "sinon": "^1.17.7"
   },
   "scripts": {
     "start": "node scripts/start.js",

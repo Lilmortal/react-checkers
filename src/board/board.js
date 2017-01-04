@@ -6,16 +6,16 @@ import './board.css'
 
 const Board = (props) => {
 	const tiles = props.tiles.valueSeq().map((tile, id) => (
-				<Tile key={id}
-				tile={tile}
-				id={id}
-				selectedDraught={props.selectedDraught}
-				playerTurn={props.playerTurn}
-				isAbleToEatAvailable={props.isAbleToEatAvailable}
-				previousSelectedDraught={props.previousSelectedDraught}
-				previousMove={props.previousMove}
-				startSelectDraught={props.startSelectDraught}
-				startMoveDraught={props.startMoveDraught} />))
+	<Tile key={id}
+	tile={tile}
+	id={id}
+	selectedDraught={props.selectedDraught}
+	playerTurn={props.playerTurn}
+	isAbleToEatAvailable={props.isAbleToEatAvailable}
+	previousSelectedDraught={props.previousSelectedDraught}
+	previousMove={props.previousMove}
+	startSelectDraught={props.startSelectDraught}
+	startMoveDraught={props.startMoveDraught} />))
 
 	return (
 		<div className='board'>

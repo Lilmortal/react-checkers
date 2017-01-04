@@ -2,7 +2,7 @@ import * as actionTypes from './boardActionTypes'
 import { OrderedMap, fromJS } from 'immutable'
 import { NEIGHBOUR_TILES } from './boardSagas'
 
-// put this in boardActions
+// this shit is best be somewhere else but here as reducers are just pure functions... BUT WHERE? This is the only place where I have access to tiles
 export const updateTiles = (tiles, tile) => {
 	if (tile !== undefined) {
 		tiles = tiles.set(tile.get('id'), tile)
@@ -42,10 +42,10 @@ const populateTiles = () => {
 			let tile
 			// eslint-disable-next-line
 			if (x % 2 == evenTile) {
-				tile = fromJS({allowDraughts: false, hasDraught: false, player: undefined, isSelected: false,
+				tile = fromJS({allowDraught: false, hasDraught: false, player: undefined, isSelected: false,
 					isHighlighted: false, isEnemy: false, isQueen: false, isAbleToEat: false, topLeftTile: undefined, topRightTile: undefined, bottomLeftTile: undefined, bottomRightTile: undefined, x: x, y: y, id: id})
 			} else {
-				tile = fromJS({allowDraughts: true, hasDraught: (y < 3 || y > 7) ? true : false, player: (y < 3) ? 1 : (y > 7) ? 2 : 0, isSelected: false,
+				tile = fromJS({allowDraught: true, hasDraught: (y < 3 || y > 7) ? true : false, player: (y < 3) ? 1 : (y > 7) ? 2 : 0, isSelected: false,
 					isHighlighted: false, isEnemy: false, isQueen: false, isAbleToEat: false, topLeftTile: undefined, topRightTile: undefined, bottomLeftTile: undefined, bottomRightTile: undefined, x: x, y: y, id: id})
 			}
 			tiles = tiles.set(id++, tile)
