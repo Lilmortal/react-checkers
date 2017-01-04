@@ -3,7 +3,7 @@ import { put, select } from 'redux-saga/effects'
 import * as actions from './boardActions'
 import { START_SELECT_DRAUGHT, START_MOVE_DRAUGHT } from './boardActionTypes'
 
-export const getTiles = state => state.draughtReducer.tiles
+export const getTiles = state => state.boardReducer.tiles
 
 export const NEIGHBOUR_TILES = {
 	topLeftTile: {
@@ -124,7 +124,8 @@ function* moveSelectedDraughtToTile(tile, selectedDraught, playerTurn, previousS
   return tile
 }
 
-function* checkIfFormerSelectedDraughtNeighboursAreAbleToEat(selectedDraught, playerTurn) {
+// ITS MUTATING ISABLETOEATAVAILABLE, CHANGE THIS NAME
+function* setSelectedDraughtNeighboursToBeAbleToEatIfItCan(selectedDraught, playerTurn) {
   const enemyPlayer = playerTurn === 1 ? 2 : 1
   let isAbleToEatAvailable = false
 
@@ -140,7 +141,7 @@ function* checkIfFormerSelectedDraughtNeighboursAreAbleToEat(selectedDraught, pl
   return isAbleToEatAvailable
 }
 
-function* checkIfTileNeighboursAreAbleToEat(tile, playerTurn) {
+function* setTileNeighboursToBeAbleToEatIfItCan(tile, playerTurn) {
   const enemyPlayer = playerTurn === 1 ? 2 : 1
   let isAbleToEatAvailable = false
 
@@ -159,7 +160,7 @@ function* checkIfTileNeighboursAreAbleToEat(tile, playerTurn) {
   return { tile, isAbleToEatAvailable }
 }
 
-function* checkIfPreviousMoveNeighboursAreAbleToEat(previousMove, playerTurn, tile) {
+function* setPreviousMoveNeighboursToBeAbleToEatIfItCan(previousMove, playerTurn, tile) {
   const enemyPlayer = playerTurn === 1 ? 2 : 1
   let isAbleToEatAvailable = false
 
@@ -216,9 +217,9 @@ export function* moveDraught(dispatch) {
 		yield put(actions.selectDraught(tile, tile))
   } else {
     tile = toggleTileHighlights(tile, dispatch.playerTurn, false)
-    let isAbleToEatAvailable = yield checkIfFormerSelectedDraughtNeighboursAreAbleToEat(selectedDraught, dispatch.playerTurn)
+    let isAbleToEatAvailable = yield setSelectedDraughtNeighboursToBeAbleToEatIfItCan(selectedDraught, dispatch.playerTurn)
 
-    let updatedTile = yield checkIfTileNeighboursAreAbleToEat(tile, dispatch.playerTurn)
+    let updatedTile = yield setTileNeighboursToBeAbleToEatIfItCan(tile, dispatch.playerTurn)
 		isAbleToEatAvailable = isAbleToEatAvailable || updatedTile.isAbleToEatAvailable
 
 		Object.keys(NEIGHBOUR_TILES).map((neighbour) => {
@@ -231,12 +232,12 @@ export function* moveDraught(dispatch) {
 
 		tiles = yield select(getTiles)
 		let previousSelectedDraught = dispatch.previousSelectedDraught !== undefined ? tiles.get(dispatch.previousSelectedDraught.get('id')) : undefined
-		let updatedpreviousSelectedDraught = yield checkIfPreviousMoveNeighboursAreAbleToEat(previousSelectedDraught, dispatch.playerTurn, selectedDraught)
+		let updatedpreviousSelectedDraught = yield setPreviousMoveNeighboursToBeAbleToEatIfItCan(previousSelectedDraught, dispatch.playerTurn, selectedDraught)
 		isAbleToEatAvailable = isAbleToEatAvailable || updatedpreviousSelectedDraught.previousMove
 
     tiles = yield select(getTiles)
     let previousMove = dispatch.previousMove !== undefined ? tiles.get(dispatch.previousMove.get('id')) : undefined
-    let updatedPreviousMove = yield checkIfPreviousMoveNeighboursAreAbleToEat(previousMove, dispatch.playerTurn, updatedTile.tile)
+    let updatedPreviousMove = yield setPreviousMoveNeighboursToBeAbleToEatIfItCan(previousMove, dispatch.playerTurn, updatedTile.tile)
 		isAbleToEatAvailable = isAbleToEatAvailable || updatedPreviousMove.isAbleToEatAvailable
 
 		tile = yield moveSelectedDraughtToTile(updatedTile.tile, dispatch.selectedDraught, enemyPlayer,

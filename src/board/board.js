@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { startSelectDraught, startMoveDraught } from './boardActions'
 import './board.css'
 
-const Board = (props) => {
+export const Board = (props) => {
 	const tiles = props.tiles.valueSeq().map((tile, id) => (
 	<Tile key={id}
 	tile={tile}
@@ -25,13 +25,13 @@ const Board = (props) => {
 	)
 }
 
-const mapStateToProps = (state) => ({
-	tiles: state.draughtReducer.tiles,
-	selectedDraught: state.draughtReducer.selectedDraught,
-	playerTurn: state.draughtReducer.playerTurn,
-	isAbleToEatAvailable: state.draughtReducer.isAbleToEatAvailable,
-	previousSelectedDraught: state.draughtReducer.previousSelectedDraught,
-	previousMove: state.draughtReducer.previousMove
+export const mapStateToProps = (state) => ({
+	tiles: state.boardReducer.tiles,
+	selectedDraught: state.boardReducer.selectedDraught,
+	playerTurn: state.boardReducer.playerTurn,
+	isAbleToEatAvailable: state.boardReducer.isAbleToEatAvailable,
+	previousSelectedDraught: state.boardReducer.previousSelectedDraught,
+	previousMove: state.boardReducer.previousMove
 })
 
 Board.propTypes = {

@@ -32,7 +32,7 @@ export const updateTiles = (tiles, tile) => {
 	return tiles
 }
 
-const populateTiles = () => {
+export const populateTiles = () => {
 	let tiles = OrderedMap(), evenTile = false, id = 0
 
 	for (let y = 0; y < 11; y++) {
@@ -65,7 +65,7 @@ const initialState = {
 	previousMove: undefined
 }
 
-export const draughtReducer = (state = initialState, payLoad) => {
+export const boardReducer = (state = initialState, payLoad) => {
 	switch (payLoad.type) {
 		case actionTypes.SELECT_DRAUGHT: {
 			state.tiles = updateTiles(state.tiles, payLoad.tile)

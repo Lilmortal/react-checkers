@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import { draughtReducer } from './board/boardReducers'
+import { boardReducer } from './board/boardReducers'
 
 export default combineReducers({
-	draughtReducer,
+	boardReducer,
 })
