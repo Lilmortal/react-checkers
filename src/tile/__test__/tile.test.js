@@ -1,41 +1,39 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { expect } from 'chai'
 import { fromJS } from 'immutable'
 import { Tile } from '../tile'
 import { Draught } from '../../draught/draught'
-import sinon from 'sinon'
 
 describe('<Tile />', () => {
   describe('background color CSS Styles', () => {
     it('should display that this tile is an enemy', () => {
       const tile = fromJS({ isEnemy: true })
       const wrapper = shallow(<Tile tile={tile} />)
-      expect(wrapper.find('.tile').prop('style').backgroundColor).to.equal('brown')
+      expect(wrapper.find('.tile').prop('style').backgroundColor).toEqual('brown')
     })
 
     it('should display that this tile is highlighted', () => {
       const tile = fromJS({ isHighlighted: true })
       const wrapper = shallow(<Tile tile={tile} />)
-      expect(wrapper.find('.tile').prop('style').backgroundColor).to.equal('orange')
+      expect(wrapper.find('.tile').prop('style').backgroundColor).toEqual('orange')
     })
 
     it('should display that this tile is able to eat an opponent', () => {
       const tile = fromJS({ isAbleToEat: true })
       const wrapper = shallow(<Tile tile={tile} />)
-      expect(wrapper.find('.tile').prop('style').backgroundColor).to.equal('blue')
+      expect(wrapper.find('.tile').prop('style').backgroundColor).toEqual('blue')
     })
 
     it('should display that this tile is allowed to have a draught', () => {
       const tile = fromJS({ allowDraught: true })
       const wrapper = shallow(<Tile tile={tile} />)
-      expect(wrapper.find('.tile').prop('style').backgroundColor).to.equal('black')
+      expect(wrapper.find('.tile').prop('style').backgroundColor).toEqual('black')
     })
 
     it('should display that this tile is not allowed to have a draught', () => {
       const tile = fromJS({ allowDraught: false })
       const wrapper = shallow(<Tile tile={tile} />)
-      expect(wrapper.find('.tile').prop('style').backgroundColor).to.equal('red')
+      expect(wrapper.find('.tile').prop('style').backgroundColor).toEqual('red')
     })
   })
 
@@ -43,13 +41,13 @@ describe('<Tile />', () => {
     it('should have its cursor as a pointer if it is highlighted', () => {
       const tile = fromJS({ isHighlighted: true })
       const wrapper = shallow(<Tile tile={tile} />)
-      expect(wrapper.find('.tile').prop('style').cursor).to.equal('pointer')
+      expect(wrapper.find('.tile').prop('style').cursor).toEqual('pointer')
     })
 
     it('should have its cursor as a pointer if it is highlighted as being able to eat other draughts', () => {
       const tile = fromJS({ isAbleToEat: true })
       const wrapper = shallow(<Tile tile={tile} />)
-      expect(wrapper.find('.tile').prop('style').cursor).to.equal('pointer')
+      expect(wrapper.find('.tile').prop('style').cursor).toEqual('pointer')
     })
   })
 
@@ -62,13 +60,14 @@ describe('<Tile />', () => {
         isAbleToEatAvailable={undefined}
         selectedDraught={undefined}
         playerTurn={undefined}
-        startSelectDraught={undefined} />)).to.equal(true)
+        startSelectDraught={undefined} />)).toEqual(true)
     })
 
     it('should not display draught if it does not have one', () => {
       const tile = fromJS({ hasDraught: false })
       const wrapper = shallow(<Tile tile={tile} />)
-      expect(wrapper.find('.tile').text()).to.have.lengthOf(0)
+      //toHaveLength is not a function, what?
+      expect(wrapper.find('.tile').text()).toEqual('')
     })
 
     it('should display draught if it has one', () => {
@@ -79,25 +78,31 @@ describe('<Tile />', () => {
         isAbleToEatAvailable={undefined}
         selectedDraught={undefined}
         playerTurn={undefined}
-        startSelectDraught={undefined} />)).to.equal(true)
+        startSelectDraught={undefined} />)).toEqual(true)
     })
 
     describe('Selection', () => {
-      it('should move the draught if the tile is clicked and is highlighted', sinon.test(function() {
-        const startMoveDraughtSpy = this.spy()
+      let startSelectDraughtSpy
+      let startMoveDraughtSpy
+
+      beforeEach(() => {
+        startSelectDraughtSpy = jest.fn()
+        startMoveDraughtSpy = jest.fn()
+      })
+
+      it('should move the draught if the tile is clicked and is highlighted', () => {
         const tile = fromJS({ isHighlighted: true })
         const wrapper = shallow(<Tile tile={tile} startMoveDraught={startMoveDraughtSpy} />)
         wrapper.find('.tile').simulate('click')
-        expect(startMoveDraughtSpy).to.have.property('callCount', 1)
-      }))
+        expect(startMoveDraughtSpy).toBeCalled()
+      })
 
-      it('should not be able to move the draught if the tile is clicked but is not highlighted', sinon.test(function() {
-        const startMoveDraughtSpy = this.spy()
+      it('should not be able to move the draught if the tile is clicked but is not highlighted', () => {
         const tile = fromJS({ isHighlighted: false })
         const wrapper = shallow(<Tile tile={tile} startMoveDraught={startMoveDraughtSpy} />)
         wrapper.find('.tile').simulate('click')
-        expect(startMoveDraughtSpy).to.have.property('callCount', 0)
-      }))
+        expect(startMoveDraughtSpy).not.toBeCalled()
+      })
     })
   })
 })

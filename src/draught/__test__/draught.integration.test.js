@@ -1,5 +1,4 @@
 import React from 'react'
-import { expect } from 'chai'
 import { fromJS, OrderedMap } from 'immutable'
 import { mount } from 'enzyme'
 import { Draught } from '../draught'
@@ -21,6 +20,6 @@ describe('Select a draught', () => {
 		startSelectDraught={startSelectDraught} />)
 
 		wrapper.find('.draught').simulate('click')
-		expect(wrapper.prop('tile').get('isSelected')).to.equal(true)
+		expect(wrapper.prop('tile').get('isSelected')).toEqual(true)
 	})
 })

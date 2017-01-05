@@ -2,6 +2,7 @@ import React from 'react'
 import { Draught } from '../draught/draught'
 import './tile.css'
 
+// ignore the horrible color choices; im just testing the libraries etc; I will fix design later
 const evenTileStyle = {
 	backgroundColor: 'red'
 }

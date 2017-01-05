@@ -1,7 +1,6 @@
 import * as actionTypes from './boardActionTypes'
 
 export const startSelectDraught = (tile, selectedDraught, playerTurn) => {
-	console.log(tile)
 	return {
 		type: actionTypes.START_SELECT_DRAUGHT,
 		tile,

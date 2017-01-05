@@ -2,33 +2,11 @@ import { takeLatest } from 'redux-saga'
 import { put, select } from 'redux-saga/effects'
 import * as actions from './boardActions'
 import { START_SELECT_DRAUGHT, START_MOVE_DRAUGHT } from './boardActionTypes'
+import { NEIGHBOUR_TILES } from '../tiles/tiles'
 
 export const getTiles = state => state.boardReducer.tiles
 
-export const NEIGHBOUR_TILES = {
-	topLeftTile: {
-		tile: 'topLeftTile',
-		oppositeTile: 'bottomRightTile',
-		player: 2
-	},
-	topRightTile: {
-		tile: 'topRightTile',
-		oppositeTile: 'bottomLeftTile',
-		player: 2
-	},
-	bottomLeftTile: {
-		tile: 'bottomLeftTile',
-		oppositeTile: 'topRightTile',
-		player: 1
-	},
-	bottomRightTile: {
-		tile: 'bottomRightTile',
-		oppositeTile: 'topLeftTile',
-		player: 1
-	}
-}
-
-const toggleNeighbourTileHighlight = (tile, neighbourTile, enemyPlayer, isHighlighted) => {
+export const toggleNeighbourTileHighlight = (tile, neighbourTile, enemyPlayer, isHighlighted) => {
 	if (tile.get(neighbourTile)) {
 		// checks if it can eat
 		if (tile.getIn([neighbourTile, 'player']) === enemyPlayer && tile.getIn([neighbourTile, neighbourTile]) && !tile.getIn([neighbourTile, neighbourTile, 'hasDraught'])) {
@@ -47,16 +25,12 @@ const toggleNeighbourTileHighlight = (tile, neighbourTile, enemyPlayer, isHighli
 
 export const toggleTileHighlights = (tile, playerTurn, isHighlighted) => {
 	const enemyPlayer = playerTurn === 1 ? 2 : 1
-
-	if (playerTurn === 1 || tile.get('isQueen')) {
-		tile = toggleNeighbourTileHighlight(tile, NEIGHBOUR_TILES.bottomLeftTile.tile, enemyPlayer, isHighlighted)
-		tile = toggleNeighbourTileHighlight(tile, NEIGHBOUR_TILES.bottomRightTile.tile, enemyPlayer, isHighlighted)
-	}
-
-	if (playerTurn === 2 || tile.get('isQueen')) {
-		tile = toggleNeighbourTileHighlight(tile, NEIGHBOUR_TILES.topLeftTile.tile, enemyPlayer, isHighlighted)
-		tile = toggleNeighbourTileHighlight(tile, NEIGHBOUR_TILES.topRightTile.tile, enemyPlayer, isHighlighted)
-	}
+	Object.keys(NEIGHBOUR_TILES).map((neighbour) => {
+		if (NEIGHBOUR_TILES[neighbour].player === playerTurn || tile.get('isQueen')) {
+			tile = toggleNeighbourTileHighlight(tile, neighbour, enemyPlayer, isHighlighted)
+		}
+		return neighbour
+	})
 
 	// all neighbours are diagonal
 	const hasNeighbourEnemies = Object.keys(NEIGHBOUR_TILES).some((neighbour) => {
@@ -76,16 +50,7 @@ export const toggleTileHighlights = (tile, playerTurn, isHighlighted) => {
 	return tile
 }
 
-function* setIsAbleToEatFalse(selectedDraught, neighbourTile) {
-	let selectedDraughtNeighbour = selectedDraught.get(neighbourTile)
-	Object.keys(NEIGHBOUR_TILES).map((neighbour) => {
-		selectedDraughtNeighbour = selectedDraughtNeighbour.setIn([neighbour, 'isAbleToEat'], false)
-		return neighbour
-  })
-  yield put(actions.highlightTile(selectedDraughtNeighbour))
-}
-
-function* removeEnemy(selectedDraught, tile) {
+export function* removeEnemy(selectedDraught, tile) {
 		let enemyPosition = Object.keys(NEIGHBOUR_TILES).find((neighbour) => {
 			return selectedDraught.getIn([neighbour, 'isEnemy']) && tile.get('id') === selectedDraught.getIn([neighbour, neighbour, 'id'])
 		})
@@ -93,21 +58,29 @@ function* removeEnemy(selectedDraught, tile) {
 		if (enemyPosition !== undefined) {
 			selectedDraught = selectedDraught.withMutations((mutatedTile) => mutatedTile.setIn([enemyPosition, 'isEnemy'], false)
 			.setIn([enemyPosition, 'hasDraught'], false).setIn([enemyPosition, 'player'], undefined).setIn([enemyPosition, 'isQueen'], false))
-			yield setIsAbleToEatFalse(selectedDraught, enemyPosition)
+
+			let selectedDraughtNeighbour = selectedDraught.get(enemyPosition)
+			Object.keys(NEIGHBOUR_TILES).map((neighbour) => {
+				selectedDraughtNeighbour = selectedDraughtNeighbour.setIn([neighbour, 'isAbleToEat'], false)
+				return neighbour
+			})
+			yield put(actions.highlightTile(selectedDraughtNeighbour))
 			yield put(actions.removeDraught(selectedDraught))
 			return true
 		}
     return false
 }
 
-function* removeSelectedDraught(selectedDraught, playerTurn) {
+export function* removeSelectedDraught(selectedDraught, playerTurn) {
   selectedDraught = toggleTileHighlights(selectedDraught, playerTurn, false)
-  selectedDraught = selectedDraught.withMutations((mutatedDraught) => mutatedDraught.set('isSelected', false).set('isQueen', false).set('hasDraught', false).set('player', undefined).set('isAbleToEat', false))
+  selectedDraught = selectedDraught.withMutations((mutatedDraught) => mutatedDraught.set('isSelected', false).set('isQueen', false)
+	.set('hasDraught', false).set('player', undefined).set('isAbleToEat', false))
   yield put(actions.removeDraught(selectedDraught))
   return selectedDraught
 }
 
-const checkIfTileHasEnemy = (tile, isQueen, playerTurn) => {
+export const checkIfTileHasEnemy = (tile, isQueen, playerTurn) => {
+	// this does not actually mutate the actual tiles, it only sets the necessary condition to see if this tile has enemies or not; this function will return a boolean not the tile itself
   tile = tile.set('isQueen', isQueen)
   tile = toggleTileHighlights(tile, playerTurn, true)
 	let hasEnemy = Object.keys(NEIGHBOUR_TILES).some((neighbour) => {
@@ -116,7 +89,7 @@ const checkIfTileHasEnemy = (tile, isQueen, playerTurn) => {
   return hasEnemy
 }
 
-function* moveSelectedDraughtToTile(tile, selectedDraught, playerTurn, previousSelectedDraught, previousMove, isAbleToEat, isAbleToEatAvailable) {
+export function* moveSelectedDraughtToTile(tile, selectedDraught, playerTurn, previousSelectedDraught, previousMove, isAbleToEat, isAbleToEatAvailable) {
   tile = tile.withMutations((mutatedTile) => mutatedTile.set('hasDraught', true).set('player', selectedDraught.get('player'))
   .set('isQueen', tile.get('y') === 0 || tile.get('y') === 10 || selectedDraught.get('isQueen')).set('isAbleToEat', isAbleToEat))
 
@@ -124,8 +97,7 @@ function* moveSelectedDraughtToTile(tile, selectedDraught, playerTurn, previousS
   return tile
 }
 
-// ITS MUTATING ISABLETOEATAVAILABLE, CHANGE THIS NAME
-function* setSelectedDraughtNeighboursToBeAbleToEatIfItCan(selectedDraught, playerTurn) {
+export function* setSelectedDraughtNeighboursToBeAbleToEatIfItCan(selectedDraught, playerTurn) {
   const enemyPlayer = playerTurn === 1 ? 2 : 1
   let isAbleToEatAvailable = false
 
@@ -141,7 +113,7 @@ function* setSelectedDraughtNeighboursToBeAbleToEatIfItCan(selectedDraught, play
   return isAbleToEatAvailable
 }
 
-function* setTileNeighboursToBeAbleToEatIfItCan(tile, playerTurn) {
+export function* setTileNeighboursToBeAbleToEatIfItCan(tile, playerTurn) {
   const enemyPlayer = playerTurn === 1 ? 2 : 1
   let isAbleToEatAvailable = false
 
@@ -160,7 +132,7 @@ function* setTileNeighboursToBeAbleToEatIfItCan(tile, playerTurn) {
   return { tile, isAbleToEatAvailable }
 }
 
-function* setPreviousMoveNeighboursToBeAbleToEatIfItCan(previousMove, playerTurn, tile) {
+export function* setPreviousMoveNeighboursToBeAbleToEatIfItCan(previousMove, playerTurn, tile) {
   const enemyPlayer = playerTurn === 1 ? 2 : 1
   let isAbleToEatAvailable = false
 
@@ -183,7 +155,6 @@ function* setPreviousMoveNeighboursToBeAbleToEatIfItCan(previousMove, playerTurn
 }
 
 export function* selectDraught(dispatch) {
-	console.log('test')
 	if (dispatch.selectedDraught !== undefined) {
 		let selectedDraught = toggleTileHighlights(dispatch.selectedDraught, dispatch.playerTurn, false)
 		selectedDraught = selectedDraught.set('isSelected', false)
@@ -212,7 +183,7 @@ export function* moveDraught(dispatch) {
 	// check if the player has eaten a piece and can eat more
   let canEatMore = isEnemyRemoved && checkIfTileHasEnemy(tile, dispatch.selectedDraught.get('isQueen'), dispatch.playerTurn)
   if (canEatMore) {
-    tile = yield moveSelectedDraughtToTile(tile, dispatch.selectedDraught, dispatch.playerTurn, dispatch.previousSelectedDraught, true, true)
+    tile = yield moveSelectedDraughtToTile(tile, dispatch.selectedDraught, dispatch.playerTurn, dispatch.previousSelectedDraught, dispatch.previousMove, true, true)
     tile = tile.set('isSelected', true)
     tile = toggleTileHighlights(tile, dispatch.playerTurn, true)
 		yield put(actions.selectDraught(tile, tile))
@@ -223,6 +194,8 @@ export function* moveDraught(dispatch) {
     let updatedTile = yield setTileNeighboursToBeAbleToEatIfItCan(tile, dispatch.playerTurn)
 		isAbleToEatAvailable = isAbleToEatAvailable || updatedTile.isAbleToEatAvailable
 
+		// this is a temporary fix to an issue where an enemy draught that used to be able to eat will still have its tile highlighted even though another tile blocked its path;
+		//this fix does not fix it because if you move the draught that blocked its path, this tile does not re-highlight itself...
 		Object.keys(NEIGHBOUR_TILES).map((neighbour) => {
 			if (updatedTile.tile.getIn([neighbour, 'player']) === enemyPlayer && updatedTile.tile.getIn([neighbour, neighbour, 'player']) === dispatch.playerTurn) {
 				updatedTile.tile = updatedTile.tile.setIn([neighbour, neighbour, 'isAbleToEat'], false)
@@ -231,6 +204,8 @@ export function* moveDraught(dispatch) {
 		})
 		yield put(actions.highlightTile(updatedTile.tile))
 
+		// was thinking if adding a previous selected draught will fix the issue above, but it doesn't and im too lazy to remove all the code about this previous selected draught
+		//(this variable is not useful)...I might need it in the future? if I can fix the issue up there, I will remove this
 		tiles = yield select(getTiles)
 		let previousSelectedDraught = dispatch.previousSelectedDraught !== undefined ? tiles.get(dispatch.previousSelectedDraught.get('id')) : undefined
 		let updatedpreviousSelectedDraught = yield setPreviousMoveNeighboursToBeAbleToEatIfItCan(previousSelectedDraught, dispatch.playerTurn, selectedDraught)
@@ -248,10 +223,12 @@ export function* moveDraught(dispatch) {
 }
 
 export function* watchUpdateTiles() {
-    yield takeLatest(START_SELECT_DRAUGHT, selectDraught)
-    yield takeLatest(START_MOVE_DRAUGHT, moveDraught)
+	// I dont know about putting fork in here... what if move draught run faster and select draught overwrites the state of move draught (e.g. )
+  yield takeLatest(START_SELECT_DRAUGHT, selectDraught)
+  yield takeLatest(START_MOVE_DRAUGHT, moveDraught)
 }
 
+// in future think about how to structure the folders such that this can be seperated into draughtSaga and tileSaga and put this rootSaga outside
 export default function* rootSaga() {
   yield [
     watchUpdateTiles()
