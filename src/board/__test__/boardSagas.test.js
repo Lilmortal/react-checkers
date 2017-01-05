@@ -149,17 +149,6 @@ describe('Board Saga', () => {
 		expect(updatedTile.PUT.action.tile.getIn(['topLeftTile', 'topLeftTile', 'isAbleToEat'])).toEqual(false)
 	})
 
-	/*it('should set the previous tile neighbours to be able to eat', () => {
-		const topTopLeftTile = fromJS({ player: undefined, hasDraught: false, isAbleToEat: false })
-		const topLeftTile = fromJS({ player: 1, hasDraught: true, isAbleToEat: false, topLeftTile: topTopLeftTile })
-		const tile = fromJS({ player: 2, hasDraught: true, topLeftTile: topLeftTile })
-
-		const playerTurn = 1
-		const generatedTile = sagas.setPreviousMove(tile, playerTurn)
-		const updatedTile = generatedTile.next().value
-		expect(updatedTile.PUT.action.tile.get('isAbleToEat')).toEqual(true)
-	})*/
-
 	it('should update the previous tile', () => {
 		const tile = fromJS({ id: 4, hasDraught: true})
 		const previousMove = fromJS({ player: 2, hasDraught: true })
@@ -178,5 +167,75 @@ describe('Board Saga', () => {
 		const generatedTile = sagas.setPreviousMove(previousMove, tile, playerTurn)
 		const updatedTile = generatedTile.next().value
 		expect(updatedTile.PUT.action.tile).toBeUndefined()
+	})
+
+	it('should select a draught and highlight that it move to a new tile', () => {
+		const topLeftTile = fromJS({ hasDraught: false, player: undefined, isHighlighted: false })
+		const topRightTile = fromJS({ hasDraught: true, player: 1, isHighlighted: false })
+		const tile = fromJS({ hasDraught: true, player: 2, isSelected: false, topLeftTile: topLeftTile, topRightTile: topRightTile })
+
+		const selectedDraught = undefined
+		const playerTurn = 2
+
+		const dispatch = {
+			tile: tile,
+			selectedDraught: selectedDraught,
+			playerTurn, playerTurn
+		}
+
+		const generatedTile = sagas.selectDraught(dispatch)
+		generatedTile.next()
+		const updatedTile = generatedTile.next().value
+		// getTiles... how to mock that
+		expect(updatedTile.PUT.action.tile.get('isSelected')).toEqual(true)
+		expect(updatedTile.PUT.action.tile.getIn(['topLeftTile', 'isHighlighted'])).toEqual(true)
+		expect(updatedTile.PUT.action.tile.getIn(['topRightTile', 'isHighlighted'])).toEqual(false)
+		expect(updatedTile.PUT.action.selectedDraught).toEqual(tile)
+	})
+
+	it('should select a draught and highlight that it can eat an enemy', () => {
+		const topTopRightTile = fromJS({ hasDraught: false, player: undefined, isHighlighted: false })
+		const topRightTile = fromJS({ hasDraught: true, player: 1, isEnemy: false, topRightTile: topTopRightTile })
+		const tile = fromJS({ hasDraught: true, player: 2, isSelected: false, topRightTile: topRightTile })
+
+		const selectedDraught = undefined
+		const playerTurn = 2
+
+		const dispatch = {
+			tile: tile,
+			selectedDraught: selectedDraught,
+			playerTurn, playerTurn
+		}
+
+		const generatedTile = sagas.selectDraught(dispatch)
+		generatedTile.next()
+		const updatedTile = generatedTile.next().value
+		expect(updatedTile.PUT.action.tile.get('isSelected')).toEqual(true)
+		expect(updatedTile.PUT.action.tile.getIn(['topRightTile', 'isEnemy'])).toEqual(true)
+		expect(updatedTile.PUT.action.tile.getIn(['topRightTile', 'topRightTile', 'isHighlighted'])).toEqual(true)
+		expect(updatedTile.PUT.action.selectedDraught).toEqual(tile)
+	})
+
+	it('should unselect a draught', () => {
+		const topLeftTile = fromJS({ hasDraught: false, player: undefined, isHighlighted: false })
+		const topRightTile = fromJS({ hasDraught: true, player: 1, isHighlighted: false })
+		const tile = fromJS({ hasDraught: true, player: 2, isSelected: false, topLeftTile: topLeftTile, topRightTile: topRightTile })
+
+		const selectedDraught = undefined
+		const playerTurn = 2
+
+		const dispatch = {
+			tile: tile,
+			selectedDraught: selectedDraught,
+			playerTurn, playerTurn
+		}
+
+		const generatedTile = sagas.selectDraught(dispatch)
+		generatedTile.next()
+		const updatedTile = generatedTile.next().value
+		expect(updatedTile.PUT.action.tile.get('isSelected')).toEqual(true)
+		expect(updatedTile.PUT.action.tile.getIn(['topLeftTile', 'isHighlighted'])).toEqual(true)
+		expect(updatedTile.PUT.action.tile.getIn(['topRightTile', 'isHighlighted'])).toEqual(false)
+		expect(updatedTile.PUT.action.selectedDraught).toEqual(tile)
 	})
 })
