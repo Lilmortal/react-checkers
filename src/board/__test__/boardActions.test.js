@@ -54,7 +54,6 @@ describe('Board actions', () => {
   it('should create an action that start the moving draught process', () => {
     const tile = fromJS({ hasDraught: true, isSelected: false })
     const selectedDraught = fromJS({ hasDraught: false, isSelected: false })
-    const previousSelectedDraught = fromJS({ hasDraught: false, x: 5, y: 5 })
     const previousMove = fromJS({ hasDraught: true, x: 6, y: 6 })
     const playerTurn = 2
 
@@ -62,17 +61,15 @@ describe('Board actions', () => {
       type: actionTypes.START_MOVE_DRAUGHT,
   		tile,
   		selectedDraught,
-  		previousSelectedDraught,
   		previousMove,
   		playerTurn
     }
-    expect(actions.startMoveDraught(tile, selectedDraught, previousSelectedDraught, previousMove, playerTurn)).toEqual(expectedAction)
+    expect(actions.startMoveDraught(tile, selectedDraught, previousMove, playerTurn)).toEqual(expectedAction)
   })
 
   it('should create an action that move the draught', () => {
     const tile = fromJS({ hasDraught: true, isSelected: false })
     const playerTurn = 2
-    const previousSelectedDraught = fromJS({ hasDraught: false, x: 5, y: 5 })
     const previousMove = fromJS({ hasDraught: true, x: 6, y: 6 })
     const isAbleToEatAvailable = true
 
@@ -80,10 +77,9 @@ describe('Board actions', () => {
       type: actionTypes.MOVE_DRAUGHT,
   		tile,
   		playerTurn,
-  		previousSelectedDraught,
   		previousMove,
   		isAbleToEatAvailable
     }
-    expect(actions.moveDraught(tile, playerTurn, previousSelectedDraught, previousMove, isAbleToEatAvailable)).toEqual(expectedAction)
+    expect(actions.moveDraught(tile, playerTurn, previousMove, isAbleToEatAvailable)).toEqual(expectedAction)
   })
 })

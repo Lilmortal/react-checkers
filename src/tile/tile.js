@@ -89,7 +89,7 @@ export const Tile = (props) => {
 	return (
 		<div className='tile' style={style()} onClick={() => {
 			if (props.tile.get('isHighlighted')) {
-				props.startMoveDraught(props.tile, props.selectedDraught, props.previousSelectedDraught, props.previousMove, props.playerTurn)
+				props.startMoveDraught(props.tile, props.selectedDraught, props.previousMove, props.playerTurn)
 			}
 		}}>
 			{draught}

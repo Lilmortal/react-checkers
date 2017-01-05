@@ -6,7 +6,6 @@ const initialState = {
 	selectedDraught: undefined,
 	playerTurn: 2,
 	isAbleToEatAvailable: false,
-	previousSelectedDraught: undefined,
 	previousMove: undefined
 }
 
@@ -46,7 +45,6 @@ export const boardReducer = (state = initialState, payLoad) => {
 				selectedDraught: undefined,
 				playerTurn: payLoad.playerTurn,
 				isAbleToEatAvailable: payLoad.isAbleToEatAvailable,
-				previousSelectedDraught: payLoad.previousSelectedDraught,
 				previousMove: payLoad.previousMove
 			}
 		}

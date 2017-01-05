@@ -12,7 +12,6 @@ export const Board = (props) => {
 	selectedDraught={props.selectedDraught}
 	playerTurn={props.playerTurn}
 	isAbleToEatAvailable={props.isAbleToEatAvailable}
-	previousSelectedDraught={props.previousSelectedDraught}
 	previousMove={props.previousMove}
 	startSelectDraught={props.startSelectDraught}
 	startMoveDraught={props.startMoveDraught} />))
@@ -30,7 +29,6 @@ export const mapStateToProps = (state) => ({
 	selectedDraught: state.boardReducer.selectedDraught,
 	playerTurn: state.boardReducer.playerTurn,
 	isAbleToEatAvailable: state.boardReducer.isAbleToEatAvailable,
-	previousSelectedDraught: state.boardReducer.previousSelectedDraught,
 	previousMove: state.boardReducer.previousMove
 })
 
@@ -39,7 +37,6 @@ Board.propTypes = {
 	selectedDraught: React.PropTypes.object,
 	playerTurn: React.PropTypes.number.isRequired,
 	isAbleToEatAvailable: React.PropTypes.bool.isRequired,
-	previousSelectedDraught: React.PropTypes.object,
 	previousMove: React.PropTypes.object,
 	startSelectDraught: React.PropTypes.func.isRequired,
 	startMoveDraught: React.PropTypes.func.isRequired
