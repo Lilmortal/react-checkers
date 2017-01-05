@@ -1,5 +1,6 @@
 import React from 'react'
 import { Draught } from '../draught/draught'
+import { NEIGHBOUR_TILES } from '../tiles/tiles'
 import './tile.css'
 
 // ignore the horrible color choices; im just testing the libraries etc; I will fix design later
@@ -23,6 +24,50 @@ const highlightedTileStyle = {
 const needToEatTileStyle = {
 	backgroundColor: 'blue',
 	cursor: 'pointer'
+}
+
+const toggleNeighbourTileHighlight = (tile, neighbourTile, enemyPlayer, isHighlighted) => {
+	if (tile.get(neighbourTile)) {
+		// checks if it can eat
+		if (tile.getIn([neighbourTile, 'player']) === enemyPlayer && tile.getIn([neighbourTile, neighbourTile]) && !tile.getIn([neighbourTile, neighbourTile, 'hasDraught'])) {
+			tile = tile.withMutations((tile) => tile.setIn([neighbourTile, 'isEnemy'], isHighlighted).setIn([neighbourTile, neighbourTile, 'isHighlighted'], isHighlighted))
+		} else if (!tile.getIn([neighbourTile, 'hasDraught'])) {
+			tile = tile.setIn([neighbourTile, 'isHighlighted'], isHighlighted)
+			if (tile.getIn([neighbourTile, neighbourTile]))
+				tile = tile.setIn([neighbourTile, neighbourTile, 'isHighlighted'], false)
+		} else if (tile.getIn([neighbourTile, 'hasDraught'])) {
+			if (tile.getIn([neighbourTile, neighbourTile]))
+				tile = tile.setIn([neighbourTile, neighbourTile, 'isHighlighted'], false)
+		}
+	}
+	return tile
+}
+
+export const toggleTileHighlights = (tile, playerTurn, isHighlighted) => {
+	const enemyPlayer = playerTurn === 1 ? 2 : 1
+	Object.keys(NEIGHBOUR_TILES).map((neighbour) => {
+		if (NEIGHBOUR_TILES[neighbour].player === playerTurn || tile.get('isQueen')) {
+			tile = toggleNeighbourTileHighlight(tile, neighbour, enemyPlayer, isHighlighted)
+		}
+		return neighbour
+	})
+
+	// all neighbours are diagonal
+	const hasNeighbourEnemies = Object.keys(NEIGHBOUR_TILES).some((neighbour) => {
+		return tile.getIn([neighbour, 'isEnemy']) ? true : false
+	})
+
+	if (hasNeighbourEnemies) {
+		Object.keys(NEIGHBOUR_TILES).map((neighbour) => {
+			if (tile.get(neighbour) && !tile.getIn([neighbour, 'isEnemy'])) {
+				tile = tile.setIn([neighbour, 'isHighlighted'], false)
+				if (tile.getIn([neighbour, neighbour]))
+				tile = tile.setIn([neighbour, neighbour, 'isHighlighted'], false)
+			}
+			return neighbour
+		})
+	}
+	return tile
 }
 
 export const Tile = (props) => {

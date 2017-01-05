@@ -1,5 +1,4 @@
 import React from 'react'
-import { expect } from 'chai'
 import { fromJS } from 'immutable'
 import * as actions from '../boardActions'
 import * as actionTypes from '../boardActionTypes'
@@ -16,7 +15,7 @@ describe('Board actions', () => {
       selectedDraught,
       playerTurn
     }
-    expect(actions.startSelectDraught(tile, selectedDraught, playerTurn)).to.deep.equal(expectedAction)
+    expect(actions.startSelectDraught(tile, selectedDraught, playerTurn)).toEqual(expectedAction)
   })
 
   it('should create an action that toggle select the draught', () => {
@@ -29,7 +28,7 @@ describe('Board actions', () => {
   		selectedDraught,
   		tile
     }
-    expect(actions.selectDraught(selectedDraught, tile)).to.deep.equal(expectedAction)
+    expect(actions.selectDraught(selectedDraught, tile)).toEqual(expectedAction)
   })
 
   it('should create an action that toggle highlight the tile', () => {
@@ -39,7 +38,7 @@ describe('Board actions', () => {
     	type: actionTypes.HIGHLIGHT_TILE,
       tile
     }
-    expect(actions.highlightTile(tile)).to.deep.equal(expectedAction)
+    expect(actions.highlightTile(tile)).toEqual(expectedAction)
   })
 
   it('should create an action that remove the draught', () => {
@@ -49,7 +48,7 @@ describe('Board actions', () => {
       type: actionTypes.REMOVE_DRAUGHT,
   		tile
     }
-    expect(actions.removeDraught(tile)).to.deep.equal(expectedAction)
+    expect(actions.removeDraught(tile)).toEqual(expectedAction)
   })
 
   it('should create an action that start the moving draught process', () => {
@@ -67,7 +66,7 @@ describe('Board actions', () => {
   		previousMove,
   		playerTurn
     }
-    expect(actions.startMoveDraught(tile, selectedDraught, previousSelectedDraught, previousMove, playerTurn)).to.deep.equal(expectedAction)
+    expect(actions.startMoveDraught(tile, selectedDraught, previousSelectedDraught, previousMove, playerTurn)).toEqual(expectedAction)
   })
 
   it('should create an action that move the draught', () => {
@@ -85,6 +84,6 @@ describe('Board actions', () => {
   		previousMove,
   		isAbleToEatAvailable
     }
-    expect(actions.moveDraught(tile, playerTurn, previousSelectedDraught, previousMove, isAbleToEatAvailable)).to.deep.equal(expectedAction)
+    expect(actions.moveDraught(tile, playerTurn, previousSelectedDraught, previousMove, isAbleToEatAvailable)).toEqual(expectedAction)
   })
 })
