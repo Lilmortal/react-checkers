@@ -2,9 +2,8 @@ import React from 'react'
 import { fromJS, OrderedMap } from 'immutable'
 import { mount } from 'enzyme'
 import { Draught } from '../draught'
-import { startSelectDraught, startMoveDraught } from '../../board/boardActions'
-import * as actionTypes from '../../board/boardActionTypes'
-//import { checkIfTileNeighboursHaveEnemy } from '../../board/boardSagas'
+import { startSelectDraught } from '../draughtActions'
+import * as actionTypes from '../draughtActionTypes'
 
 describe('Draught integration test', () => {
 	describe('Select a draught', () => {
@@ -21,9 +20,7 @@ describe('Draught integration test', () => {
 			//const generatedValue = watchUpdateTiles()
 			//console.log(generatedValue)
 			// how to wait until it finish
-			setTimeout(() => {
-				expect(wrapper.prop('tile').get('isSelected')).toEqual(true)
-			}, 10000)
+			expect(wrapper.prop('tile').get('isSelected')).toEqual(true)
 		})
 
 		it('should unselect a draught', () => {

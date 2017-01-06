@@ -6,7 +6,7 @@ import createLogger from 'redux-logger'
 import DevTools from './containers/DevTools'
 import { persistState } from 'redux-devtools'
 
-import rootSaga from './board/boardSagas'
+import rootSaga from './rootSaga'
 
 const initialState = {}
 // eslint-disable-next-line

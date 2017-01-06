@@ -1,7 +1,8 @@
 import React from 'react'
 import { Tile } from '../tile/tile'
 import { connect } from 'react-redux'
-import { startSelectDraught, startMoveDraught } from './boardActions'
+import { startSelectDraught } from '../draught/draughtActions'
+import { startMoveDraught } from '../tile/tileActions'
 import './board.css'
 
 export const Board = (props) => {
@@ -25,11 +26,11 @@ export const Board = (props) => {
 }
 
 export const mapStateToProps = (state) => ({
-	tiles: state.boardReducer.tiles,
-	selectedDraught: state.boardReducer.selectedDraught,
-	playerTurn: state.boardReducer.playerTurn,
-	isAbleToEatAvailable: state.boardReducer.isAbleToEatAvailable,
-	previousMove: state.boardReducer.previousMove
+	tiles: state.action === 'DRAUGHT' ? state.draughtReducer.tiles : state.tileReducer.tiles,
+	selectedDraught: state.action === 'DRAUGHT' ? state.draughtReducer.selectedDraught : state.tileReducer.selectedDraught,
+	playerTurn: state.tileReducer.playerTurn,
+	isAbleToEatAvailable: state.tileReducer.isAbleToEatAvailable,
+	previousMove: state.tileReducer.previousMove
 })
 
 Board.propTypes = {

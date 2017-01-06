@@ -2,8 +2,9 @@ import React from 'react'
 import { fromJS, OrderedMap } from 'immutable'
 import { mount } from 'enzyme'
 import { Tile } from '../tile'
-import { startSelectDraught, startMoveDraught } from '../../board/boardActions'
-import * as actionTypes from '../../board/boardActionTypes'
+import { startSelectDraught } from '../../draught/draughtActions'
+import { startMoveDraught } from '../tileActions'
+import * as actionTypes from '../tileActionTypes'
 
 describe('Tile integration test', () => {
   describe('Move a draught', () => {
