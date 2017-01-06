@@ -1,5 +1,9 @@
 import { OrderedMap, fromJS } from 'immutable'
 
+/**
+ * A list of neighbours that this tile have; it also includes what the opposite tile of this neighbour is and the player that is allowed to work with this neighbour
+ * @type {Object}
+ */
 export const NEIGHBOUR_TILES = {
 	topLeftTile: {
 		oppositeTile: 'bottomRightTile',
@@ -19,6 +23,12 @@ export const NEIGHBOUR_TILES = {
 	}
 }
 
+/**
+ * Update the tiles with the updated tile
+ * @param  {Object} tiles The list of tiles
+ * @param  {Object} tile  The updated tile that will be incorporated into the tiles
+ * @return {Object}       The updated tiles
+ */
 export const updateTiles = (tiles, tile) => {
 	if (tile !== undefined) {
 		tiles = tiles.set(tile.get('id'), tile)
@@ -48,6 +58,10 @@ export const updateTiles = (tiles, tile) => {
 	return tiles
 }
 
+/**
+ * Populate the default tiles
+ * @return {Object} The updated tiles
+ */
 export const populateTiles = () => {
 	let tiles = OrderedMap(), evenTile = false, id = 0
 

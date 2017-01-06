@@ -4,6 +4,7 @@ import { mount } from 'enzyme'
 import { Draught } from '../draught'
 import { startSelectDraught, startMoveDraught } from '../../board/boardActions'
 import * as actionTypes from '../../board/boardActionTypes'
+//import { checkIfTileNeighboursHaveEnemy } from '../../board/boardSagas'
 
 describe('Draught integration test', () => {
 	describe('Select a draught', () => {
@@ -17,7 +18,8 @@ describe('Draught integration test', () => {
 			startSelectDraught={startSelectDraught} />)
 
 			wrapper.find('.draught').simulate('click')
-
+			//const generatedValue = watchUpdateTiles()
+			//console.log(generatedValue)
 			// how to wait until it finish
 			setTimeout(() => {
 				expect(wrapper.prop('tile').get('isSelected')).toEqual(true)

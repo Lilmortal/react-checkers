@@ -49,8 +49,10 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
+    "babel": "^6.5.2",
     "babel-plugin-transform-async-to-generator": "^6.16.0",
-    "chai": "^3.5.0",
+    "babel-plugin-transform-regenerator": "^6.21.0",
+    "babel-preset-react-app": "^1.0.0",
     "create-react-app": "^1.0.2",
     "enzyme": "^2.7.0",
     "immutable": "^3.8.1",
@@ -58,14 +60,12 @@
     "react-addons-test-utils": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-functional": "^2.0.0",
-    "react-test-renderer": "^15.4.1",
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
     "redux-devtools-log-monitor": "^1.1.1",
     "redux-logger": "^2.7.4",
     "redux-saga": "^0.13.0",
-    "redux-thunk": "^2.1.0",
-    "sinon": "^1.17.7"
+    "redux-thunk": "^2.1.0"
   },
   "scripts": {
     "start": "node scripts/start.js",

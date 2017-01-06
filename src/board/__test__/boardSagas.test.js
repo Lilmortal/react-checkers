@@ -38,7 +38,7 @@ describe('Board Saga', () => {
 		const hasEnemy = sagas.checkIfTileHasEnemy(tile, isQueen, playerTurn)
 		expect(hasEnemy).toEqual(true)
 	})
-   
+
    	it('should check that the tile has enemy while its player 2 turn', () => {
    		const topTopRightTile = fromJS({ player: undefined, x: 7, y: 3 })
 		const topRightTile = fromJS({ player: 1, x: 6, y: 4, topRightTile: topTopRightTile })
@@ -82,7 +82,7 @@ describe('Board Saga', () => {
 		expect(updatedTile.get('isQueen')).toEqual(true)
 		expect(updatedTile.get('isAbleToEat')).toEqual(true)
 	})
-	
+
 	it('should set the selected draught neighbours to be able to eat', () => {
 		const topTopLeftTile = fromJS({ player: 2, hasDraught: true, isAbleToEat: false })
 		const topLeftTile = fromJS({ player: 1, hasDraught: true, topLeftTile: topTopLeftTile })
@@ -180,7 +180,7 @@ describe('Board Saga', () => {
 		const dispatch = {
 			tile: tile,
 			selectedDraught: selectedDraught,
-			playerTurn, playerTurn
+			playerTurn: playerTurn
 		}
 
 		const generatedTile = sagas.selectDraught(dispatch)
@@ -204,7 +204,7 @@ describe('Board Saga', () => {
 		const dispatch = {
 			tile: tile,
 			selectedDraught: selectedDraught,
-			playerTurn, playerTurn
+			playerTurn: playerTurn
 		}
 
 		const generatedTile = sagas.selectDraught(dispatch)
@@ -216,8 +216,8 @@ describe('Board Saga', () => {
 		expect(updatedTile.PUT.action.selectedDraught).toEqual(tile)
 	})
 
-	it('should unselect a draught', () => {
-		const topLeftTile = fromJS({ hasDraught: false, player: undefined, isHighlighted: false })
+	it('should unselect a draught and unhighlight the tile neighbours', () => {
+		const topLeftTile = fromJS({ hasDraught: false, player: undefined, isHighlighted: true })
 		const topRightTile = fromJS({ hasDraught: true, player: 1, isHighlighted: false })
 		const tile = fromJS({ hasDraught: true, player: 2, isSelected: false, topLeftTile: topLeftTile, topRightTile: topRightTile })
 
@@ -227,15 +227,82 @@ describe('Board Saga', () => {
 		const dispatch = {
 			tile: tile,
 			selectedDraught: selectedDraught,
-			playerTurn, playerTurn
+			playerTurn: playerTurn
 		}
 
 		const generatedTile = sagas.selectDraught(dispatch)
 		generatedTile.next()
 		const updatedTile = generatedTile.next().value
-		expect(updatedTile.PUT.action.tile.get('isSelected')).toEqual(true)
-		expect(updatedTile.PUT.action.tile.getIn(['topLeftTile', 'isHighlighted'])).toEqual(true)
+		expect(updatedTile.PUT.action.tile.get('isSelected')).toEqual(false)
+		expect(updatedTile.PUT.action.tile.getIn(['topLeftTile', 'isHighlighted'])).toEqual(false)
 		expect(updatedTile.PUT.action.tile.getIn(['topRightTile', 'isHighlighted'])).toEqual(false)
 		expect(updatedTile.PUT.action.selectedDraught).toEqual(tile)
+	})
+
+	/*it('should move the draught to the tile', () => {
+		const tile = fromJS({ id: 2, hasDraught: false, player: undefined, isSelected: false, isHighlighted: true, isQueen: false })
+		const selectedDraught = fromJS({ id: 1, hasDraught: true, player: 1, isSelected: true, isQueen: true })
+		const playerTurn = 1
+		const previousMove = undefined
+		const isAbleToEatAvailable = false
+
+		const dispatch = {
+			tile: tile,
+			selectedDraught: selectedDraught,
+			playerTurn: playerTurn
+			previousMove: previousMove,
+			isAbleToEatAvailable: isAbleToEatAvailable
+		}
+
+		const generatedTile = sagas.moveDraught(dispatch)
+		const isEnemyRemoved = generatedTile.next().value
+		expect(isEnemyRemoved).toEqual(false)
+
+		const removedSelectedDraught = generatedTile.next().value
+		expect(removedSelectedDraught.get('isSelected')).toEqual(false)
+		expect(removedSelectedDraught.get('hasDraught')).toEqual(false)
+		expect(removedSelectedDraught.get('player')).toEqual(false)
+		expect(removedSelectedDraught.get('isQueen')).toEqual(false)
+
+		// this is getTile
+		generatedTile.next()
+
+
+		expect(updatedTile.PUT.action.tile.get('isSelected')).toEqual(false)
+		expect(updatedTile.PUT.action.tile.getIn(['topLeftTile', 'isHighlighted'])).toEqual(false)
+		expect(updatedTile.PUT.action.tile.getIn(['topRightTile', 'isHighlighted'])).toEqual(false)
+		expect(updatedTile.PUT.action.selectedDraught).toEqual(tile)
+	})*/
+
+	it('should move the draught to the tile and eat the enemy on the way', () => {
+
+	})
+
+	it('should move the draught to the tile, eat the enemy and be able to eat again', () => {
+
+	})
+
+	it('should move the draught to the end of the board and make it a queen as a player 1', () => {
+
+	})
+
+	it('should move the draught to the end of the board and make it a queen as a player 2', () => {
+
+	})
+
+	it('should move the draught to the tile and highlight the previous selected draught neighbours if they can eat on the next turn', () => {
+
+	})
+
+	it('should move the draught to the tile and highlight this tile neighbours if they can eat on the next turn', () => {
+
+	})
+
+	it('should move the draught to the tile and highlight the previous move that is made by the other player if they can eat on the next turn', () => {
+
+	})
+
+	it('should move the draught to the tile and check if the previous move that is made by the other player is eaten on the way', () => {
+		
 	})
 })

@@ -26,6 +26,14 @@ const needToEatTileStyle = {
 	cursor: 'pointer'
 }
 
+/**
+ * Toggle one tile neighbour highlight
+ * @param  {Object}  tile          The tile that the user selected
+ * @param  {Object}  neighbourTile The tile neighbour that this function will be looking at
+ * @param  {Number}  enemyPlayer   The enemy player
+ * @param  {Boolean} isHighlighted Determine if the tile neighbours should be highlighted or not
+ * @return {Object}                Return the updated tile neighbour
+ */
 const toggleNeighbourTileHighlight = (tile, neighbourTile, enemyPlayer, isHighlighted) => {
 	if (tile.get(neighbourTile)) {
 		// checks if it can eat
@@ -43,6 +51,13 @@ const toggleNeighbourTileHighlight = (tile, neighbourTile, enemyPlayer, isHighli
 	return tile
 }
 
+/**
+ * Toggle the tile neighbour highlights
+ * @param  {Object}  tile          The tile that the user selected
+ * @param  {Number}  playerTurn    The current players turn
+ * @param  {Boolean} isHighlighted Determine if the tile neighbours should be highlighted or not
+ * @return {Object}                Return the updated tile neighbours
+ */
 export const toggleTileHighlights = (tile, playerTurn, isHighlighted) => {
 	const enemyPlayer = playerTurn === 1 ? 2 : 1
 	Object.keys(NEIGHBOUR_TILES).map((neighbour) => {
@@ -89,7 +104,7 @@ export const Tile = (props) => {
 	return (
 		<div className='tile' style={style()} onClick={() => {
 			if (props.tile.get('isHighlighted')) {
-				props.startMoveDraught(props.tile, props.selectedDraught, props.previousMove, props.playerTurn)
+				props.startMoveDraught(props.tile, props.selectedDraught, props.previousMove, props.playerTurn, props.isAbleToEatAvailable)
 			}
 		}}>
 			{draught}
