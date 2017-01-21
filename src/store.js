@@ -3,10 +3,10 @@ import rootReducer from './rootReducer'
 import thunkMiddleware from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
 import createLogger from 'redux-logger'
-import DevTools from './containers/DevTools'
+import DevTools from './tools/DevTools'
 import { persistState } from 'redux-devtools'
 
-import rootSaga from './board/boardSagas'
+import rootSaga from './rootSaga'
 
 const initialState = {}
 // eslint-disable-next-line

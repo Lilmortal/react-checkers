@@ -1,15 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Board from './board/board'
+import BoardContainer from './modules/board/containers/boardContainer'
 import { Provider } from 'react-redux'
 import { store } from './store'
-import DevTools from './containers/DevTools'
+import DevTools from './tools/DevTools'
 import './index.css'
 
 ReactDOM.render(
 	<Provider store={store}>
 		<div>
-			<Board />
+			<BoardContainer />
 			<DevTools />
 		</div>
 	</Provider>,
