@@ -1,7 +1,7 @@
 import React from 'react'
 import Draught from '../../draught/components/draught'
 import { OrderedMap, fromJS } from 'immutable'
-import { startSelectDraught } from '../ducks/tile'
+import { startSelectDraught } from '../ducks/tileModule'
 
 /**
  * A list of neighbours that this tile have; it also includes what the opposite tile of this neighbour is and the player that is allowed to work with this neighbour

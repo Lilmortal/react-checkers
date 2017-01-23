@@ -1,23 +1,18 @@
 import React from 'react'
-import { mount, shallow } from 'enzyme'
+import renderer from 'react-test-renderer'
 import { fromJS, OrderedMap } from 'immutable'
-import { Board } from '../board'
+import Board from '../components/board'
 
 describe('<Board /> ', () => {
-  let startSelectDraughtSpy
-  let startMoveDraughtSpy
+  it('should display the first player turn', () => {
+    let tiles = OrderedMap()
+    const tile = fromJS({allowDraught: false, hasDraught: false, player: undefined, isSelected: false,
+      isHighlighted: false, isEnemy: false, isQueen: false, isAbleToEat: false, topLeftTile: undefined,
+      topRightTile: undefined, bottomLeftTile: undefined, bottomRightTile: undefined, draught: undefined})
 
-  beforeEach(() => {
-    startSelectDraughtSpy = jest.fn()
-    startMoveDraughtSpy = jest.fn()
-  })
+    tiles = tiles.set(0, tile)
 
-  it('should display the player turn', () => {
-    const wrapper = shallow(<Board playerTurn={2} tiles={OrderedMap()} isAbleToEatAvailable={false} startSelectDraught={startSelectDraughtSpy}
-    startMoveDraught={startMoveDraughtSpy} />)
-    expect(wrapper.find('.board').text()).toEqual('Player 2 turn')
+    const rendered = renderer.create(<Board playerTurn={1} tiles={tiles} />)
+    expect(rendered.toJSON()).toMatchSnapshot()
   })
 })
-
-// write a test to test mapStateToProps which I need to use <Provider> and create my own store wtf? or just passing state itself and testing the non connected
-// components is good enough

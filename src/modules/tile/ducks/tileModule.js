@@ -23,25 +23,28 @@ export const startSelectDraught = (tile, selectedDraught, previousMove, playerTu
 	}
 }
 
-export const selectDraught = (tile, selectedDraught) => {
+export const selectDraught = (tiles, tile, selectedDraught) => {
+	tiles = updateTiles(tiles, tile)
 	return {
 		type: SELECT_DRAUGHT,
-		tile,
+		tiles,
 		selectedDraught
 	}
 }
 
-export const highlightTile = (tile) => {
+export const highlightTile = (tiles, tile) => {
+	tiles = updateTiles(tiles, tile)
 	return {
 		type: HIGHLIGHT_TILE,
-		tile
+		tiles
 	}
 }
 
-export const removeDraught = (tile) => {
+export const removeDraught = (tiles, tile) => {
+	tiles = updateTiles(tiles, tile)
 	return {
 		type: REMOVE_DRAUGHT,
-		tile
+		tiles
 	}
 }
 
@@ -56,10 +59,11 @@ export const startMoveDraught = (tile, selectedDraught, previousMove, playerTurn
 	}
 }
 
-export const moveDraught = (tile) => {
+export const moveDraught = (tiles, tile) => {
+	tiles = updateTiles(tiles, tile)
 	return {
 		type: MOVE_DRAUGHT,
-		tile
+		tiles
 	}
 }
 
@@ -70,35 +74,27 @@ const initialState = {
 const tilesReducer = (state = initialState, payLoad) => {
 	switch (payLoad.type) {
 		case SELECT_DRAUGHT: {
-			state.tiles = updateTiles(state.tiles, payLoad.tile)
-
 			return {
 				...state,
-				tiles: state.tiles
+				tiles: payLoad.tiles
 			}
 		}
 		case HIGHLIGHT_TILE: {
-			state.tiles = updateTiles(state.tiles, payLoad.tile)
-
 			return {
 				...state,
-				tiles: state.tiles
+				tiles: payLoad.tiles
 			}
 		}
 		case REMOVE_DRAUGHT: {
-			state.tiles = updateTiles(state.tiles, payLoad.tile)
-
 			return {
 				...state,
-				tiles: state.tiles
+				tiles: payLoad.tiles
 			}
 		}
 		case MOVE_DRAUGHT: {
-			state.tiles = updateTiles(state.tiles, payLoad.tile)
-
 			return {
 				...state,
-				tiles: state.tiles
+				tiles: payLoad.tiles
 			}
 		}
 		default:

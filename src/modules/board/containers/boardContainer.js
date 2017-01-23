@@ -3,7 +3,7 @@ import Board from '../components/board'
 import TileContainer from '../../tile/containers/tileContainer'
 import { connect } from 'react-redux'
 
-export const getTileContainers = (tiles) => {
+const getTileContainers = (tiles) => {
 	return tiles.valueSeq().map((tile, id) => {
 		return (
 			<TileContainer key={id}

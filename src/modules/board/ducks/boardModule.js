@@ -1,4 +1,4 @@
-import { SELECT_DRAUGHT, MOVE_DRAUGHT } from '../../tile/ducks/tile'
+import { SELECT_DRAUGHT, MOVE_DRAUGHT } from '../../tile/ducks/tileModule'
 
 export const UPDATE_SELECTED_DRAUGHT = 'board/UPDATE_SELECTED_DRAUGHT'
 export const UPDATE_BOARD = 'board/UPDATE_BOARD'

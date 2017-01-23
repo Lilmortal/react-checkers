@@ -2,7 +2,7 @@ import React from 'react'
 import Tile from '../components/tile'
 import Draught from '../../draught/components/draught'
 import { connect } from 'react-redux'
-import { startSelectDraught, startMoveDraught } from '../ducks/tile'
+import { startSelectDraught, startMoveDraught } from '../ducks/tileModule'
 import { NEIGHBOUR_TILES } from './tilesContainer'
 
 /**

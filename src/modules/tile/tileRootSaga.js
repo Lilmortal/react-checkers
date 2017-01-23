@@ -1,5 +1,5 @@
 import { takeLatest } from 'redux-saga'
-import * as module from './ducks/tile'
+import * as module from './ducks/tileModule'
 import selectDraughtSaga from './sagas/selectDraughtSaga'
 import moveDraughtSaga from './sagas/moveDraughtSaga'
 

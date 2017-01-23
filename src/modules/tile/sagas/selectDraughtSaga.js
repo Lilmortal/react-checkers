@@ -1,6 +1,6 @@
 import { put, select } from 'redux-saga/effects'
 // find out how to do import * as actions
-import { selectDraught } from '../ducks/tile'
+import { selectDraught } from '../ducks/tileModule'
 import { toggleTileHighlights } from '../containers/tileContainer'
 
 export const getTiles = state => state.tilesReducer.tiles
@@ -15,14 +15,15 @@ const selectDraughtSaga = function*(dispatch) {
 	if (dispatch.selectedDraught !== undefined) {
 		let selectedDraught = toggleTileHighlights(dispatch.selectedDraught, dispatch.playerTurn, false)
 		selectedDraught = selectedDraught.set('isSelected', false)
-		yield put(selectDraught(selectedDraught, undefined))
 		const tiles = yield select(getTiles)
-		tile = tiles.get(tile.get('id'))
+		yield put(selectDraught(tiles, selectedDraught, undefined))
 	}
 
+	const tiles = yield select(getTiles)
+	tile = tiles.get(tile.get('id'))
   tile = toggleTileHighlights(tile, dispatch.playerTurn, !dispatch.tile.get('isSelected'))
   tile = tile.set('isSelected', !dispatch.tile.get('isSelected'))
-	yield put(selectDraught(tile, tile))
+	yield put(selectDraught(tiles, tile, tile))
 }
 
 export default selectDraughtSaga
