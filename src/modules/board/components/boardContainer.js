@@ -4,16 +4,13 @@ import { createStructuredSelector } from 'reselect'
 import * as selectors from '../selectors'
 import { connect } from 'react-redux'
 
-const { getPlayerTurnSelector, getIsAbleToEatAvailableSelector, getSelectedDraughtSelector, getPreviousMoveSelector } = selectors
-const { getTileContainersSelector } = tile.selectors
+const { playerTurnSelector } = selectors
+const { tileContainersSelector } = tile.selectors
 
 const mapStateToProps = (state, props) => {
 	return createStructuredSelector({
-		tiles: getTileContainersSelector(state, props),
-		playerTurn: getPlayerTurnSelector,
-		isAbleToEatAvailable: getIsAbleToEatAvailableSelector,
-		selectedDraught: getSelectedDraughtSelector,
-		previousMove: getPreviousMoveSelector
+		tiles: tileContainersSelector,
+		playerTurn: playerTurnSelector
 	})
 }
 

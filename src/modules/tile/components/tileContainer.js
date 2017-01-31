@@ -5,17 +5,17 @@ import { startMoveDraught } from '../actions'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 
-const { getIsEnemySelector, getIsHighlightedSelector, getIsAbleToEatSelector, getAllowDraughtSelector, canMoveDraughtSelector } = selectors
-const { getDraughtContainerSelector } = draught.selectors
+const { isEnemySelector, isHighlightedSelector, isAbleToEatSelector, allowDraughtSelector, canBeMovedSelector } = selectors
+const { draughtContainerSelector } = draught.selectors
 
 const mapStateToProps = (state, props) => {
 	return createStructuredSelector({
-		isEnemy: getIsEnemySelector,
-		isHighlighted: getIsHighlightedSelector,
-		isAbleToEat: getIsAbleToEatSelector,
-		allowDraught: getAllowDraughtSelector,
-		draught: getDraughtContainerSelector(state, props),
-		canMoveDraught: canMoveDraughtSelector
+		isEnemy: isEnemySelector,
+		isHighlighted: isHighlightedSelector,
+		isAbleToEat: isAbleToEatSelector,
+		allowDraught: allowDraughtSelector,
+		draught: draughtContainerSelector,
+		canBeMoved: canBeMovedSelector
 	})
 }
 

@@ -3,7 +3,7 @@ import * as actions from '../actions'
 import * as selectors from '../selectors'
 
 const { SELECT_DRAUGHT, HIGHLIGHT_NEIGHBOUR_TILES } = actions
-const { getSelectedDraughtId, getTiles } = selectors
+const { selectedDraughtIdSelector, tilesSelector } = selectors
 
 export const toggleTileNeighboursIsHighlighted = (tiles, tile) => {
 	const draught = tile.get('draught')
@@ -49,8 +49,8 @@ export const toggleTileNeighboursIsHighlighted = (tiles, tile) => {
  * @return {Generator}          Return the updated selected draught
  */
 export const selectDraughtSaga = function*(dispatch) {
-	let selectedDraughtId = yield select(getSelectedDraughtId)
-	let tiles = yield select(getTiles)
+	let selectedDraughtId = yield select(selectedDraughtIdSelector)
+	let tiles = yield select(tilesSelector)
 	let tile = tiles.get(dispatch.id)
 	let draught = tile.get('draught')
 
@@ -67,7 +67,7 @@ export const selectDraughtSaga = function*(dispatch) {
 		yield put(SELECT_DRAUGHT(selectedDraughtId, selectedDraughtTile, undefined))
 
     // refresh the tiles state
-    //tiles = yield select(getTiles)
+    //tiles = yield select(tilesSelector)
     //tile = tiles.get(dispatch.id)
     //draught = tile.get('draught')
 	}

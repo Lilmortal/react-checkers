@@ -19,6 +19,10 @@
 	user-select: none;
 }
 
+.canBeSelected {
+	cursor: pointer;
+}
+
 .draughtSelected {
 	margin: 0 0 20px 20px;
 	box-shadow: -10px 5px grey;

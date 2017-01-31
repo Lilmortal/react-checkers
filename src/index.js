@@ -11,7 +11,7 @@ const { BoardContainer } = board.components
 ReactDOM.render(
 	<Provider store={store}>
 		<div>
-			<BoardContainer board={board} />
+			<BoardContainer />
 			<DevTools />
 		</div>
 	</Provider>,

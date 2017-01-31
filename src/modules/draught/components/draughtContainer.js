@@ -4,14 +4,14 @@ import { START_SELECT_DRAUGHT } from '../actions'
 import * as selectors from '../selectors'
 import { createStructuredSelector } from 'reselect'
 
-const { getDraughtIsSelectedSelector, getDraughtPlayerSelector, getDraughtIsQueenSelector, getCanSelectDraughtSelector } = selectors
+const { isSelectedSelector, playerSelector, isQueenSelector, canBeSelectedSelector } = selectors
 
 const mapStateToProps = (state, props) => {
   return createStructuredSelector({
-    isSelected: getDraughtIsSelectedSelector,
-    player: getDraughtPlayerSelector,
-    isQueen: getDraughtIsQueenSelector,
-    canSelectDraught: getCanSelectDraughtSelector(state, props)
+    isSelected: isSelectedSelector,
+    player: playerSelector,
+    isQueen: isQueenSelector,
+    canBeSelected: canBeSelectedSelector
   })
 }
 

@@ -3,65 +3,67 @@ import { TileContainer } from './components'
 import { NAME } from './constants'
 import { createSelector } from 'reselect'
 
-const getTilesSelector = state => state[NAME]
+export const tilesSelector = state => state[NAME]
 
-const getTileSelector = (state, props) => props.tile
+export const idSelector = (state, props) => props.id
 
-const getBoardSelector = (state, props) => props.board
+export const tileSelector = createSelector(
+  tilesSelector,
+  idSelector,
+  (tiles, id) => {
+    return tiles.get(id)
+  }
+)
 
-export const getHasDraughtSelector = createSelector(
-  getTileSelector,
+export const hasDraughtSelector = createSelector(
+  tileSelector,
   tile => {
     return tile.get('hasDraught')
   }
 )
 
-export const getIsEnemySelector = createSelector(
-  getTileSelector,
+export const isEnemySelector = createSelector(
+  tileSelector,
   tile => {
     return tile.get('isEnemy')
   }
 )
 
-export const getIsHighlightedSelector = createSelector(
-  getTileSelector,
+export const isHighlightedSelector = createSelector(
+  tileSelector,
   tile => {
     return tile.get('isHighlighted')
   }
 )
 
-export const getIsAbleToEatSelector = createSelector(
-  getTileSelector,
+export const isAbleToEatSelector = createSelector(
+  tileSelector,
   tile => {
     return tile.get('isAbleToEat')
   }
 )
 
-export const getAllowDraughtSelector = createSelector(
-  getTileSelector,
+export const allowDraughtSelector = createSelector(
+  tileSelector,
   tile => {
     return tile.get('allowDraught')
   }
 )
 
-export const canMoveDraughtSelector = createSelector(
-  getIsHighlightedSelector,
+export const canBeMovedSelector = createSelector(
+  isHighlightedSelector,
   isHighlighted => {
     return isHighlighted
   }
 )
 
-export const getTileContainersSelector = (state, props) => createSelector(
-  getTilesSelector,
-  getBoardSelector,
-  (tiles, board) => {
+export const tileContainersSelector = createSelector(
+  tilesSelector,
+  tiles => {
     return tiles.valueSeq().map((tile, id) => {
       return (
         <TileContainer key={id}
-        id={id}
-        tile={tile}
-        canMoveDraughtSelector={canMoveDraughtSelector}
-        board={board} />
+        id={id} />
       )
     })
   }

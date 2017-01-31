@@ -1,9 +1,9 @@
 import { NAME } from './constants'
 
-export const getIsAbleToEatAvailableSelector = state => state[NAME].isAbleToEatAvailable
+export const isAbleToEatAvailableSelector = state => state[NAME].isAbleToEatAvailable
 
-export const getPlayerTurnSelector = state => state[NAME].playerTurn
+export const playerTurnSelector = state => state[NAME].playerTurn
 
-export const getSelectedDraughtSelector = state => state[NAME].selectedDraught
+export const selectedDraughtIdSelector = state => state[NAME].selectedDraughtId
 
-export const getPreviousMoveSelector = state => state[NAME].previousMove
+export const previousMoveIdSelector = state => state[NAME].previousMoveId

@@ -2,91 +2,71 @@ import React from 'react'
 import { DraughtContainer } from './components'
 import { createSelector } from 'reselect'
 
-export const getSelectedDraughtId = state => state.board.selectedDraughtId
+export const selectedDraughtIdSelector = state => state.board.selectedDraughtId
 
-export const getTiles = state => state.tiles
+export const isAbleToEatAvailableSelector = state => state.board.isAbleToEatAvailable
 
-export const getIdSelector = (state, props) => props.id
+export const playerTurnSelector = state => state.board.playerTurn
 
-export const getTileSelector = (state, props) => props.tile
+export const tilesSelector = state => state.tiles
 
-export const getBoardSelector = (state, props) => props.board
+export const idSelector = (state, props) => props.id
 
-const getBoardConstantsSelector = createSelector(
-  getBoardSelector,
-  board => {
-    return board.constants.NAME
+export const tileSelector = createSelector(
+  tilesSelector,
+  idSelector,
+  (tiles, id) => {
+    return tiles.get(id)
   }
 )
 
-const getIsAbleToEatAvailableSelector = (state, props) => createSelector(
-  getBoardConstantsSelector,
-  boardConstants => {
-    return state[boardConstants].isAbleToEatAvailable
-  }
-)
-
-const getPlayerTurnSelector = (state, props) => createSelector(
-  getBoardConstantsSelector,
-  boardConstants => {
-    return state[boardConstants].playerTurn
-  }
-)
-
-export const getDraughtSelector = createSelector(
-  getTileSelector,
+export const draughtSelector = createSelector(
+  tileSelector,
   tile => {
     return tile.get('draught')
   }
 )
 
-export const getHasDraughtSelector = createSelector(
-  getTileSelector,
+export const hasDraughtSelector = createSelector(
+  tileSelector,
   tile => {
     return tile.get('hasDraught')
   }
 )
 
-export const getIsAbleToEatSelector = createSelector(
-  getTileSelector,
+export const isAbleToEatSelector = createSelector(
+  tileSelector,
   tile => {
     return tile.get('isAbleToEat')
   }
 )
 
-export const getDraughtIsSelectedSelector = createSelector(
-  getDraughtSelector,
-  draught => {
-    return draught !== undefined ? draught.get('isSelected') : undefined
-  }
-)
-
-export const getDraughtPlayerSelector = createSelector(
-  getDraughtSelector,
+export const playerSelector = createSelector(
+  draughtSelector,
   draught => {
     return draught !== undefined ? draught.get('player') : undefined
   }
 )
 
-export const getDraughtIsAbleToEatSelector = createSelector(
-  getDraughtSelector,
+export const isSelectedSelector = createSelector(
+  draughtSelector,
   draught => {
-    return draught !== undefined ? draught.get('isAbleToEat') : undefined
+    return draught !== undefined ? draught.get('isSelected') : undefined
   }
 )
 
-export const getDraughtIsQueenSelector = createSelector(
-  getDraughtSelector,
+export const isQueenSelector = createSelector(
+  draughtSelector,
   draught => {
     return draught !== undefined ? draught.get('isQueen') : undefined
   }
 )
 
-export const getCanSelectDraughtSelector = (state, props) => createSelector(
-  getIsAbleToEatAvailableSelector(state, props),
-  getDraughtPlayerSelector,
-  getPlayerTurnSelector(state, props),
-  getIsAbleToEatSelector,
+export const canBeSelectedSelector = createSelector(
+  isAbleToEatAvailableSelector,
+  playerSelector,
+  playerTurnSelector,
+  isAbleToEatSelector,
   (isAbleToEatAvailable, player, playerTurn, isAbleToEat) => {
     if ((!isAbleToEatAvailable && player === playerTurn) || (isAbleToEatAvailable && isAbleToEat)) {
       return true
@@ -95,18 +75,15 @@ export const getCanSelectDraughtSelector = (state, props) => createSelector(
   }
 )
 
-export const getDraughtContainerSelector = (state, props) => createSelector(
-  getIdSelector,
-  getTileSelector,
-  getBoardSelector,
-  getHasDraughtSelector,
-  getCanSelectDraughtSelector,
-  (id, tile, board, hasDraught, canSelectDraught) => {
+export const draughtContainerSelector = createSelector(
+  idSelector,
+  tileSelector,
+  hasDraughtSelector,
+  canBeSelectedSelector,
+  (id, tile, hasDraught, canSelectDraught) => {
     return hasDraught ?
     <DraughtContainer
     id={id}
-    tile={tile}
-    board={board}
     canSelectDraught={canSelectDraught} /> : undefined
   }
 )
