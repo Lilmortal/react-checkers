@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import boardReducer from './modules/board/ducks/boardModule'
-import tilesReducer from './modules/tile/ducks/tileModule'
+import board from './modules/board'
+import tile from './modules/tile'
 
 export default combineReducers({
-	boardReducer,
-	tilesReducer
+	[board.constants.NAME]: board.reducer,
+	[tile.constants.NAME]: tile.reducer
 })

@@ -1,32 +1,30 @@
 import React from 'react'
 import './draught.css'
 
-const Draught = (props) => {
-	const { isQueen, player, isSelected, playerTurn, isAbleToEat, isAbleToEatAvailable, startSelectDraught } = props
+export const Draught = (props) => {
+	const { id, player, isSelected, selectDraughtClick, canSelectDraught, isQueen } = props
+
+	let className = 'draught ' + (player === 1 ? 'player1' : 'player2')
+	if (isSelected) className += ' draughtSelected'
+
+	const draughtStyle = {
+		cursor: canSelectDraught ? 'pointer' : 'default'
+	}
 
 	const queen = isQueen ? '♛' : ''
 
-	let className = player === 1 ? ' player1' : ' player2'
-	if (isSelected) className += ' draughtSelected'
-
-	let cursor = player === playerTurn ? 'pointer' : 'default'
-	if (isAbleToEatAvailable) {
-		if (isAbleToEat) {
-			cursor = 'pointer'
-		} else {
-			cursor = 'default'
-		}
-	}
-
-	let draughtStyle = {
-		cursor: cursor
-	}
-
 	return (
-		<div className={'draught' + className} style={draughtStyle} onClick={ () => typeof(startSelectDraught) === 'function' ? startSelectDraught() : undefined }>
+		<div className={className} style={draughtStyle} onClick={ () => canSelectDraught ? selectDraughtClick(id) : undefined }>
 			<div className='draughtQueen' style={draughtStyle}>{queen}</div>
 		</div>
 	)
 }
 
-export default Draught
+Draught.proptypes = {
+	id: React.PropTypes.number.isRequired,
+	player: React.PropTypes.number.isRequired,
+	isSelected: React.PropTypes.bool.isRequired,
+	selectDraughtClick: React.PropTypes.func,
+	canSelectDraught: React.PropTypes.bool.isRequired,
+	isQueen: React.PropTypes.bool.isRequired
+}

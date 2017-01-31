@@ -1,0 +1,7 @@
+export const UPDATE_TILE_IS_HIGHLIGHTED = 'tile/UPDATE_TILE_IS_HIGHLIGHTED'
+
+export const REMOVE_DRAUGHT = 'tile/REMOVE_DRAUGHT'
+
+export const START_MOVE_DRAUGHT = 'tile/START_MOVE_DRAUGHT'
+
+export const MOVE_DRAUGHT = 'tile/MOVE_DRAUGHT'

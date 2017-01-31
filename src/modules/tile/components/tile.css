@@ -4,3 +4,25 @@
 	height: 50px;
 	margin-top: -5px;
 }
+
+.enemyTile {
+	background-color: brown;
+}
+
+.highlightedTile {
+	background-color: orange;
+	cursor: pointer;
+}
+
+.ableToEatTile {
+	background-color: blue;
+	cursor: pointer;
+}
+
+.allowDraughtTile {
+	background-color: black;
+}
+
+.notAllowDraughtTile {
+	background-color: red;
+}

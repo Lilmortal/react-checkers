@@ -1,52 +1,30 @@
 import React from 'react'
 import './tile.css'
 
-// ignore the horrible color choices; im just testing the libraries etc; I will fix design later
-const evenTileStyle = {
-	backgroundColor: 'red'
-}
+export const Tile = (props) => {
+	const { id, isEnemy, isHighlighted, isAbleToEat, allowDraught, draught, canMoveDraught, moveDraughtClick } = props
 
-const oddTileStyle = {
-	backgroundColor: 'black'
-}
+	let tileState = 'tile '
+	if (isEnemy) tileState += 'enemyTile'
+	else if (isHighlighted) tileState += 'highlightedTile'
+	else if (isAbleToEat) tileState += 'ableToEatTile'
+	else if (allowDraught) tileState += 'allowDraughtTile'
+	else tileState += 'notAllowDraughtTile'
 
-const isEnemyTileStyle = {
-	backgroundColor: 'brown',
-}
-
-const highlightedTileStyle = {
-	backgroundColor: 'orange',
-	cursor: 'pointer'
-}
-
-const needToEatTileStyle = {
-	backgroundColor: 'blue',
-	cursor: 'pointer'
-}
-
-const Tile = (props) => {
-	const { isEnemy, isHighlighted, isAbleToEat, allowDraught, draught, startMoveDraught } = props
-
-	const style = () => {
-		if (isEnemy) return isEnemyTileStyle
-		if (isHighlighted) return highlightedTileStyle
-		if (isAbleToEat) return needToEatTileStyle
-		if (allowDraught) return oddTileStyle
-		return evenTileStyle
-	}
 	return (
-		<div className='tile' style={ style() } onClick={ () => typeof(startMoveDraught) === 'function' ? startMoveDraught() : undefined }>
+		<div className={tileState} onClick={ () => canMoveDraught ? moveDraughtClick(id) : undefined }>
 			{draught}
 		</div>
 	)
 }
 
 Tile.proptypes = {
+	id: React.PropTypes.number.isRequired,
 	isEnemy: React.PropTypes.bool.isRequired,
 	isHighlighted: React.PropTypes.bool.isRequired,
 	isAbleToEat: React.PropTypes.bool.isRequired,
 	allowDraught: React.PropTypes.bool.isRequired,
-	startMoveDraught: React.PropTypes.func
+	draught: React.PropTypes.object,
+	canMoveDraught: React.PropTypes.bool.isRequired,
+	moveDraughtClick: React.PropTypes.func
 }
-
-export default Tile
