@@ -1,6 +1,6 @@
 import React from 'react'
 import BoardContainer from '../components/boardContainer'
-import reducer from '../reducers'
+import reducer from '../../../rootReducer'
 import draught from '../../draught'
 import { populateTiles } from '../../../shared/tileUtils'
 import { mount } from 'enzyme'
@@ -23,7 +23,7 @@ describe('Tile container', () => {
   it('updates the selected draught id', () => {
     const [wrapper, store] = getWrapperAndStore()
 
-    const tile = {
+    const tile = fromJS({
       id: 40,
       allowDraught: true,
       hasDraught: true,
@@ -36,18 +36,18 @@ describe('Tile container', () => {
       bottomRightTileId: 52,
       x: 7,
       y: 3,
-      draught: {
+      draught: fromJS({
         id: 40,
         isSelected: false,
         player: 2,
         isQueen: false,
         canSelectDraught: false
-      }
-    }
+      })
+    })
 
     store.dispatch(draught.actions.SELECT_DRAUGHT(40, tile, 40))
 
     const state = store.getState()
-    console.log(state)
+    expect(state.board.selectedDraughtId).toEqual(40)
   })
 })
