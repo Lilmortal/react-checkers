@@ -1,8 +1,7 @@
 import React from 'react'
 import './board.css'
 
-export const Board = (props) => {
-	const { playerTurn, tiles } = props
+const Board = ({ playerTurn, tiles }) => {
 	return (
 		<div className='board'>
 			<h1>Player {playerTurn} turn</h1>
@@ -15,3 +14,5 @@ Board.proptypes = {
 	playerTurn: React.PropTypes.number.isRequired,
 	tiles: React.PropTypes.object.isRequired
 }
+
+export default Board

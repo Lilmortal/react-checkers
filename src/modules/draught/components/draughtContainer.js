@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { Draught } from './draught'
+import Draught from './draught'
 import { START_SELECT_DRAUGHT } from '../actions'
 import * as selectors from '../selectors'
 import { createStructuredSelector } from 'reselect'
@@ -23,4 +23,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export const DraughtContainer = connect(mapStateToProps, mapDispatchToProps)(Draught)
+export { mapStateToProps, mapDispatchToProps } // export unconnected components for testing purposes
+export default connect(mapStateToProps, mapDispatchToProps)(Draught)

@@ -1,4 +1,4 @@
-import { Tile } from './tile'
+import Tile from './tile'
 import draught from '../../draught'
 import * as selectors from '../selectors'
 import { startMoveDraught } from '../actions'
@@ -26,4 +26,6 @@ const mapDispatchToProps = (dispatch) => {
 		}
 	}
 }
-export const TileContainer = connect(mapStateToProps, mapDispatchToProps)(Tile)
+
+export { mapStateToProps, mapDispatchToProps } // export unconnected components for testing purposes
+export default connect(mapStateToProps, mapDispatchToProps)(Tile)

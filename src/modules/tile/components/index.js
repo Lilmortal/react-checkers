@@ -1,3 +1,4 @@
-export * from './tile'
-export * from './tileContainer'
-export * from './tilesContainer'
+import Tile from './tile'
+import TileContainer from './tileContainer'
+
+export default { Tile, TileContainer }

@@ -1,9 +1,9 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { Tile } from '../components/tile'
+import Tile from '../components/tile'
 import draught from '../../draught'
 
-const { Draught } = draught.components
+const Draught = draught.components.Draught
 
 describe('It should render a tile', () => {
   describe('class name', () => {

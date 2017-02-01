@@ -1,9 +1,7 @@
 import React from 'react'
 import './tile.css'
 
-export const Tile = (props) => {
-	const { id, isEnemy, isHighlighted, isAbleToEat, allowDraught, draught, canMoveDraught, moveDraughtClick } = props
-
+const Tile = ({ id, isEnemy, isHighlighted, isAbleToEat, allowDraught, draught, canMoveDraught, moveDraughtClick }) => {
 	let tileState = 'tile '
 	if (isEnemy) tileState += 'enemyTile'
 	else if (isHighlighted) tileState += 'highlightedTile'
@@ -28,3 +26,5 @@ Tile.proptypes = {
 	canMoveDraught: React.PropTypes.bool.isRequired,
 	moveDraughtClick: React.PropTypes.func
 }
+
+export default Tile

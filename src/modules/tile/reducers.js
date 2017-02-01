@@ -76,34 +76,10 @@ const tileReducer = (tiles = populateTiles(), payLoad) => {
 				return updatedTile !== undefined ? updatedTile.tile : tile
 			})
 		}
-		/*case actionTypes.REMOVE_DRAUGHT: {
-			return {
-				state: payLoad.tile
-			}
-		}
-		case actionTypes.MOVE_DRAUGHT: {
-			return {
-				state: payLoad.tile
-			}
-		}*/
 		default: {
 			return tiles
 		}
 	}
 }
-
-/*const tilesReducer = (state = tilesInitialState, payLoad) => {
-	let tiles = state.tiles || state
-	console.log(tiles, payLoad.type, payLoad.id, payLoad.draught)
-	if (!tiles.has(payLoad.id)) {
-		return tiles
-	}
-	const tile = tiles.get(payLoad.id)
-	//const updatedTile = tileReducer(tile, payLoad)
-	//tiles = tiles.set(payLoad.id, updatedTile)
-	return {
-		tiles
-	}
-}*/
 
 export default tileReducer

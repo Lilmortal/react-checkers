@@ -1,2 +1,4 @@
-export * from './draught'
-export * from './draughtContainer'
+import Draught from './draught'
+import DraughtContainer from './draughtContainer'
+
+export default { Draught, DraughtContainer }

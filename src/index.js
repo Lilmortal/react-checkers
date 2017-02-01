@@ -6,7 +6,7 @@ import { store } from './store'
 import DevTools from './tools/DevTools'
 import './index.css'
 
-const { BoardContainer } = board.components
+const BoardContainer = board.components.BoardContainer
 
 ReactDOM.render(
 	<Provider store={store}>

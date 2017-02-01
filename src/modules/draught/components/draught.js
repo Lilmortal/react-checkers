@@ -1,9 +1,7 @@
 import React from 'react'
 import './draught.css'
 
-export const Draught = (props) => {
-	const { id, player, isSelected, selectDraughtClick, canBeSelected, isQueen } = props
-
+const Draught = ({ id, player, isSelected, selectDraughtClick, canBeSelected, isQueen }) => {
 	let className = 'draught ' + (player === 1 ? 'player1' : 'player2')
 	if (isSelected) className += ' draughtSelected'
 	if (canBeSelected) className += ' canBeSelected'
@@ -28,3 +26,5 @@ Draught.proptypes = {
 	canBeSelected: React.PropTypes.bool.isRequired,
 	isQueen: React.PropTypes.bool.isRequired
 }
+
+export default Draught

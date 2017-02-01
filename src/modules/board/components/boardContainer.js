@@ -1,4 +1,4 @@
-import { Board } from './board'
+import Board from './board'
 import tile from '../../tile'
 import { createStructuredSelector } from 'reselect'
 import * as selectors from '../selectors'
@@ -14,4 +14,5 @@ const mapStateToProps = (state, props) => {
 	})
 }
 
-export const BoardContainer = connect(mapStateToProps)(Board)
+export { mapStateToProps } // export unconnected components for testing purposes
+export default connect(mapStateToProps)(Board)

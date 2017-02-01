@@ -1,5 +1,5 @@
 import React from 'react'
-import { TileContainer } from './components'
+import TileContainer from './components/tileContainer'
 import { NAME } from './constants'
 import { createSelector } from 'reselect'
 

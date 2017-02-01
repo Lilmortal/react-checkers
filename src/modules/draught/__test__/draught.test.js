@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { Draught } from '../components/draught'
+import Draught from '../components/draught'
 
 describe('It should render the draught', () => {
   describe('queen', () => {

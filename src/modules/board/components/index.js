@@ -1,2 +1,4 @@
-export * from './board'
-export * from './boardContainer'
+import Board from './board'
+import BoardContainer from './boardContainer'
+
+export default { Board, BoardContainer }

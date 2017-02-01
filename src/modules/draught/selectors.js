@@ -1,5 +1,5 @@
 import React from 'react'
-import { DraughtContainer } from './components'
+import DraughtContainer from './components/draughtContainer'
 import { createSelector } from 'reselect'
 
 export const selectedDraughtIdSelector = state => state.board.selectedDraughtId
@@ -77,13 +77,10 @@ export const canBeSelectedSelector = createSelector(
 
 export const draughtContainerSelector = createSelector(
   idSelector,
-  tileSelector,
   hasDraughtSelector,
-  canBeSelectedSelector,
-  (id, tile, hasDraught, canSelectDraught) => {
+  (id, hasDraught) => {
     return hasDraught ?
     <DraughtContainer
-    id={id}
-    canSelectDraught={canSelectDraught} /> : undefined
+    id={id} /> : undefined
   }
 )
