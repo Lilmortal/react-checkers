@@ -14,5 +14,4 @@ const mapStateToProps = (state, props) => {
 	})
 }
 
-export { mapStateToProps } // export unconnected components for testing purposes
 export default connect(mapStateToProps)(Board)

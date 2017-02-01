@@ -27,5 +27,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export { mapStateToProps, mapDispatchToProps } // export unconnected components for testing purposes
 export default connect(mapStateToProps, mapDispatchToProps)(Tile)

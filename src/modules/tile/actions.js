@@ -1,4 +1,3 @@
-import { updateTiles } from './components/tilesContainer'
 import * as actionTypes from './actionTypes'
 
 export const UPDATE_TILE_IS_HIGHLIGHTED = (tile) => {
@@ -9,7 +8,6 @@ export const UPDATE_TILE_IS_HIGHLIGHTED = (tile) => {
 }
 
 export const removeDraught = (tiles, tile) => {
-	tiles = updateTiles(tiles, tile)
 	return {
 		type: actionTypes.REMOVE_DRAUGHT,
 		tiles
@@ -28,7 +26,6 @@ export const startMoveDraught = (tile, selectedDraught, previousMove, playerTurn
 }
 
 export const moveDraughtAction = (tiles, tile) => {
-	tiles = updateTiles(tiles, tile)
 	return {
 		type: actionTypes.MOVE_DRAUGHT,
 		tiles

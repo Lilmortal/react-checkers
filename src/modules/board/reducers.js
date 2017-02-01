@@ -5,7 +5,7 @@ const initialState = {
   selectedDraughtId: undefined,
   playerTurn: 2,
   isAbleToEatAvailable: false,
-  previousMove: undefined
+  previousMoveId: undefined
 }
 
 const reducer = (state=initialState, payLoad) => {
@@ -16,19 +16,13 @@ const reducer = (state=initialState, payLoad) => {
         selectedDraughtId: payLoad.selectedDraughtId
       }
     }
-		case actionTypes.UPDATE_SELECTED_DRAUGHT: {
-			return {
-				...state,
-				selectedDraughtId: payLoad.selectedDraughtId
-			}
-		}
     case actionTypes.UPDATE_BOARD: {
       return {
         ...state,
         selectedDraughtId: payLoad.selectedDraughtId,
         playerTurn: payLoad.playerTurn,
         isAbleToEatAvailable: payLoad.isAbleToEatAvailable,
-        previousMove: payLoad.previousMove
+        previousMoveId: payLoad.previousMoveId
       }
     }
     default:
