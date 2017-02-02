@@ -1,27 +1,25 @@
 import React from 'react'
-import BoardContainer from '../components/boardContainer'
 import reducer from '../../../rootReducer'
 import draught from '../../draught'
 import { populateTiles } from '../../../shared/tileUtils'
-import { mount } from 'enzyme'
 import { createStore } from 'redux'
 import { fromJS, OrderedMap } from 'immutable'
 
-const wrapperInitialState = {
+const boardInitialState = {
   selectedDraughtId: undefined,
   playerTurn: 2,
   isAbleToEatAvailable: false,
   previousMoveId: undefined
 }
 
-function getWrapperAndStore(initialState = {board: wrapperInitialState, tiles: populateTiles()}) {
+function getWrapperAndStore(initialState = {board: boardInitialState, tiles: populateTiles()}) {
   const store = createStore(reducer, initialState)
-  return [mount(<BoardContainer />, { context: { store } }), store]
+  return store
 }
 
-describe('Tile container', () => {
+describe('Board container', () => {
   it('updates the selected draught id', () => {
-    const [wrapper, store] = getWrapperAndStore()
+    const store = getWrapperAndStore()
 
     const tile = fromJS({
       id: 40,
@@ -38,7 +36,7 @@ describe('Tile container', () => {
       y: 3,
       draught: fromJS({
         id: 40,
-        isSelected: false,
+        isSelected: true,
         player: 2,
         isQueen: false,
         canSelectDraught: false

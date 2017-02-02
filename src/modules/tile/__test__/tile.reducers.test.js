@@ -43,7 +43,7 @@ describe('Tile reducer', () => {
     expect(reducer(undefined, draught.actions.SELECT_DRAUGHT(40, tile)))
     .toEqual(
       {
-        // holy shit i dont want to type out 121 tiles
+        // i dont want to type out 121 tiles
       }
     )
   })
@@ -94,7 +94,7 @@ describe('Tile reducer', () => {
     expect(reducer(undefined, draught.actionTypes.HIGHLIGHT_NEIGHBOUR_TILES(neighbourTiles)))
     .toEqual(
       {
-        // holy shit i dont want to type out 121 tiles
+        // i dont want to type out 121 tiles
       }
     )
   })*/
