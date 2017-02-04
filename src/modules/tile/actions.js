@@ -1,40 +1,32 @@
 import * as actionTypes from './actionTypes'
 
-export const UPDATE_TILE_IS_HIGHLIGHTED = (tile) => {
-	return {
-		type: actionTypes.UPDATE_TILE_IS_HIGHLIGHTED,
-		tile
-	}
-}
-
-export const removeDraught = (tiles, tile) => {
-	return {
-		type: actionTypes.REMOVE_DRAUGHT,
-		tiles
-	}
-}
-
-export const startMoveDraught = (tile, selectedDraught, previousMove, playerTurn, isAbleToEatAvailable) => {
+export const START_MOVE_DRAUGHT = (id) => {
 	return {
 		type: actionTypes.START_MOVE_DRAUGHT,
-		tile,
-		selectedDraught,
-		previousMove,
-		playerTurn,
-		isAbleToEatAvailable
+		id
 	}
 }
 
-export const moveDraughtAction = (tiles, tile) => {
+export const MOVE_DRAUGHT = (id, tile, selectedDraughtId) => {
 	return {
 		type: actionTypes.MOVE_DRAUGHT,
-		tiles
+		id,
+		tile,
+		selectedDraughtId
 	}
 }
 
-export const moveDraught = (tiles, tile) => {
-	return dispatch => {
-		dispatch(moveDraughtAction(tiles, tile))
-		//dispatch(updateSelectedDraught(undefined))
+export const HIGHLIGHT_NEIGHBOUR_TILES = (neighbourTiles) => {
+	return {
+		type: actionTypes.HIGHLIGHT_NEIGHBOUR_TILES,
+		neighbourTiles
+	}
+}
+
+export const REMOVE_DRAUGHT = (id, tile) => {
+	return {
+		type: actionTypes.REMOVE_DRAUGHT,
+		id,
+		tile
 	}
 }

@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes'
 import draught from '../draught'
+import tile from '../tile'
 
 const initialState = {
   selectedDraughtId: undefined,
@@ -11,6 +12,12 @@ const initialState = {
 const reducer = (state=initialState, payLoad) => {
   switch (payLoad.type) {
     case draught.actionTypes.SELECT_DRAUGHT: {
+      return {
+        ...state,
+        selectedDraughtId: payLoad.selectedDraughtId
+      }
+    }
+    case tile.actionTypes.MOVE_DRAUGHT: {
       return {
         ...state,
         selectedDraughtId: payLoad.selectedDraughtId

@@ -1,10 +1,11 @@
 import { put, select } from 'redux-saga/effects'
-// find out how to do import * as actions
 import * as actions from '../actions'
 import board from '../../board'
-import { toggleTileHighlights } from '../components/tileContainer'
+import { getTileNeighboursHighlightsToggled } from '../../../shared/tileUtils'
 
-export const getTiles = state => state.tilesReducer.tiles
+export const getTiles = state => state.tiles
+
+export const getSelectedDraughtId = state => state.board.selectedDraughtId
 
 /**
  * Remove an enemy
@@ -169,8 +170,8 @@ export const getTiles = state => state.tilesReducer.tiles
  * @param  {Object}    dispatch A list of payloads
  * @return {Generator}          Return the updated tile and selected draught
  */
-/*export const moveDraughtSaga = function*(dispatch) {
-  const enemyPlayer = dispatch.playerTurn === 1 ? 2 : 1
+export const moveDraughtSaga = function*(dispatch) {
+  /*const enemyPlayer = dispatch.playerTurn === 1 ? 2 : 1
 	let selectedDraughtEnemyPosition = Object.keys(NEIGHBOUR_TILES).find((neighbour) => {
 		if (dispatch.selectedDraught.getIn([neighbour, 'isEnemy']) && dispatch.tile.get('id') === dispatch.selectedDraught.getIn([neighbour, neighbour, 'id'])) {
 			return neighbour
@@ -210,5 +211,5 @@ export const getTiles = state => state.tilesReducer.tiles
 
 		updatedTile = yield moveSelectedDraughtToTile(updatedTile, dispatch.selectedDraught, false)
 		yield put(board.actions.updateBoard(enemyPlayer, updatedTile, isAbleToEatAvailable))
-  }
-}*/
+  }*/
+}

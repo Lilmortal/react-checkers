@@ -1,5 +1,52 @@
 import { fromJS, OrderedMap } from 'immutable'
 
+const getTileNeighbourHighlightsToggled = (neighbourTilesToBeUpdated, tiles, tile, playerTurn, id) => {
+	const enemyPlayer = playerTurn === 1 ? 2 : 1
+	let tileNeighbour = tiles.get(tile.get(id))
+	if (tile.get('hasDraught') && tile.get('player') === enemyPlayer && !tileNeighbour.get('hasDraught')) {
+		tile = tile.set('isEnemy', !tile.get('isEnemy'))
+		tileNeighbour = tileNeighbour.set('isHighlighted', !tileNeighbour.get('isHighlighted'))
+		neighbourTilesToBeUpdated.push({id: tile.get('id'), tile: tile})
+		neighbourTilesToBeUpdated.push({id: tileNeighbour.get('id'), tile: tileNeighbour})
+	}
+
+	if (!tile.get('hasDraught')) {
+		tile = tile.set('isHighlighted', !tile.get('isHighlighted'))
+		neighbourTilesToBeUpdated.push({id: tile.get('id'), tile: tile})
+	}
+	return neighbourTilesToBeUpdated
+}
+
+export const getTileNeighboursHighlightsToggled = (tiles, tile, playerTurn) => {
+	const draught = tile.get('draught')
+	let topLeftTile = tiles.get(tile.get('topLeftTileId'))
+	let topRightTile = tiles.get(tile.get('topRightTileId'))
+	let bottomLeftTile = tiles.get(tile.get('bottomLeftTileId'))
+	let bottomRightTile = tiles.get(tile.get('bottomRightTileId'))
+
+	let neighbourTilesToBeUpdated = []
+	if (draught.get('player') === 1 || draught.get('isQueen')) {
+		if (bottomLeftTile !== undefined) {
+			neighbourTilesToBeUpdated = getTileNeighbourHighlightsToggled(neighbourTilesToBeUpdated, tiles, bottomLeftTile, playerTurn, 'bottomLeftTileId')
+		}
+
+		if (bottomRightTile !== undefined) {
+			neighbourTilesToBeUpdated = getTileNeighbourHighlightsToggled(neighbourTilesToBeUpdated, tiles, bottomRightTile, playerTurn, 'bottomRightTileId')
+		}
+	}
+
+	if (draught.get('player') === 2 || draught.get('isQueen')) {
+		if (topLeftTile !== undefined) {
+			neighbourTilesToBeUpdated = getTileNeighbourHighlightsToggled(neighbourTilesToBeUpdated, tiles, topLeftTile, playerTurn, 'topLeftTileId')
+		}
+
+		if (topRightTile !== undefined) {
+			neighbourTilesToBeUpdated = getTileNeighbourHighlightsToggled(neighbourTilesToBeUpdated, tiles, topRightTile, playerTurn, 'topRightTileId')
+		}
+	}
+	return neighbourTilesToBeUpdated
+}
+
 /**
  * Populate the default tiles
  * @return {Object} The updated tiles
