@@ -34,7 +34,15 @@ const tileReducer = (tiles = populateTiles(), payLoad) => {
 				return updatedTile !== undefined ? updatedTile.tile : tile
 			})
 		}
-		case actionTypes.MOVE_DRAUGHT: {
+		case actionTypes.REMOVE_DRAUGHT: {
+			return tiles.map(tile => {
+				if (tile.get('id') === payLoad.id) {
+					return payLoad.tile
+				}
+				return tile
+			})
+		}
+		case actionTypes.ADD_DRAUGHT: {
 			return tiles.map(tile => {
 				if (tile.get('id') === payLoad.id) {
 					return payLoad.tile

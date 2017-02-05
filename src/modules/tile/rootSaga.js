@@ -1,5 +1,5 @@
 import { takeLatest } from 'redux-saga'
-import { START_MOVE_DRAUGHT } from './actionTypes'
+import * as actionTypes from './actionTypes'
 import * as sagas from './sagas'
 
 const { moveDraughtSaga } = sagas
@@ -9,5 +9,5 @@ const { moveDraughtSaga } = sagas
  * @return {Generator} [description]
  */
 export const watchTileUpdates = function*() {
-  yield takeLatest(START_MOVE_DRAUGHT, moveDraughtSaga)
+  yield takeLatest(actionTypes.START_MOVE_DRAUGHT, moveDraughtSaga)
 }

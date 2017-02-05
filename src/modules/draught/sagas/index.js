@@ -1,1 +1,1 @@
-export * from './selectDraughtSaga'
+export * from './draughtSaga'

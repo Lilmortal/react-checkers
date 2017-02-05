@@ -3,3 +3,5 @@ export const START_SELECT_DRAUGHT = 'draught/START_SELECT_DRAUGHT'
 export const SELECT_DRAUGHT = 'draught/SELECT_DRAUGHT'
 
 export const HIGHLIGHT_NEIGHBOUR_TILES = 'draught/HIGHLIGHT_NEIGHBOUR_TILES'
+
+export const UPDATE_BOARD = 'draught/UPDATE_BOARD'

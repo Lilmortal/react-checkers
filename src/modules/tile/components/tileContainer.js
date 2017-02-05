@@ -1,7 +1,7 @@
 import Tile from './tile'
 import draught from '../../draught'
 import * as selectors from '../selectors'
-import { startMoveDraught } from '../actions'
+import { START_MOVE_DRAUGHT } from '../actions'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 
@@ -22,7 +22,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		moveDraughtClick: (id) => {
-			dispatch(startMoveDraught(id))
+			dispatch(START_MOVE_DRAUGHT(id))
 		}
 	}
 }

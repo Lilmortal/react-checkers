@@ -1,1 +1,1 @@
-export * from './moveDraughtSaga'
+export * from './tileSaga'

@@ -1,17 +1,11 @@
 import * as actionTypes from './actionTypes'
 
-export const updateSelectedDraught = (selectedDraught) => {
-	return {
-		type: actionTypes.UPDATE_SELECTED_DRAUGHT,
-    selectedDraught
-	}
-}
-
-export const updateBoard = (playerTurn, previousMove, isAbleToEatAvailable) => {
+export const UPDATE_BOARD = (selectedDraughtId, playerTurn, previousMoveId, isAbleToEatAvailable) => {
 	return {
 		type: actionTypes.UPDATE_BOARD,
+		selectedDraughtId,
     playerTurn,
-    previousMove,
+    previousMoveId,
     isAbleToEatAvailable
 	}
 }

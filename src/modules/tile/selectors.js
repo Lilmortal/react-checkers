@@ -5,6 +5,15 @@ import { createSelector } from 'reselect'
 
 export const tilesSelector = state => state[NAME]
 
+export const selectedDraughtIdSelector = state => state.board.selectedDraughtId
+
+// figure out how to get board constant name
+export const playerTurnSelector = state => state.board.playerTurn
+
+export const isAbleToEatAvailableSelector = state => state.board.isAbleToEatAvailable
+
+export const previousMoveIdSelector = state => state.board.previousMoveId
+
 export const idSelector = (state, props) => props.id
 
 export const tileSelector = createSelector(

@@ -4,9 +4,11 @@ import { createSelector } from 'reselect'
 
 export const selectedDraughtIdSelector = state => state.board.selectedDraughtId
 
+export const playerTurnSelector = state => state.board.playerTurn
+
 export const isAbleToEatAvailableSelector = state => state.board.isAbleToEatAvailable
 
-export const playerTurnSelector = state => state.board.playerTurn
+export const previousMoveIdSelector = state => state.board.previousMoveId
 
 export const tilesSelector = state => state.tiles
 

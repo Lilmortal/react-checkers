@@ -1,7 +1,7 @@
 import React from 'react'
 import './tile.css'
 
-const Tile = ({ id, isEnemy, isHighlighted, isAbleToEat, allowDraught, draught, canMoveDraught, moveDraughtClick }) => {
+const Tile = ({ id, isEnemy, isHighlighted, isAbleToEat, allowDraught, draught, canBeMoved, moveDraughtClick }) => {
 	let tileState = 'tile '
 	if (isEnemy) tileState += 'enemyTile'
 	else if (isHighlighted) tileState += 'highlightedTile'
@@ -10,7 +10,7 @@ const Tile = ({ id, isEnemy, isHighlighted, isAbleToEat, allowDraught, draught, 
 	else tileState += 'notAllowDraughtTile'
 
 	return (
-		<div className={tileState} onClick={ () => canMoveDraught ? moveDraughtClick(id) : undefined }>
+		<div className={tileState} onClick={ () => canBeMoved ? moveDraughtClick(id) : undefined }>
 			{draught}
 		</div>
 	)

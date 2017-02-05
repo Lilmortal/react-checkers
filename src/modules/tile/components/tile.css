@@ -6,7 +6,13 @@
 }
 
 .enemyTile {
-	background-color: brown;
+	animation: enemyTileBlink 1s infinite;
+}
+
+@keyframes enemyTileBlink {
+	0% { background-color: black}
+	50% { background-color: #f3172d }
+	100% { background-color: black }
 }
 
 .highlightedTile {

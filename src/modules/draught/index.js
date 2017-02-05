@@ -1,9 +1,9 @@
-import * as actions from './actions'
-import * as constants from './constants'
 import components from './components'
-import * as actionTypes from './actionTypes'
-//import reducer from './reducers'
-import * as selectors from './selectors'
 import * as sagas from './rootSaga'
+import * as actions from './actions'
+import * as actionTypes from './actionTypes'
+import * as constants from './constants'
+import reducer from './reducers'
+import * as selectors from './selectors'
 
-export default { actions, constants, components, actionTypes/*, reducer*/, selectors, sagas }
+export default { components, sagas, actions, actionTypes, constants, reducer, selectors }
