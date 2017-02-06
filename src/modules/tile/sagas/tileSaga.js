@@ -150,7 +150,7 @@ export const moveDraughtSaga = function*(dispatch) {
     const selectedTileNeighbour = tiles.get(selectedTile.get(neighbourTileId))
     if (selectedTileNeighbour && selectedTileNeighbour.get('isEnemy') && selectedTileNeighbour.get(neighbourTileId) === dispatch.id) {
       enemy = selectedTileNeighbour
-      // here you are passing tile, but tile does not have a draught
+      // here you are passing tile, but tile does not have a draught; so we fake add a draught and remove it later
       const draught = fromJS({
         player: selectedTile.get('draught').get('player'),
         isQueen: selectedTile.get('draught').get('isQueen')
