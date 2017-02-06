@@ -31,7 +31,7 @@ export const selectDraughtSaga = function*(dispatch) {
 		selectedDraughtTile = selectedDraughtTile.set('draught', selectedDraught)
 
 		yield put(actions.SELECT_DRAUGHT(selectedDraughtId, selectedDraughtTile))
-    yield put(actions.UPDATE_BOARD(selectedDraughtId, playerTurn, previousMoveId, isAbleToEatAvailable))
+    yield put(actions.UPDATE_BOARD(selectedDraughtId, previousMoveId, playerTurn, isAbleToEatAvailable))
 
     // refresh the tiles state
     tiles = yield select(tilesSelector)
@@ -46,5 +46,5 @@ export const selectDraughtSaga = function*(dispatch) {
 	tile = tile.set('draught', draught)
 
 	yield put(actions.SELECT_DRAUGHT(dispatch.id, tile))
-  yield put(actions.UPDATE_BOARD(dispatch.id === selectedDraughtId ? undefined : dispatch.id, playerTurn, previousMoveId, isAbleToEatAvailable))
+  yield put(actions.UPDATE_BOARD(dispatch.id === selectedDraughtId ? undefined : dispatch.id, previousMoveId, playerTurn, isAbleToEatAvailable))
 }

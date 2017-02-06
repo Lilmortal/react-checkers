@@ -1,12 +1,12 @@
 import Tile from './tile'
-import draught from '../../draught'
+import draughtModule from '../../draught'
 import * as selectors from '../selectors'
 import { START_MOVE_DRAUGHT } from '../actions'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 
 const { isEnemySelector, isHighlightedSelector, isAbleToEatSelector, allowDraughtSelector, canBeMovedSelector } = selectors
-const { draughtContainerSelector } = draught.selectors
+const { draughtContainerSelector } = draughtModule.selectors
 
 const mapStateToProps = (state, props) => {
 	return createStructuredSelector({

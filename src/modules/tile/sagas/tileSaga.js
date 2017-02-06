@@ -1,6 +1,6 @@
 import * as actions from '../actions'
 import * as selectors from '../selectors'
-import draught from '../../draught'
+import draughtModule from '../../draught'
 import { getTileNeighboursHighlightsToggled } from '../../../shared/tileUtils'
 import { fromJS } from 'immutable'
 import { put, select } from 'redux-saga/effects'
@@ -190,11 +190,11 @@ export const moveDraughtSaga = function*(dispatch) {
   if (canEatMore) {
     // select the draught if can eat more
     tile = tile.set('draught', tile.get('draught').set('isSelected', true))
-    yield put(draught.actions.SELECT_DRAUGHT(dispatch.id, tile))
-    yield put(actions.UPDATE_BOARD(dispatch.id, playerTurn, previousMoveId, isAbleToEatAvailable))
+    yield put(draughtModule.actions.SELECT_DRAUGHT(dispatch.id, tile))
+    yield put(actions.UPDATE_BOARD(dispatch.id, previousMoveId, playerTurn, isAbleToEatAvailable))
   } else {
     const enemyTurn = playerTurn === 1 ? 2 : 1
-    yield put(actions.UPDATE_BOARD(undefined, enemyTurn, previousMoveId, isAbleToEatAvailable))
+    yield put(actions.UPDATE_BOARD(undefined, previousMoveId, enemyTurn, isAbleToEatAvailable))
   }
   /*const enemyPlayer = dispatch.playerTurn === 1 ? 2 : 1
 	let selectedDraughtEnemyPosition = Object.keys(NEIGHBOUR_TILES).find((neighbour) => {

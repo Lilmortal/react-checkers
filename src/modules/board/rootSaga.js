@@ -1,5 +1,5 @@
-import tile from '../tile'
-import draught from '../draught'
+import tileModule from '../tile'
+import draughtModule from '../draught'
 import * as sagas from './sagas'
 import { takeLatest } from 'redux-saga'
 
@@ -10,7 +10,7 @@ const { updateBoard } = sagas
  */
 export const watchBoardUpdates = function*() {
   yield [
-    takeLatest(tile.actionTypes.UPDATE_BOARD, updateBoard),
-    takeLatest(draught.actionTypes.UPDATE_BOARD, updateBoard)
+    takeLatest(tileModule.actionTypes.UPDATE_BOARD, updateBoard),
+    takeLatest(draughtModule.actionTypes.UPDATE_BOARD, updateBoard)
   ]
 }

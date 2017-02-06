@@ -1,4 +1,4 @@
-import draught from '../../draught'
+import draughtModule from '../../draught'
 import reducer from '../reducers'
 
 describe('Tile reducer', () => {
@@ -40,7 +40,7 @@ describe('Tile reducer', () => {
       }
     }
 
-    expect(reducer(undefined, draught.actions.SELECT_DRAUGHT(40, tile)))
+    expect(reducer(undefined, draughtModule.actions.SELECT_DRAUGHT(40, tile)))
     .toEqual(
       {
         // i dont want to type out 121 tiles
@@ -91,7 +91,7 @@ describe('Tile reducer', () => {
       }
     ]
 
-    expect(reducer(undefined, draught.actionTypes.HIGHLIGHT_NEIGHBOUR_TILES(neighbourTiles)))
+    expect(reducer(undefined, draughtModule.actionTypes.HIGHLIGHT_NEIGHBOUR_TILES(neighbourTiles)))
     .toEqual(
       {
         // i dont want to type out 121 tiles

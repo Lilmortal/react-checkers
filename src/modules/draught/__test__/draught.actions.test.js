@@ -29,16 +29,14 @@ describe('Draught actions', () => {
       y: 3,
       draught: undefined
     }
-    const selectedDraughtId = 10
 
     const expectedAction = {
       type: actionTypes.SELECT_DRAUGHT,
       id,
-      tile,
-      selectedDraughtId
+      tile
     }
 
-    expect(actions.SELECT_DRAUGHT(id, tile, selectedDraughtId)).toEqual(expectedAction)
+    expect(actions.SELECT_DRAUGHT(id, tile)).toEqual(expectedAction)
   })
 
   it('should create a HIGHLIGHT_NEIGHBOUR_TILES action', () => {

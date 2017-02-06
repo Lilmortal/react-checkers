@@ -1,9 +1,9 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import Tile from '../components/tile'
-import draught from '../../draught'
+import draughtModule from '../../draught'
 
-const Draught = draught.components.Draught
+const Draught = draughtModule.components.Draught
 
 describe('It should render a tile', () => {
   describe('class name', () => {
@@ -41,13 +41,13 @@ describe('It should render a tile', () => {
     })
 
     it('should simulate a click if it can be moved', () => {
-      const wrapper = shallow(<Tile canMoveDraught={true} moveDraughtClick={moveDraughtClickSpy} />)
+      const wrapper = shallow(<Tile canBeMoved={true} moveDraughtClick={moveDraughtClickSpy} />)
       wrapper.find('.tile').simulate('click')
       expect(moveDraughtClickSpy).toBeCalled()
     })
 
     it('should not simulate a click if it cannot be moved', () => {
-      const wrapper = shallow(<Tile canMoveDraught={false} moveDraughtClick={moveDraughtClickSpy} />)
+      const wrapper = shallow(<Tile canBeMoved={false} moveDraughtClick={moveDraughtClickSpy} />)
       wrapper.find('.tile').simulate('click')
       expect(moveDraughtClickSpy).not.toBeCalled()
     })

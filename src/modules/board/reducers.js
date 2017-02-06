@@ -2,9 +2,9 @@ import * as actionTypes from './actionTypes'
 
 const initialState = {
   selectedDraughtId: undefined,
+  previousMoveId: undefined,
   playerTurn: 2,
-  isAbleToEatAvailable: false,
-  previousMoveId: undefined
+  isAbleToEatAvailable: false
 }
 
 const reducer = (state=initialState, payLoad) => {
@@ -13,9 +13,9 @@ const reducer = (state=initialState, payLoad) => {
       return {
         ...state,
         selectedDraughtId: payLoad.selectedDraughtId,
+        previousMoveId: payLoad.previousMoveId,
         playerTurn: payLoad.playerTurn,
-        isAbleToEatAvailable: payLoad.isAbleToEatAvailable,
-        previousMoveId: payLoad.previousMoveId
+        isAbleToEatAvailable: payLoad.isAbleToEatAvailable
       }
     }
     default:

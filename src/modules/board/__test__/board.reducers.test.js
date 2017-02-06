@@ -1,4 +1,5 @@
-import draught from '../../draught'
+import draughtModule from '../../draught'
+import tileModule from '../../tile'
 import reducer from '../reducers'
 
 describe('Board reducer', () => {
@@ -7,22 +8,35 @@ describe('Board reducer', () => {
     .toEqual(
       {
         selectedDraughtId: undefined,
+        previousMoveId: undefined,
         playerTurn: 2,
-        isAbleToEatAvailable: false,
-        previousMove: undefined
+        isAbleToEatAvailable: false
       }
     )
   })
 
-  it('should handle draught SELECT_DRAUGHT', () => {
-    expect(reducer(undefined, draught.actions.SELECT_DRAUGHT(10, undefined, 40)
+  // doesnt activate watchTileSaga and watchDraughtSaga
+  /*it('should handle draught UPDATE_BOARD', () => {
+    expect(reducer(undefined, draughtModule.actions.UPDATE_BOARD(10, 20, 1, true)
     )).toEqual(
       {
-        selectedDraughtId: 40,
-        playerTurn: 2,
-        isAbleToEatAvailable: false,
-        previousMove: undefined
+        selectedDraughtId: 10,
+        previousMoveId: 20,
+        playerTurn: 1,
+        isAbleToEatAvailable: true
       }
     )
   })
+
+  it('should handle tile UPDATE_BOARD', () => {
+    expect(reducer(undefined, draughtModule.actions.UPDATE_BOARD(10, 20, 1, true)
+    )).toEqual(
+      {
+        selectedDraughtId: 10,
+        previousMoveId: 20,
+        playerTurn: 1,
+        isAbleToEatAvailable: true
+      }
+    )
+  })*/
 })

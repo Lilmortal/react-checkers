@@ -1,17 +1,29 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import board from './modules/board'
+import mainModule from './modules/main'
+import boardModule from './modules/board'
+import reduxFormExampleModule from './modules/reduxFormExample'
 import { Provider } from 'react-redux'
 import { store } from './store'
 import DevTools from './tools/DevTools'
+import { Router, IndexRoute, Route, browserHistory } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
 import './index.css'
 
-const BoardContainer = board.components.BoardContainer
+const Main = mainModule.components.default.Main
+const BoardContainer = boardModule.components.BoardContainer
+const ReduxFormExampleContainer = reduxFormExampleModule.components.default.ReduxFormExampleContainer
+const history = syncHistoryWithStore(browserHistory, store)
 
 ReactDOM.render(
 	<Provider store={store}>
 		<div>
-			<BoardContainer />
+			<Router history={history}>
+				<Route path='/' component={Main}>
+					<IndexRoute component={BoardContainer}></IndexRoute>
+					<Route path='/reduxFormExample' component={ReduxFormExampleContainer}></Route>
+				</Route>
+			</Router>
 			<DevTools />
 		</div>
 	</Provider>,
