@@ -12,7 +12,7 @@ import './index.css'
 
 const Main = mainModule.components.default.Main
 const BoardContainer = boardModule.components.BoardContainer
-const ReduxFormExampleContainer = reduxFormExampleModule.components.default.ReduxFormExampleContainer
+const ReduxFormExample = reduxFormExampleModule.components.default.ReduxFormExample
 const history = syncHistoryWithStore(browserHistory, store)
 
 ReactDOM.render(
@@ -21,7 +21,7 @@ ReactDOM.render(
 			<Router history={history}>
 				<Route path='/' component={Main}>
 					<IndexRoute component={BoardContainer}></IndexRoute>
-					<Route path='/reduxFormExample' component={ReduxFormExampleContainer}></Route>
+					<Route path='/reduxFormExample' component={ReduxFormExample}></Route>
 				</Route>
 			</Router>
 			<DevTools />

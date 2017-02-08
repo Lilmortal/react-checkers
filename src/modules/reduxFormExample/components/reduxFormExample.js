@@ -1,9 +1,26 @@
 import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 
-const ReduxFormExample = ({ word }) => {
+const ReduxFormExample = ({ handleSubmit }) => {
   return (
-    <h1>{word}</h1>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="firstName">First Name</label>
+        <Field name="firstName" component="input" type="text"/>
+      </div>
+      <div>
+        <label htmlFor="lastName">Last Name</label>
+        <Field name="lastName" component="input" type="text"/>
+      </div>
+      <div>
+        <label htmlFor="email">Email</label>
+        <Field name="email" component="input" type="email"/>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
   )
 }
 
-export default ReduxFormExample
+export default reduxForm({
+  form: 'reduxFormExample'
+})(ReduxFormExample)
