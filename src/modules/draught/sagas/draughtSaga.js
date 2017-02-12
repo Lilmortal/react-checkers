@@ -8,7 +8,6 @@ const { selectedDraughtIdSelector, tilesSelector, playerTurnSelector, isAbleToEa
 /**
  * Toggle select a draught
  * @param  {Object}    dispatch A list of payloads
- * @return {Generator}          Return the updated selected draught
  */
 export const selectDraughtSaga = function*(dispatch) {
   const playerTurn = yield select(playerTurnSelector)

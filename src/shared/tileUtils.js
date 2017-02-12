@@ -3,7 +3,7 @@ import { fromJS, OrderedMap } from 'immutable'
 const getTileNeighbourHighlightsToggled = (neighbourTilesToBeUpdated, tiles, tile, playerTurn, tileNeighbour) => {
 	const enemyPlayer = playerTurn === 1 ? 2 : 1
 	const draught = tile.get('draught')
-	if (draught && draught.get('player') === enemyPlayer && !tileNeighbour.get('hasDraught')) {
+	if (draught && draught.get('player') === enemyPlayer && tileNeighbour && !tileNeighbour.get('hasDraught')) {
 		tile = tile.set('isEnemy', !tile.get('isEnemy'))
 		tileNeighbour = tileNeighbour.set('isHighlighted', !tileNeighbour.get('isHighlighted'))
 		neighbourTilesToBeUpdated.push({id: tile.get('id'), tile: tile, isEnemy: true })
@@ -17,6 +17,13 @@ const getTileNeighbourHighlightsToggled = (neighbourTilesToBeUpdated, tiles, til
 	return neighbourTilesToBeUpdated
 }
 
+/**
+ * Toggle tile neighbours highlights.
+ * @param  {Object} tiles      List of tiles.
+ * @param  {Object} tile       The tile that will have it's neighbours highlights toggled.
+ * @param  {Number} playerTurn Current player turn.
+ * @return {Array}            A list of tiles that have its highlight state changed.
+ */
 export const getTileNeighboursHighlightsToggled = (tiles, tile, playerTurn) => {
 	const draught = tile.get('draught')
 	let topLeftTile = tiles.get(tile.get('topLeftTileId'))
