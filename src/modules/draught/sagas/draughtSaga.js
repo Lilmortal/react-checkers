@@ -30,7 +30,6 @@ export const selectDraughtSaga = function*(dispatch) {
 		selectedDraughtTile = selectedDraughtTile.set('draught', selectedDraught)
 
 		yield put(actions.SELECT_DRAUGHT(selectedDraughtId, selectedDraughtTile))
-    yield put(actions.UPDATE_BOARD(selectedDraughtId, previousMoveId, playerTurn, isAbleToEatAvailable))
 
     // refresh the tiles state
     tiles = yield select(tilesSelector)
