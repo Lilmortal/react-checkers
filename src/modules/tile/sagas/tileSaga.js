@@ -128,7 +128,7 @@ export const setPreviousMoveToBeAbleToEatIfItCan = function*(previousMoveId, pla
   const tiles = yield select(tilesSelector)
   let previousMove = tiles.get(previousMoveId)
   let previousTileToBeUpdated = []
-	if (previousMove !== undefined && previousMove.get('hasDraught')) {
+	if (previousMove !== undefined && previousMove.get('hasDraught') && !previousMove.get('isAbleToEat')) {
     const previousDraught = previousMove.get('draught')
     for (let neighbourTileObj of NEIGHBOUR_TILES) {
       if (neighbourTileObj.player === playerTurn && !previousDraught.get('isQueen')) {
@@ -251,7 +251,6 @@ export const moveDraughtSaga = function*(dispatch) {
     if (enemy !== undefined) {
       yield removeEnemyNeighbourHighlights(enemy)
     }
-
     if (previousMoveId && tiles.get(previousMoveId) && !tiles.get(previousMoveId).get('hasDraught')) {
       previousMoveId = undefined
     } else {

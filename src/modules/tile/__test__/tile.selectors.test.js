@@ -1,7 +1,7 @@
 import React from 'react'
 import * as selectors from '../selectors'
 import TileContainer from '../components/tileContainer'
-import { fromJS, OrderedMap } from 'immutable'
+import { fromJS, OrderedMap, Seq } from 'immutable'
 
 describe('Tile selectors', () => {
   it('return tiles', () => {
@@ -49,8 +49,7 @@ describe('Tile selectors', () => {
     let tile = fromJS({hasDraught: false})
     tiles = tiles.set(0, tile)
 
-    let tilesArray = []
-    tilesArray.push(<TileContainer key={0} id={0} />)
+    let tilesArray = Seq(<TileContainer key={0} id={0} />)
     expect(selectors.tileContainersSelector.resultFunc(tiles)).toEqual(tilesArray)
   })*/
 })

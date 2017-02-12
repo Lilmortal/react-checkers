@@ -1,42 +1,15 @@
 import * as actions from '../actions'
 import * as actionTypes from '../actionTypes'
 
-describe('Draught actions', () => {
-  it('should create a START_SELECT_DRAUGHT action', () => {
+describe('Tile actions', () => {
+  it('should create a START_MOVE_DRAUGHT action', () => {
     const id = 40
     const expectedAction = {
-      type: actionTypes.START_SELECT_DRAUGHT,
+      type: actionTypes.START_MOVE_DRAUGHT,
       id
     }
 
-    expect(actions.START_SELECT_DRAUGHT(id)).toEqual(expectedAction)
-  })
-
-  it('should create a SELECT_DRAUGHT action', () => {
-    const id = 40
-    const tile = {
-      id: 40,
-      allowDraught: true,
-      hasDraught: false,
-      isHighlighted: false,
-      isEnemy: false,
-      isAbleToEat: false,
-      topLeftTileId: 28,
-      topRightTileId: 30,
-      bottomLeftTileId: 50,
-      bottomRightTileId: 52,
-      x: 7,
-      y: 3,
-      draught: undefined
-    }
-
-    const expectedAction = {
-      type: actionTypes.SELECT_DRAUGHT,
-      id,
-      tile
-    }
-
-    expect(actions.SELECT_DRAUGHT(id, tile)).toEqual(expectedAction)
+    expect(actions.START_MOVE_DRAUGHT(id)).toEqual(expectedAction)
   })
 
   it('should create a HIGHLIGHT_NEIGHBOUR_TILES action', () => {
@@ -88,6 +61,62 @@ describe('Draught actions', () => {
     }
 
     expect(actions.HIGHLIGHT_NEIGHBOUR_TILES(neighbourTiles)).toEqual(expectedAction)
+  })
+
+  it('should create a REMOVE_DRAUGHT action', () => {
+    const id = 28
+    const tile =
+    {
+      id: 28,
+      allowDraught: true,
+      hasDraught: false,
+      isHighlighted: true,
+      isEnemy: false,
+      isAbleToEat: false,
+      topLeftTileId: 16,
+      topRightTileId: 18,
+      bottomLeftTileId: 38,
+      bottomRightTileId: 40,
+      x: 6,
+      y: 2,
+      draught: undefined
+    }
+
+    const expectedAction = {
+      type: actionTypes.REMOVE_DRAUGHT,
+      id,
+      tile
+    }
+
+    expect(actions.REMOVE_DRAUGHT(id, tile)).toEqual(expectedAction)
+  })
+
+  it('should create a ADD_DRAUGHT action', () => {
+    const id = 28
+    const tile =
+    {
+      id: 28,
+      allowDraught: true,
+      hasDraught: false,
+      isHighlighted: true,
+      isEnemy: false,
+      isAbleToEat: false,
+      topLeftTileId: 16,
+      topRightTileId: 18,
+      bottomLeftTileId: 38,
+      bottomRightTileId: 40,
+      x: 6,
+      y: 2,
+      draught: undefined
+    }
+
+    const expectedAction = {
+      type: actionTypes.ADD_DRAUGHT,
+      id,
+      tile
+    }
+
+    expect(actions.ADD_DRAUGHT(id, tile)).toEqual(expectedAction)
   })
 
   it('should create an UPDATE_BOARD action', () => {

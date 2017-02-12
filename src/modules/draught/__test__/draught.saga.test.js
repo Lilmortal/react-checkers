@@ -105,11 +105,13 @@ describe('Draught saga', () => {
     const dispatch = {
       id: 92
     }
+    
     initialState.board.selectedDraughtId = 90
     let highlightedLeftTile = initialState.tiles.get(80)
     let highlightedRightTile = initialState.tiles.get(82)
     highlightedLeftTile = highlightedLeftTile.set('isHighlighted', true)
     highlightedRightTile = highlightedRightTile.set('isHighlighted', true)
+
     expectSaga(watchDraughtUpdates, dispatch)
     .withState(initialState)
     .select(playerTurnSelector)
