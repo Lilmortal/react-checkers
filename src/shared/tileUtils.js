@@ -66,6 +66,11 @@ export const getTileNeighboursHighlightsToggled = (tiles, tile, playerTurn) => {
 		})
 	}
 
+	neighbourTilesToBeUpdated = neighbourTilesToBeUpdated.map(neighbourTile => {
+		delete neighbourTile['isEnemy']
+		return neighbourTile
+	})
+
 	return neighbourTilesToBeUpdated
 }
 

@@ -182,11 +182,11 @@ export const removeEnemyNeighbourHighlights = function*(enemy) {
  * @param  {Object}    dispatch A list of payloads
  */
 export const moveDraughtSaga = function*(dispatch) {
-  let tiles = yield select(tilesSelector)
   let playerTurn = yield select(playerTurnSelector)
-  let previousMoveId = yield select(previousMoveIdSelector)
-
   const selectedDraughtId = yield select(selectedDraughtIdSelector)
+  let previousMoveId = yield select(previousMoveIdSelector)
+  let tiles = yield select(tilesSelector)
+
   let selectedTile = tiles.get(selectedDraughtId)
 
   let tile = tiles.get(dispatch.id)
