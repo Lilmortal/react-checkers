@@ -37,11 +37,11 @@ export const moveSelectedDraughtToTile = function*(tile, selectedTile, isAbleToE
   })
   tile = tile.withMutations(mutatedTile => mutatedTile.set('hasDraught', true).set('isAbleToEat', isAbleToEat).set('draught', draught))
 
-  selectedTile = selectedTile.withMutations(mutatedSelectedDraught => mutatedSelectedDraught.set('hasDraught', false).set('player', undefined)
-  .set('isQueen', false).set('isAbleToEat', false).set('draught', undefined))
+  selectedTile = selectedTile.withMutations(mutatedSelectedDraught => mutatedSelectedDraught.set('hasDraught', false).set('isAbleToEat', false)
+  .set('draught', undefined))
 
   if (enemy !== undefined) {
-    enemy = enemy.withMutations(mutatedEnemy => mutatedEnemy.set('hasDraught', false).set('player', undefined).set('isQueen', false).set('isEnemy', false).set('draught', undefined))
+    enemy = enemy.withMutations(mutatedEnemy => mutatedEnemy.set('hasDraught', false).set('isEnemy', false).set('draught', undefined))
     yield put(actions.REMOVE_DRAUGHT(enemy.get('id'), enemy))
   }
   yield put(actions.REMOVE_DRAUGHT(selectedTile.get('id'), selectedTile))
@@ -102,7 +102,7 @@ export const setTileNeighboursToBeAbleToEatIfItCan = function*(tile, playerTurn)
     }
     let neighbourTileId = neighbourTileObj.id
     let neighbourTile = tiles.get(tile.get(neighbourTileId))
-    if (neighbourTile && neighbourTile.get('hasDraught')) {
+    if (neighbourTile && neighbourTile.get('hasDraught') && !neighbourTile.get('isAbleToEat')) {
       let neighbourDraught = neighbourTile.get('draught')
       let oppositeTile = tiles.get(tile.get(OPPOSITE_TILE[neighbourTileId]))
       if (neighbourDraught.get('player') === enemyPlayer && oppositeTile && !oppositeTile.get('hasDraught')) {
@@ -129,7 +129,7 @@ export const setPreviousMoveToBeAbleToEatIfItCan = function*(previousMoveId, pla
   const tiles = yield select(tilesSelector)
   let previousMove = tiles.get(previousMoveId)
   let previousTileToBeUpdated = []
-	if (previousMove !== undefined && previousMove.get('hasDraught') && !previousMove.get('isAbleToEat')) {
+	if (previousMove && previousMove.get('hasDraught') && !previousMove.get('isAbleToEat')) {
     const previousDraught = previousMove.get('draught')
     for (let neighbourTileObj of NEIGHBOUR_TILES) {
       if (neighbourTileObj.player === playerTurn && !previousDraught.get('isQueen')) {
@@ -141,7 +141,7 @@ export const setPreviousMoveToBeAbleToEatIfItCan = function*(previousMoveId, pla
         const neighbourDraught = neighbourTile.get('draught')
         if (neighbourDraught.get('player') === playerTurn) {
           const neighbourNeighbourTile = tiles.get(neighbourTile.get(neighbourTileId))
-          if (!neighbourNeighbourTile.get('hasDraught')) {
+          if (neighbourNeighbourTile && !neighbourNeighbourTile.get('hasDraught')) {
             previousMove = previousMove.set('isAbleToEat', true)
             previousTileToBeUpdated.push({id: previousMoveId, tile: previousMove})
             break

@@ -2,7 +2,6 @@ import { fromJS } from 'immutable'
 import { put, select } from 'redux-saga/effects'
 import { expectSaga } from 'redux-saga-test-plan'
 
-import reducer from '../../../rootReducer'
 import { populateTiles } from '../../../shared/tileUtils'
 import { watchDraughtUpdates } from '../rootSaga'
 import * as selectors from '../selectors'
