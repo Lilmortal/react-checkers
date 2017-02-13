@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "@kadira/storybook": "^2.35.3",
+    "axios": "^0.15.3",
     "babel": "^6.5.2",
     "babel-plugin-transform-async-to-generator": "^6.16.0",
     "babel-plugin-transform-regenerator": "^6.21.0",

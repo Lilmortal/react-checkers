@@ -1,7 +1,8 @@
+import { takeLatest } from 'redux-saga'
+
 import tileModule from '../tile'
 import draughtModule from '../draught'
 import * as sagas from './sagas'
-import { takeLatest } from 'redux-saga'
 
 const { updateBoard } = sagas
 /**

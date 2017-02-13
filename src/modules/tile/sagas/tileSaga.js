@@ -1,9 +1,10 @@
-import * as actions from '../actions'
-import * as selectors from '../selectors'
-import draughtModule from '../../draught'
-import { getTileNeighboursHighlightsToggled } from '../../../shared/tileUtils'
 import { fromJS } from 'immutable'
 import { put, select } from 'redux-saga/effects'
+
+import { getTileNeighboursHighlightsToggled } from '../../../shared/tileUtils'
+import draughtModule from '../../draught'
+import * as actions from '../actions'
+import * as selectors from '../selectors'
 
 const { tilesSelector, selectedDraughtIdSelector, playerTurnSelector, previousMoveIdSelector } = selectors
 

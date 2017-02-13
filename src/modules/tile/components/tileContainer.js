@@ -1,9 +1,10 @@
-import Tile from './tile'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+
 import draughtModule from '../../draught'
 import * as selectors from '../selectors'
 import { START_MOVE_DRAUGHT } from '../actions'
-import { createStructuredSelector } from 'reselect'
-import { connect } from 'react-redux'
+import Tile from './tile'
 
 const { isEnemySelector, isHighlightedSelector, isAbleToEatSelector, allowDraughtSelector, canBeMovedSelector } = selectors
 const { draughtContainerSelector } = draughtModule.selectors

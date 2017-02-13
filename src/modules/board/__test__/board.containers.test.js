@@ -1,10 +1,11 @@
 import React from 'react'
-import reducer from '../../../rootReducer'
-import draughtModule from '../../draught'
-import tileModule from '../../tile'
-import { populateTiles } from '../../../shared/tileUtils'
 import { createStore } from 'redux'
 import { fromJS, OrderedMap } from 'immutable'
+
+import reducer from '../../../rootReducer'
+import { populateTiles } from '../../../shared/tileUtils'
+import draughtModule from '../../draught'
+import tileModule from '../../tile'
 
 const boardInitialState = {
   selectedDraughtId: undefined,

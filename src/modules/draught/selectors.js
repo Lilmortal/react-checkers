@@ -1,6 +1,7 @@
 import React from 'react'
-import DraughtContainer from './components/draughtContainer'
 import { createSelector } from 'reselect'
+
+import DraughtContainer from './components/draughtContainer'
 
 export const selectedDraughtIdSelector = state => state.board.selectedDraughtId
 

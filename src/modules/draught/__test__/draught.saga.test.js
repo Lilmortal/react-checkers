@@ -1,11 +1,12 @@
-import { watchDraughtUpdates } from '../rootSaga'
-import reducer from '../../../rootReducer'
-import * as selectors from '../selectors'
-import * as actions from '../actions'
-import { populateTiles } from '../../../shared/tileUtils'
 import { fromJS } from 'immutable'
 import { put, select } from 'redux-saga/effects'
 import { expectSaga } from 'redux-saga-test-plan'
+
+import reducer from '../../../rootReducer'
+import { populateTiles } from '../../../shared/tileUtils'
+import { watchDraughtUpdates } from '../rootSaga'
+import * as selectors from '../selectors'
+import * as actions from '../actions'
 
 const { selectedDraughtIdSelector, tilesSelector, playerTurnSelector, isAbleToEatAvailableSelector, previousMoveIdSelector } = selectors
 
@@ -105,7 +106,7 @@ describe('Draught saga', () => {
     const dispatch = {
       id: 92
     }
-    
+
     initialState.board.selectedDraughtId = 90
     let highlightedLeftTile = initialState.tiles.get(80)
     let highlightedRightTile = initialState.tiles.get(82)

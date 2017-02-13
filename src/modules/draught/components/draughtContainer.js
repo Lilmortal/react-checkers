@@ -1,8 +1,9 @@
 import { connect } from 'react-redux'
-import Draught from './draught'
-import { START_SELECT_DRAUGHT } from '../actions'
-import * as selectors from '../selectors'
 import { createStructuredSelector } from 'reselect'
+
+import * as selectors from '../selectors'
+import { START_SELECT_DRAUGHT } from '../actions'
+import Draught from './draught'
 
 const { isSelectedSelector, playerSelector, isQueenSelector, canBeSelectedSelector } = selectors
 

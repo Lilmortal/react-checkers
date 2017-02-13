@@ -1,10 +1,11 @@
 import { applyMiddleware, createStore, compose } from 'redux'
-import rootReducer from './rootReducer'
+import createLogger from 'redux-logger'
+import { persistState } from 'redux-devtools'
 import thunkMiddleware from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
-import createLogger from 'redux-logger'
+
+import rootReducer from './rootReducer'
 import DevTools from './tools/DevTools'
-import { persistState } from 'redux-devtools'
 
 import rootSaga from './rootSaga'
 
@@ -15,7 +16,7 @@ const sagaMiddleware = createSagaMiddleware()
 const middleware = applyMiddleware(thunkMiddleware, sagaMiddleware/*, loggerMiddleware*/)
 const enhancer = compose(middleware, DevTools.instrument(), persistState(getDebugSessionKey()))
 
-export const store = createStore(rootReducer, initialState, enhancer)
+const store = createStore(rootReducer, initialState, enhancer)
 
 sagaMiddleware.run(rootSaga)
 
@@ -24,3 +25,5 @@ function getDebugSessionKey() {
   const matches = window.location.href.match(/[?&]debug_session=([^&#]+)\b/);
   return (matches && matches.length > 0)? matches[1] : null;
 }
+
+export default store

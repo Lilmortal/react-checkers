@@ -1,6 +1,7 @@
 import React from 'react'
-import Board from '../components/board'
 import { shallow } from 'enzyme'
+
+import Board from '../components/board'
 
 // There are people saying dont test the implementation for components as they changed very quickly; instead rely on jest snapshot feature
 describe('Board', () => {

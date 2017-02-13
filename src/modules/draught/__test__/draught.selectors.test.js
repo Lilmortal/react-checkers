@@ -1,7 +1,8 @@
 import React from 'react'
+import { fromJS, OrderedMap } from 'immutable'
+
 import DraughtContainer from '../components/draughtContainer'
 import * as selectors from '../selectors'
-import { fromJS, OrderedMap } from 'immutable'
 
 describe('Draught selectors', () => {
   it('return selectedDraughtId', () => {

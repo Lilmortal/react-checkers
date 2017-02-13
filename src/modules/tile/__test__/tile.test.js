@@ -1,7 +1,8 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import Tile from '../components/tile'
+
 import draughtModule from '../../draught'
+import Tile from '../components/tile'
 
 const Draught = draughtModule.components.Draught
 

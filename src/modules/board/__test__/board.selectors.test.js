@@ -1,5 +1,6 @@
-import * as selectors from '../selectors'
 import { fromJS } from 'immutable'
+
+import * as selectors from '../selectors'
 
 describe('Board selectors', () => {
   it('return isAbleToEatAvailable', () => {

@@ -1,10 +1,11 @@
-import { watchTileUpdates } from '../rootSaga'
-import reducer from '../../../rootReducer'
-import * as selectors from '../selectors'
-import * as actions from '../actions'
 import { fromJS } from 'immutable'
 import { put, select } from 'redux-saga/effects'
 import { expectSaga } from 'redux-saga-test-plan'
+
+import reducer from '../../../rootReducer'
+import { watchTileUpdates } from '../rootSaga'
+import * as selectors from '../selectors'
+import * as actions from '../actions'
 
 const { selectedDraughtIdSelector, tilesSelector, playerTurnSelector, previousMoveIdSelector } = selectors
 

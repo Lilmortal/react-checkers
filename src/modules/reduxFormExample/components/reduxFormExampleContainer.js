@@ -1,10 +1,18 @@
-import ReduxFormExample from './reduxFormExample'
 import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
 
-const mapStateToProps = (state, props) => {
-	return {
-    word: 'Hello'
-  }
+import * as actions from '../actions'
+import * as selectors from '../selectors'
+import ReduxFormExample from './reduxFormExample'
+
+const mapStateToProps = state => {
+	return createStructuredSelector({
+		passengers: selectors.passengersSelector
+	})
 }
 
-export default connect(mapStateToProps)(ReduxFormExample)
+const mapDispatchToProps = dispatch => ({
+	onSubmit: passengers => dispatch(actions.UPDATE_PASSENGER(passengers))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReduxFormExample)

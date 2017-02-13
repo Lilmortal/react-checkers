@@ -1,7 +1,8 @@
+import { fromJS } from 'immutable'
+
+import draughtModule from '../../draught'
 import * as actions from '../actions'
 import reducer from '../reducers'
-import draughtModule from '../../draught'
-import { fromJS } from 'immutable'
 
 // Writing 121 tiles slows down test heavily and makes it less readable, it is not worth it; here I am proving that if two randomly selected tiles are correct, then by induction all tiles are correct.
 describe('Tile reducer', () => {

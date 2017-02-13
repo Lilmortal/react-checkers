@@ -1,7 +1,8 @@
 import React from 'react'
-import * as selectors from '../selectors'
-import TileContainer from '../components/tileContainer'
 import { fromJS, OrderedMap, Seq } from 'immutable'
+
+import TileContainer from '../components/tileContainer'
+import * as selectors from '../selectors'
 
 describe('Tile selectors', () => {
   it('return tiles', () => {

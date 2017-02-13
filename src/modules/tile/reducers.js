@@ -1,6 +1,6 @@
+import { populateTiles } from '../../shared/tileUtils'
 import draughtModule from '../draught'
 import * as actionTypes from './actionTypes'
-import { populateTiles } from '../../shared/tileUtils'
 
 const tileReducer = (tiles = populateTiles(), payLoad) => {
 	switch (payLoad.type) {

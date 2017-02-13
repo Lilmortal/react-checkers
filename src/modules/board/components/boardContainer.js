@@ -1,8 +1,9 @@
 import Board from './board'
-import tileModule from '../../tile'
-import { createStructuredSelector } from 'reselect'
-import * as selectors from '../selectors'
 import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+
+import tileModule from '../../tile'
+import * as selectors from '../selectors'
 
 const { playerTurnSelector } = selectors
 const { tileContainersSelector } = tileModule.selectors
