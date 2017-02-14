@@ -13,9 +13,8 @@ This project is split into 8 groups for each module:
 - selectors
 - index
 
-<strong>components</strong> are where I store all my presentational and container components or dumb/smart components.
-<strong>sagas</strong> are where I store all my redux saga.
-and the rest are self explanatory.
+<strong>components</strong> are where I store all my presentational and container components or dumb/smart components. <br />
+<strong>sagas</strong> are where I store all my redux saga, and the rest are self explanatory.
 
 Each module has an "index.js" file which is like an interface for other modules to use, thus reducing code coupling. This file exports all the other 7 groups that are mentioned up there.
 
