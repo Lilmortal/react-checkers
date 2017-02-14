@@ -14,7 +14,7 @@ describe('Tile saga', () => {
   beforeEach(() => {
     initialState = {
       board: {
-        selectedDraughtId: 92,
+        selectedDraughtId: undefined,
         previousMoveId: undefined,
         playerTurn: 2,
         isAbleToEatAvailable: false
@@ -23,16 +23,49 @@ describe('Tile saga', () => {
     }
   })
 
-  it('should move the selected draught to the tile that was clicked, as well as highlighting the selected tile and the tile that was selected neighbours' +
-  'that it can eat.', () => {
+  it('should move the selected draught to the tile that was clicked, as well as highlighting the selected tile neighbours that it can eat.', () => {
     const dispatch = {
       id: 62
     }
 
-    let highlightedLeftTile = initialState.tiles.get(48)
-    let highlightedRightTile = initialState.tiles.get(62)
-    highlightedLeftTile = highlightedLeftTile.set('isHighlighted', true)
-    highlightedRightTile = highlightedRightTile.set('isHighlighted', true)
+    initialState.board.selectedDraughtId = 72
+    initialState.tiles.get(48).set('hasDraught', true)
+    initialState.tiles.get(48).set('draught', fromJS({
+      id: 48,
+      isSelected: false,
+      player: 1,
+      isQueen: false,
+      canSelectDraught: false
+    }))
+
+    initialState.tiles.get(36).set('hasDraught', true)
+    initialState.tiles.get(36).set('draught', fromJS({
+      id: 36,
+      isSelected: false,
+      player: 1,
+      isQueen: false,
+      canSelectDraught: false
+    }))
+
+    initialState.tiles.get(72).set('hasDraught', true)
+    initialState.tiles.get(72).set('draught', fromJS({
+      id: 72,
+      isSelected: true,
+      player: 2,
+      isQueen: false,
+      canSelectDraught: false
+    }))
+
+    initialState.tiles.get(60).set('hasDraught', true)
+    initialState.tiles.get(60).set('draught', fromJS({
+      id: 60,
+      isSelected: false,
+      player: 2,
+      isQueen: false,
+      canSelectDraught: false
+    }))
+
+    initialState.tiles.get(62).set('isHighlighted', true)
 
     expectSaga(watchTileUpdates, dispatch)
     .withState(initialState)
@@ -127,40 +160,9 @@ describe('Tile saga', () => {
             canSelectDraught: true
           }
         })
-      },
-      {
-        id: 52,
-        tile:
-        fromJS({
-          id: 52,
-          allowDraught: true,
-          hasDraught: true,
-          isHighlighted: false,
-          isEnemy: false,
-          isAbleToEat: true,
-          topLeftTileId: 40,
-          topRightTileId: 42,
-          bottomLeftTileId: 62,
-          bottomRightTileId: 64,
-          x: 8,
-          y: 4,
-          draught:
-          {
-            id: 52,
-            isSelected: false,
-            player: 1,
-            isQueen: false,
-            canSelectDraught: true
-          }
-          })
-        }
-      ]
+      }]
     ))
     .put(actions.UPDATE_BOARD(undefined, 62, 1, true))
     .run()
-  })
-
-  it('should move the selected draught to the tile that was clicked, eating the enemy along the way as well as highlight that the previous tile can eat.', () => {
-
   })
 })
