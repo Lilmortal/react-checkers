@@ -5,15 +5,14 @@ import { syncHistoryWithStore } from 'react-router-redux'
 
 import mainModule from '../modules/main'
 import boardModule from '../modules/board'
-import reduxFormExampleModule from '../modules/reduxFormExample'
+import profileModule from '../modules/profile'
 import store from '../store'
 import DevTools from '../tools/DevTools'
-import { onFormEnter } from './route_callbacks'
 
 const history = syncHistoryWithStore(browserHistory, store)
-const Main = mainModule.components.default.Main
+const Main = mainModule.components.Main
 const BoardContainer = boardModule.components.BoardContainer
-const ReduxFormExampleContainer = reduxFormExampleModule.components.default.ReduxFormExampleContainer
+const Profile = profileModule.components.Profile
 
 export default (
   <Provider store={store}>
@@ -21,7 +20,7 @@ export default (
       <Router history={history}>
         <Route path='/' component={Main}>
           <IndexRoute component={BoardContainer} />
-          <Route path='reduxFormExample/:pnr' component={ReduxFormExampleContainer} onEnter={onFormEnter} />
+          <Route path='profile' component={Profile} />
         </Route>
       </Router>
       <DevTools />

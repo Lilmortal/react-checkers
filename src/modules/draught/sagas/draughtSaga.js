@@ -1,10 +1,12 @@
 import { put, select } from 'redux-saga/effects'
 
-import { getTileNeighboursHighlightsToggled } from '../../../shared/tileUtils'
+import utils from '../../../shared/utils'
 import * as actions from '../actions'
 import * as selectors from '../selectors'
 
 const { selectedDraughtIdSelector, tilesSelector, playerTurnSelector, isAbleToEatAvailableSelector, previousMoveIdSelector } = selectors
+const { tileUtils } = utils
+const { getTileNeighboursHighlightsToggled } = tileUtils
 
 /**
  * Toggle select a draught

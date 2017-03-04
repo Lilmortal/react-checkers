@@ -1,6 +1,9 @@
 import { fromJS } from 'immutable'
 
-import { getTileNeighboursHighlightsToggled, populateTiles } from '../tileUtils'
+import utils from '../utils'
+
+const { tileUtils } = utils
+const { getTileNeighboursHighlightsToggled, populateTiles } = tileUtils
 
 describe('Tile utils', () => {
   it('should return an array indicating the two neighbour tiles are highlighted.', () => {

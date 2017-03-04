@@ -13,7 +13,7 @@ const DevTools = createDevTools(
   // Consult their repositories to learn about those props.
   // Here, we put LogMonitor inside a DockMonitor.
   // Note: DockMonitor is visible by default.
-  <FilterMonitor blacklist={['@@redux-form', 'draught/UPDATE_BOARD', 'tile/UPDATE_BOARD', 'board/UPDATE_BOARD', 'draught/START_SELECT_DRAUGHT',
+  <FilterMonitor blacklist={['draught/UPDATE_BOARD', 'tile/UPDATE_BOARD', 'board/UPDATE_BOARD', 'draught/START_SELECT_DRAUGHT',
   'tile/START_MOVE_DRAUGHT']}>
     <DockMonitor toggleVisibilityKey='ctrl-h'
                  changePositionKey='ctrl-q'

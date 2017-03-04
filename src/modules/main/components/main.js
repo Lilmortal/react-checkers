@@ -8,7 +8,7 @@ const Main = ({ children }) => {
       <aside>
         <ul>
           <li><Link to='/'>Board</Link></li>
-          <li><Link to='/reduxFormExample'>Redux form example</Link></li>
+          <li><Link to='/profile'>Profile</Link></li>
         </ul>
       </aside>
       <main>
