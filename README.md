@@ -20,4 +20,19 @@ Each module has an "index.js" file which is like an interface for other modules 
 
 I wrote my test using Jest, Enzyme and Redux-Saga-Plan. I tried using Jest snapshot but for me personally I prefer enzyme shallow/mount test methods. In the future if I have an interest in this project again I might put the snapshot feature test in there; but by then I will be horrified by what I wrote and vow to refactor everything.
 
-At the moment, I want to practice the back end and database layer; I am working on a creating a PostgreSQL database which will store the user login/password and the statistics of that user (amount of games played, win/loss ratio against which players etc). I will also be working on creating a RESTful API endpoint which my Redux-Thunk will call; this API endpoint will be created using Java and Spring Boot. Hell, if I want to go one step further... I might even want to practice CD/CI and put this project into a Go-CD server running Gradle and NPM scripts (or I might put that in another project that I will built next time, maybe using Angular 2 instead?)
+EDIT:
+
+I just finished my redux project at work. The file structures I have there is:
+- app
+- components
+- config
+- utils
+- state
+
+<strong>App</strong> is where I keep my modules. <br />
+<strong>Components</strong> is where I store my small components like textfields, modal etc.
+<strong>Config</strong> is where I keep my constants like routes (e.g. /link1) etc.
+<strong>Utils</strong> is where I store generic functions.
+<strong>State</strong> is where I put my redux stuff; actions, selectors etc.
+
+There are more but I can't remember... I will probably update this on what I learned at work once I have time.
